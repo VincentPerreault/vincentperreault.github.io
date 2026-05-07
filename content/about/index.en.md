@@ -16,11 +16,11 @@ Follow the posts in the demo site to quickly set up a free personal blog!
 ## Features
 
 - **Dark Mode**: Enhanced readability in low-light environments.
-- **Multilingual UI:** Easily switch between different languages.
-- **Efficient Post Organization:** Use hierarchical categories, trending tags, recommended reading, and search functionalities.
-- **Optimized Layout:** Includes TOC, syntax highlighting, prompts, and more.
-- **Rich Writing Extensions:** Support for mathematical formulas, charts, flowcharts, and embedded media.
-- **Multiple Comment Systems:** Choose from various commenting options.
-- **Web Analysis Tools:** Integrated with multiple analytics tools.
-- **Modern Web Technologies:** Built for SEO and web performance.
-- **RSS Feed Support:** Keep your readers updated with RSS feeds.
+- **Multilingual UI**: Easily switch between different languages.
+- **Efficient Post Organization**: Use hierarchical categories, trending tags, recommended reading, and search functionalities.
+- **Optimized Layout**: Includes TOC, syntax highlighting, prompts, and more.
+- **Rich Writing Extensions**: Support for mathematical formulas, charts, flowcharts, and embedded media.
+- **Multiple Comment Systems**: Choose from various commenting options.
+- **Web Analysis Tools**: Integrated with multiple analytics tools.
+- **Modern Web Technologies**: Built for SEO and web performance.
+- **RSS Feed Support**: Keep your readers updated with RSS feeds.
