@@ -1,7 +1,7 @@
 # boolean type, the global switch for TOC in posts.
 toc = true
 # the avatar on sidebar, should be a relative path to /assets.
-avatar = "img/commons/avatar.jpg"
+avatar = "img/commons/avatar.png"
 author = "yifan"
 
 [assets]
@@ -9,22 +9,22 @@ author = "yifan"
   self_host = false
 
 [social]
-  name = "Yifan"
-  url = "https://github.com/geekifan"
+  name = "Vincent Perreault"
+  url = "https://github.com/VincentPerreault"
 
 [[social.links]]
   type = "github"
-  id = "yourusername"
+  id = "VincentPerreault"
   icon = "fab fa-github"
 
 [[social.links]]
   type = "twitter"
-  id = "yourhandle"
+  id = "n.d."
   icon = "fab fa-twitter"
 
 [[social.links]]
   type = "email"
-  id = "your.email@example.com"
+  id = "your[.]email[at]example[.]com"
   icon = "fas fa-envelope"
 
 [[social.links]]

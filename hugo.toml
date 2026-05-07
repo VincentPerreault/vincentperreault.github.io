@@ -1,17 +1,19 @@
 baseURL = 'https://vincentperreault.github.io/'
 title = "Vincent's Blog"
 theme = 'Chirpy'
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = false
 
 [languages]
   [languages.en]
-    locale = 'en-CA'
-    label = 'English (Canada)'
+    locale = 'en'
+    label = 'English'
     weight = 1
     languageDirection = 'ltr'
 
   [languages.fr]
-    locale = 'fr-CA'
-    label = 'Français (Canada)'
+    locale = 'fr'
+    label = 'Français'
     weight = 2
     languageDirection = 'ltr'
 
