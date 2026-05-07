@@ -1,0 +1,19 @@
+baseURL = 'https://vperreault.github.io/'
+title = "Vincent's Blog"
+theme = 'Chirpy'
+
+[languages]
+  [languages.en]
+    locale = 'en-CA'
+    label = 'English (Canada)'
+    weight = 1
+    languageDirection = 'ltr'
+
+  [languages.fr]
+    locale = 'fr-CA'
+    label = 'Français (Canada)'
+    weight = 2
+    languageDirection = 'ltr'
+
+[params]
+  showAuthor = true
