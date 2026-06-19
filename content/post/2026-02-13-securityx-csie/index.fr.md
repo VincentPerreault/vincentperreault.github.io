@@ -1,15 +1,15 @@
 ---
-title: J'ai réussi le SecurityX et obtenu le CSIE. Et maintenant?
+title: J'ai passé SecurityX pour obtenir CSIE. Pis là?
 date: 2026-02-13 01:31:22 -0500
 draft: false
 categories:
   - Blogging
   - Certification
 tags:
-  - Rédaction
-  - Conseils
+  - Writing
+  - Advise
   - CompTIA
-  - Cybersécurité
+  - Cybersecurity
   - Opinion
 author: VincentPerreault
 description: Un aperçu de l'examen CAS-005 et du parcours de cybersécurité de CompTIA.
@@ -26,13 +26,13 @@ J'ai réussi l'examen SecurityX la semaine dernière après environ trois mois d
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> **Avis** : Ce blogue a été entièrement rédigé à la main et n'a pas été généré par une IA.
+> **Avis** : Ce blogue a été entièrement rédigé à la main et n'a pas été généré par l'IA.
 {.prompt-info }
 <!-- markdownlint-restore -->
 
 ## Mon expérience avant de passer le SecurityX 💼
 
-Je travaille dans l'industrie des TI depuis près de huit ans, dont cinq en cybersécurité : environ un an et demi comme analyste en défense (blueteamer) et trois ans et demi en gestion des vulnérabilités. J'ai obtenu quelques certifications durant cette période, notamment Security+, Pentest+, CySA+, ainsi que l'OSCP et l'AWS Security Specialty plus récemment. Depuis, je suis retourné aux études pour faire ma maîtrise. En somme, surtout dans mon poste actuel, j'ai eu la chance de travailler dans plusieurs domaines liés à la cybersécurité, mais aussi aux TI en général, ce qui m'a aidé à me préparer pour cet examen.
+Je travaille dans l'industrie des TI depuis près de huit ans, dont cinq en cybersécurité : environ un an et demi comme blueteamer et trois ans et demi en gestion des vulnérabilités. J'ai obtenu quelques certifications durant cette période, notamment Security+, Pentest+, CySA+, ainsi que l'OSCP et l'AWS Security Specialty plus récemment. Depuis, je suis retourné aux études pour faire ma maîtrise. En somme, surtout dans mon poste actuel, j'ai eu la chance de travailler dans plusieurs domaines liés à la cybersécurité, mais aussi dans les TI en général, ce qui m'a aidé à me préparer pour cet examen.
 
 ## Ce que j'ai utilisé pour préparer tous mes examens CompTIA 📖
 
