@@ -6,15 +6,15 @@ categories:
   - Blogging
   - Certification
 tags:
-  - writing
+  - Writing
+  - Opinion
 author: VincentPerreault
 description: An overview about the CAS-005 exam and CompTIA's cybersecurity pathway.
 toc: true
 comments: false
 image:
   path: secx.png
-  lqip: data:image/webp;base64,UklGRpoAAABXRUJQVlA4WAoAAAAQAAAADwAABwAAQUxQSDIAAAARL0AmbZurmr57yyIiqE8oiG0bejIYEQTgqiDA9vqnsUSI6H+oAERp2HZ65qP/VIAWAFZQOCBCAAAA8AEAnQEqEAAIAAVAfCWkAALp8sF8rgRgAP7o9FDvMCkMde9PK7euH5M1m6VWoDXf2FkP3BqV0ZYbO6NA/VFIAAAA
-  alt: SecurityX's badge.
+  alt: SecurityX's badge
 ---
 
 
@@ -54,7 +54,7 @@ On some questions, I was completely clueless, as it was not my strongest domain 
 It didn't take more than 5 minutes that the receptionist had already printed a paper with the information that I passed, which I found surprising quick. I assumed it would take 24 hours to review my attempt, but turns out the results almost came instantly. We'll take it!
 
 ![CSIE Score Report](CSIE_score_report_censored.png)
-{ width="490" height="478" caption="Full screen width and center alignment"}
+{ width="490" height="478" caption="The SecurityX score report"}
 
 ## Back at work: what's the plus value? 📊
 
@@ -88,7 +88,7 @@ Thank you for taking the time to read all of this. I hope you learned a thing or
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> This is where the original Reddit blog ended. The following text has been written about four months after the original publication date.
+> **Notice** : This is where the original Reddit blog ended. The following text has been written about four months after the original publication date.
 {.prompt-info }
 <!-- markdownlint-restore -->
 
@@ -103,3 +103,6 @@ After publishing this blog on Reddit, it got some traction and reactions. Some n
 - **"Looks like you took more time on the writeup than you did on preparation and study for the exams"**: While the statement may seem rude at first, it is not necessarily wrong. Some people do pass the exam in less than a month of studies, some people took multiple attempts over several months to succeed. For me, it was about three months with up and downs, while the last two weeks were quite intense. I've decided to put the time to write on this, because this phenomenon does not only apply for SecurityX or any other CompTIA certification, but literally everything. Some people are simply much faster, have a much better learning capacity, or simply have more free time per day than us, and that is OK. For instance, I passed the OSCP exam on my second attempt in about a full year of study, while I know someone who cleared it in less than three weeks. Don't compare yourself to speed demons who strikes the exam in less than a few weeks of studies. Take the time you need to learn and once you feel ready, book your exam attempt and go for it.
 
 It was quite enjoyable to see this blog sparks conversations within the community. I know that I am not the first to do so, and certainly not the last, but the satisfaction I received by helping at least one other person was all I needed to make this blog worth it at the end.
+
+![CSIE Score Report](CSIE_censored.png)
+{ width="647" height="500" caption="The CSIE certificate"}
