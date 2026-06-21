@@ -1,6 +1,6 @@
 ---
-title: Passed SecurityX and obtained CSIE. Now what?
-date: 2026-02-13 01:31:22 -0500
+title: An overview of OSCP+ and PEN-200
+date: 2025-05-27 01:31:22 -0500
 draft: false
 categories:
   - Blogging
@@ -8,11 +8,11 @@ categories:
 tags:
   - Writing
   - Advise
-  - CompTIA
+  - OffSec
   - Cybersecurity
   - Opinion
 author: VincentPerreault
-description: An overview about the CAS-005 exam and CompTIA's cybersecurity pathway.
+description: An overview about the OSCP+ exam and OffSec's penetration testing pathway.
 toc: true
 comments: false
 image:
