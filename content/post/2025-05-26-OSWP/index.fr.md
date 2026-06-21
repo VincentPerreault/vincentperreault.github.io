@@ -1,6 +1,6 @@
 ---
-title: J'ai passé SecurityX pour obtenir CSIE. Pis là?
-date: 2026-02-13 01:31:22 -0500
+title: Un aperçu de OSWP et PEN-210
+date: 2025-05-26 01:31:22 -0500
 draft: false
 categories:
   - Blogging
@@ -13,7 +13,7 @@ tags:
   - Wi-Fi
   - Opinion
 author: VincentPerreault
-description: Un aperçu de l'examen CAS-005 et du parcours de cybersécurité de CompTIA.
+description: Un aperçu de l'examen OSWP et du cours PEN-210.
 toc: true
 comments: false
 image:
