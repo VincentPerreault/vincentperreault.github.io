@@ -26,7 +26,7 @@ J'ai passé l'examen SecurityX la semaine dernière après environ trois mois de
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> **Avis** : Ce blogue a été écrit entièrement à la main et n'a pas été généré par l'IA.
+> **Note** : Ce blog a été écrit entièrement à la main et n'a pas été généré par l'IA.
 {.prompt-info }
 <!-- markdownlint-restore -->
 
@@ -93,7 +93,7 @@ Merci d'avoir pris le temps de lire tout ceci. J'espère que vous avez appris un
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> **Avis** : C'est ici que se terminait le blogue Reddit original. Le texte suivant a été rédigé environ quatre mois après la date de publication originale.
+> **Note** : C'est ici que se terminait le blog Reddit original. Le texte suivant a été rédigé environ quatre mois après la date de publication originale.
 {.prompt-info }
 <!-- markdownlint-restore -->
 
