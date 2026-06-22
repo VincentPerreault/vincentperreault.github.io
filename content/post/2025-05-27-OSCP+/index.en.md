@@ -10,9 +10,10 @@ tags:
   - Advise
   - OffSec
   - Cybersecurity
+  - Pentesting
   - Opinion
 author: VincentPerreault
-description: An overview about the OSCP+ exam and OffSec's penetration testing pathway.
+description: An overview about the OSCP+ exam and the PEN-200 course.
 toc: true
 comments: false
 image:
@@ -22,7 +23,7 @@ image:
 
 
 
-I passed the SecurityX exam last week after about three months of training and I wanted to share some thoughts about the CAS-005 exam, about my previous CompTIA certifications (Security+, PenTest+, as well as CySA+) and a general review if it was all worth it as a whole.
+I passed the OSCP+ exam. Here's how I did it.
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
@@ -30,84 +31,4 @@ I passed the SecurityX exam last week after about three months of training and I
 {.prompt-info }
 <!-- markdownlint-restore -->
 
-## My experience prior passing SecurityX 💼
-
-I've been in the IT industry for nearly eight years, in which of them five is in cybersecurity; about a year and a half as a blueteamer, and three and a half years in vulnerability management. I did a couple of certifications during that period, notably Security+, PenTest+, CySA+, as well as OSCP and AWS Security Specialty more recently. Since then, I went back to school to do my master’s degree to pursue my studies. All in all, especially in my current position, I've had the opportunity to work in multiple areas related to cybersecurity, but also IT in general. All of which helped me prepare for this exam.
-
-## What I used for preparation to pass all CompTIA exams 📖
-
-I used to be a big fan of Udemy to find everything I needed to pass CompTIA certifications, from [Professor Meyers](https://www.udemy.com/user/total_seminars/) to now [Jason Dion's courses](https://www.udemy.com/user/jason-dion/), as well as [Practices exams](https://www.udemy.com/courses/search/?q=compTIA+practice+exams). It was cheap, the video courses did bring a lot of content that can be directly translated to the preparation for the Security+ exam and the Practice exams were truly a great preparation tool to pass the exam with ease. Definitely recommend using Udemy content to prepare for Security+.
-
-However, for PenTest+ and CySA+, the Udemy courses felt more like a review of what you are supposed to know. On the bright side, the course did assume that you had prior cybersecurity knowledge and didn't start from the surface level concepts. While the practical exams were educational enough to sufficiently test the knowledge that could be included in the exam, it felt somewhat a little underwhelming, especially face to those Performance-Based Questions (PBQs) that started to be more challenging. At least, the practice exams were a good benchmark for the actual exam, which is all you need to know. While some of the questions you'll get are easy enough, some of them required some honest effort where your past experience comes in handy. The PBQs started to felt more challenging, especially for the CySA+ exam.
-
-As for SecurityX, the video courses were simply a reminder of all of the acronyms you are supposed to already know. At least, if you watch Dion's courses, you can always find some neat discounts at the end of the course if you decide to buy an exam attempt (or two if you opt in for the retake insurance, which is worth it at that price IMO). As for the practice exams, the questions were about the same difficulty of those in the AWS CSS exam: they are almost entirely situation based or scenarios based, while you'll only get a few questions about how a specific technology works. For the Udemy practice exams I've taken (from Jason Dion), the 6 sets of 90 questions were solid enough to be worth to take the time needed to master every question. While some questions were challenging enough to be helpful for the SecurityX exam, I was quite disappointed when I realized that the question in my exam was quite a notch harder than what I had in my practices. More on that later...
-
-To elaborate on the SecurityX Practice exams by Jason Dion, while the 90% suggested passing score is really high, we don't know for sure what is the current passing score to pass the SecurityX exam. We can use the PenTest+ and CySA+ passing score as a reference, which is 750 out of 900, or about 83-85% to be safe. While the score is weighted depending of the difficulty of the exam, we can take a reasonable guess that the SecurityX passing score is near that number. At the same time, the difference between 83% and 90% is about one error every 6 questions versus one error every 10 questions, which makes any mistakes almost twice as more punishing when we think about it. In my case, I simply assumed that the passing grade was 90% and went along with it.
-
-## The exam: how was it? 📝
-
-While the maximum number of questions you could have in your exam is 90, I had 78 during my attempt. With a time limit of 165 minutes, I did feel like I had a lot of time to answer everything and have some extra minutes to review some of my answers. When we take a step back, 78 questions is 13% *less* of what was initially expected, which can also be a grim reminder that the upcoming questions were most likely going to be harder than easier. You also need to know that there are some questions that are not being graded for quality control, but you don't know how many of them are there nor which one they are, so you can't really rely on those questions to "_mentally cope_" whenever you doubt some of your answers during your attempt.
-
-Normally, I used to skip the PBQs and comeback do it later, as I was told they weren't worth that much more points than the simple MCQs. However, to my surprise, in this exam, you are _**forced**_ to take them first, since you can't really come back to do it later. Some of them had the possibility to come back to do it again later, but you'll lose your progress and everything you did in it. On the other hand, I had one PBQ that I simply couldn't skip, or else it would have been evaluated as is. I do not know how many points they were worth, but they really did test my past experience to solve them, and my previous certifications outside of CompTIA really gave me a hand there for the more practical things (not to say that Security+, PenTest+ and CySA+ were useless, but you now understand why the previous name of SecurityX was CompTIA Advanced Security **Practitioner** / CASP+). All in all, I completed all PBQs in about 30 minutes, making sure that everything was right before moving on to the next questions and the rest of the exam.
-
-The first time I looked at the timer, I had about 70 questions to do in about two hours, which seems like plenty of time. However, if you already did the AWS Security Specialty exam, you know that some questions are ridiculously long to read, and that the answer is as long. A thing that was a literal game changer during my exam was that I could bring a transparent reusable water bottle with me. This was a total game changer, as it kept me focused on the exam, instead of being stressed for 1001 reasons. Since I did the exam in-person, it was also possible to have a short bathroom break, which was definitely a nice-to-have. I stumbled across a couple of acronyms that I had no clue what they were, and I have no tips for you beside solving it by the process of elimination, then trusting your guts with the answer that makes the most sense to you and stick to that decision. Unless you obtain more information later during the exam about that acronym, assume that it won't happen and just trust your instinct. The time pass. Do you?
-
-On some questions, I was completely clueless, as it was not my strongest domain of expertise and all the possible answers looked the same or had very little change to it. In that case, just answer whatever you feel like it and move on. The reason why you shouldn't take too much time on questions that you aren't sure is that time is passing way faster than one could imagine. By the time I completed every question, I only had a little bit less than 10 minutes to review... about 13-14 questions. While I did doubt myself that I wasn't going to pass the exam, I stayed focused until the end, reviewed all of those questions and surprisingly, I managed to clarify some of them, leaving me with about 8 questions that I still wasn't sure about the answer. With less than 5 minutes to go, I just ended my exam.
-
-It didn't take more than 5 minutes that the receptionist had already printed a paper with the information that I passed, which I found surprising quick. I assumed it would take 24 hours to review my attempt, but turns out the results almost came instantly. We'll take it!
-
-![CSIE Score Report](CSIE_score_report_censored.png)
-{ width="490" height="478" caption="The SecurityX score report"}
-
-## Back at work: what's the plus value? 📊
-
-The first thing my boss told me about this certification after I passed it was: "How would it positively affect your current role?" and to be honest, passing it humbled me more than imagined. It felt like I was practising to be a team lead for a role, where you need to answer every question coming at you from anybody and that you had to have *almost* all of the answers right away. While you have multiple choices of answers during the exam, you don't have that IRL: you need to find it for yourself and it was a realization for me that I might not be ready yet to move on to a leadership position. However, it did make me realize that almost all businesses try to solve the same complicated problems as you do, which is quite awakening if you take a step back. Now, with the exam behind my back, I feel like I now know on which page our industry is, on which page my employer currently is and what I need to do to take good decisions to ultimately make progress and positive changes.
-
-## Which certifications felt more rewarding? 🏅
-
-This is a really good question and the answer is: it depends on your situation. Below are some explanation and some real-life anecdotes:
-
-### Security+
-If you want to get your very first job in IT, Security+ will definitely have a small *plus* (no pun intended) to your portfolio. Does it guarantee you a job in cyber? Not at all. Does it guarantee you an entry-level job in IT? No, but it sure help you stand out among other juniors or graduates. You want to put some luck on your side whenever you can and with a little more luck on your side, you may have the opportunity that someone else won't, simply because of that small investment you've made on yourself. However, while it is still recognized in the market, it basically stops there: it is a certification for an entry-level role and that is pretty much it. For my friend who wanted to get his first cybersecurity role, he went to a defence company for an interview and the first question his interviewer asked was: "Do you have Security+? If not, come back later when you have it.” While he still got a cybersecurity role elsewhere without Security+, the fact that he did not have Security+ did not prevent him from obtaining a role in the field of cybersecurity. In fact, it was his homelab project and connection that landed him a role in the field. In short, if you are a young student who is trying to get into IT, it can be worth considering.
-
-### CySA+
-CySA+ is definitely a step-up from Security+ in terms of difficulty and personally, I really dig it. I did it after two years of cyber experience working in a SOC and it was a great way to test my knowledge in the field in general. I was doing my bachelor's degree at the same time, and it was just the right difficulty to be a good revision of everything I've seen in school so far, as well as new concepts I could use for my job at the time. While it may not be as recognized as other more technical certifications, it was good enough to be worth doing.
-
-### PenTest+
-However, I cannot say that for PenTest+. While the course content was really cool to learn about new tools, the exam is mostly knowledge based with MCQs, which is not the mantra of offensive security. It's not for nothing why CEH have such a reputation, even if it's recognized in the market. While the courses for this certification on Udemy can help someone getting started with offsec, it is hard for me to recommend this certification for anyone, while other more practical alternative targeted to a more junior audience exists, such as eJPT or CRTP. Ultimately, OSCP is the pentester's standard and after passing, I do understand why employers ask for this one. Even if I had difficulty passing it, it is only a "base" difficulty for pentesting. At this point, most employers would want you to test Web applications, so if you want something cheap and that is relevant, BSCP might be a good option to consider as well.
-
-### SecurityX
-I did SecurityX mainly to renew all of my previous CompTIA certifications in one go, as well as testing me with the 8-10 years of experiences recommended for the exam, just to see if it was true (spoiler: it kind of was). Considering it is well ranked in [Paul Jerimy's security certification roadmap](https://pauljerimy.com/security-certification-roadmap/) and that the exam is more oriented on the practical side of security rather than the management side of security. The thing is, why do SecurityX when you can do CISSP? After talking to my coworker who passes it recently, the questions are about the same difficulty, and beside the higher question count, you simply need to answer questions from the perspective of an "outsider,” such as an auditor or a director. If you can pass SecurityX, you could technically pass CISSP with a little extra work and effort. However, as you probably already know, CISSP is one of (if not the) most recognized certificate you can have in cybersecurity. While it doesn't really test your practical skills, it just has so much recognition that you simply cannot neglect it. If CISSP didn't exist, then sure: SecurityX would have some weight in the industry. Currently, it is not the case, and I do honestly find it unfortunate. The certification will definitely challenge your knowledge and experiences, especially the PBQs (which I enjoyed). If you doubt yourself if you could pass CISSP, this certification is a great benchmark and if you need to have a DoD clearance, then go for it. Else, its use is fairly limited.
-
-## Was it all worth it? 🤔
-
-Personally, when I started taking the CompTIA certifications, I thought that If I had them all, I would make a good 6 figure salaries, and the article I saw back then was really convincing that. However, as I got older, I realized that these people who had all these certifications did not have a great salary because of their alphabet soup of certification acronyms, but because they have 10+ or 15+ years of experience under their belt. In other words, they are paid for their experience, and the certification is only used to support their work experiences. For me, it was a nice learning journey, which leads me to get some promotions here and there, and eventually a new job into a more offensive side of security. 
-
-However, as I got more experience, certifications start to have a diminishing return, and that I need to demonstrate my skills elsewhere, either with projects, homelabs, research or community contributions. Chasing certifications is certainly good, but you must figure out where you want to be in the near future. Sure, SecurityX won't help me get a role in Red Teaming, but I might reinforce my current role to then pivot into something else related, maybe in security architecture or engineering. You also realize that time is a finite resource and as you get older, you won't have as much time as you were younger to do all the certifications you wanted to do. You need to focus on those who are more relevant and to generally do increasingly more difficult certifications to deepen your knowledge. 
-
-## TL;DR 🎯
-
-SecurityX was challenging, personally rewarding since I ultimately got the CSIE, but no headhunter wrote me a DM in LinkedIn since I got it. If you need to renew your CompTIA certification, this is a nice challenge and it's a nice step-up from more intermediate certification like CySA+ or PenTest+, while it is considerably harder than Security+. The PBQs were really fun and overall, I do respect people who have passed the exam.
-
-Thank you for taking the time to read all of this. I hope you learned a thing or two about the certification and the CompTIA's cybersecurity path through my personal journey. I also hope that this blog helped you have a clearer insight of what it can provide you and if you should obtain it or not.
-
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-> **Notice** : This is where the original Reddit blog ended. The following text has been written about four months after the original publication date.
-{.prompt-info }
-<!-- markdownlint-restore -->
-
-## Post-mortem: the community's feedback 🌎
-
-After publishing this blog on Reddit, it got some traction and reactions worldwide, which is always interresting to see. Some notable comments caught my attention, to the point that it adds helpful insight, constructive criticism and deserve to have a proper follow-up. Here are some comments that are worth diving in:
-
-- **"Way too much to read"**: I do agree that it is a big blob of text and that it is certainly not easy to read. However, I was annoyed to find so little detailed writeups or blogs online about CASP+, SecurityX or even CSIE. So I took the time to do it, and it paid off! Seeing the community mentioning that the blog was worth the read and that it was a valuable report is all I was aiming for. I'm glad that it helped at least one person, and that's the outcome I was hoping for.
-
-- **"[...] Do you think I have a fair shot at passing it?"**: This is an interesting question that I did not assess in my original blog. Since I cannot answer for each and everyone's needs. You can do a self-assessment to see if you are ready enough to start studying for the exam, whatever your past studies or working experience is. Before spending about 710$USD for the exam attempt (with insurance policy, which frankly does help with stress management at this level), the best thing you could do is to test yourself with the [Dion's SecurityX practice exams set](https://www.udemy.com/course/comptia-securityx-cas-005-6-practice-exams/?couponCode=MT260616G3) for about 15$. The questions are a bit on the easier side, but they are broad enough to be representative of what the actual exam can throw at you. Be aware that some questions are long and that the answers can be just as long. It doesn't seem like a big deal at first, but when multiple conditions start adding up in the answers, and that you feel that not a single answer is truly 100% correct, this is where it can become challenging, since the question might have a specific wording that can change the outcome. A good self-assessment would be to pass the practices exams and aim for at least... 65%-70% at first. While it seems like a pretty arbitrary number at first, it is high enough to test yourself if you have enough experience or general knowledge to have a decent chance of passing the exam, but not too high to be unnecessarily punishing. Feel free to search for more information about topics or concepts you may be unfamiliar or have incorrect answers during your practices to expand your knowledge: the more you know the better.
-
-- **"Looks like you took more time on the writeup than you did on preparation and study for the exams"**: While the statement may seem rude at first, it is not necessarily wrong. Some people do pass the exam in less than a month of studies, some people took multiple attempts over several months to succeed. For me, it was about three months with up and downs, while the last two weeks were quite intense. I've decided to put the time to write on this, because this phenomenon does not only apply for SecurityX or any other CompTIA certification, but literally everything. Some people are simply much faster, have a much better learning capacity, or simply have more free time per day than us, and that is OK. For instance, I passed the OSCP exam on my second attempt in about a full year of study, while I know someone who cleared it in less than three weeks. Don't compare yourself to speed demons who strikes the exam in less than a few weeks of studies. Take the time you need to learn and once you feel ready, book your exam attempt and go for it.
-
-It was quite rewarding and fulfilling to see this blog sparks conversations within the community. I know that I am not the first to do so, and certainly not the last, but the satisfaction granted of helping others (or at the very least one other person with its career) was all I needed to make this journey worth it at the end.
-
-![CSIE Score Report](CSIE_censored.png)
-{ width="647" height="500" caption="The CSIE certificate"}
+Coming soon
