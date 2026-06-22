@@ -23,12 +23,12 @@ image:
 
 
 
-J'ai passé l'examen OSWP l'année passée après environ deux mois de préparation, et je voulais partager quelques réflexions sur l'examen CAS-005, sur mes certifications CompTIA précédentes (Security+, PenTest+, ainsi que CySA+) et faire un bilan général pour savoir si tout ça en valait vraiment la peine ou non.
+J'ai passé l'examen OSWP l'année passée après environ deux mois de préparation, et je voulais partager quelques réflexions sur l'examen et sur mon expérience avec le cours PEN-210.
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> **Avis** : Ce blog a été écrit entièrement à la main et n'a pas été généré par l'IA.
+> **Note** : Ce blog a été écrit entièrement à la main et n'a pas été généré par l'IA.
 {.prompt-info }
 <!-- markdownlint-restore -->
 
-Arrive prochainement...
+Bientôt disponible...
