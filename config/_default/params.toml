@@ -18,14 +18,14 @@ author = "yifan"
   icon = "fab fa-github"
 
 [[social.links]]
-  type = "twitter"
-  id = "n.d."
-  icon = "fab fa-twitter"
-
-[[social.links]]
   type = "email"
   id = "your[.]email[at]example[.]com"
   icon = "fas fa-envelope"
+
+[[social.links]]
+  type = "linkedin"
+  id = "vperreault"
+  icon = "fab fa-linkedin-in"
 
 [[social.links]]
   type = "rss"
