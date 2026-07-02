@@ -1,0 +1,31 @@
+@use '../abstracts/variables' as v;
+
+/* Discord-style spoiler tags: ||hidden text|| */
+.spoiler {
+  border-radius: v.$radius-sm;
+  background-color: #36393f;
+  color: transparent;
+  cursor: pointer;
+  padding: 0.05em 0.35em;
+  transition: background-color 0.15s ease-in-out;
+
+  &::selection {
+    background-color: transparent;
+    color: transparent;
+  }
+
+  &:hover:not(.revealed) {
+    background-color: #40444b;
+  }
+
+  &.revealed {
+    background-color: rgba(125, 125, 135, 0.25);
+    color: inherit;
+    cursor: text;
+
+    &::selection {
+      background-color: highlight;
+      color: highlighttext;
+    }
+  }
+}
