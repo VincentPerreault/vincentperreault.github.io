@@ -4,13 +4,15 @@ date: 2026-02-13 01:31:22 -0500
 draft: false
 categories:
   - Blogging
-  - Certification
+  - Cybersecurity
 tags:
   - Writing
   - Advice
   - CompTIA
-  - Cybersecurity
+  - Certification
   - Opinion
+  - Cybersecurity
+  - Blogging
 author: VincentPerreault
 description: An overview about the CAS-005 exam and CompTIA's cybersecurity pathway.
 toc: true
