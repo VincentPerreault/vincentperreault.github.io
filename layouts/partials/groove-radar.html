@@ -1,0 +1,5 @@
+<!-- DDR-style blog radar with post statistics, rendered by groove-radar.js.
+  Disable per post with `groove_radar: false` in the front matter. -->
+{{ if ne .Params.groove_radar false }}
+  <div id="groove-radar" class="groove-radar" aria-label="Blog radar post statistics"></div>
+{{ end }}

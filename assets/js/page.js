@@ -4,7 +4,8 @@ import {
   imgPopup,
   initClipboard,
   loadMermaid,
-  initSpoilers
+  initSpoilers,
+  initGrooveRadarPlayground
 } from './modules/components';
 
 loadImg();
@@ -14,4 +15,5 @@ initTopbar();
 initClipboard();
 loadMermaid();
 initSpoilers();
+initGrooveRadarPlayground();
 basic();
