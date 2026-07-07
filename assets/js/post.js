@@ -7,7 +7,8 @@ import {
   initClipboard,
   initToc,
   loadMermaid,
-  initSpoilers
+  initSpoilers,
+  initGrooveRadar
 } from './modules/components';
 
 loadImg();
@@ -19,4 +20,5 @@ initClipboard();
 initTopbar();
 loadMermaid();
 initSpoilers();
+initGrooveRadar();
 basic();

@@ -22,3 +22,11 @@
 
 [goldmark.renderer]
   unsafe = true
+
+# Keep math delimiters untouched for MathJax. Inline `$...$` is deliberately
+# NOT passed through: posts contain dollar amounts (e.g. "4,000 $CAD").
+[goldmark.extensions.passthrough]
+  enable = true
+[goldmark.extensions.passthrough.delimiters]
+  block = [['$$', '$$'], ['\[', '\]']]
+  inline = [['\(', '\)']]

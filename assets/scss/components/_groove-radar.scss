@@ -1,0 +1,293 @@
+/*
+ * DDR-style blog radar shown at the end of posts, in the About
+ * playground, and (bare variant) at the bottom of the home sidebar.
+ * The post/playground radars have no panel background so they blend
+ * with the theme; only the home sidebar keeps the DDR cabinet look.
+ * Colors are driven by custom properties: dark values are the default,
+ * and a light palette is applied following the same mode scoping as
+ * the theme (data-mode attribute / OS preference).
+ */
+
+.groove-radar {
+  /* Dark look (default) */
+  --gr-bg: #16181d;
+  --gr-dots: rgba(255, 255, 255, 0.06);
+  --gr-border: rgba(255, 255, 255, 0.08);
+  --gr-shadow: rgba(0, 0, 0, 0.35);
+  --gr-gold: #cf9738;
+  --gr-gold-dim: #e8c73c;
+  --gr-name-stroke: #101216;
+  --gr-title-shadow: 0 1px 0 #000;
+  --gr-muted: #98a0ad;
+  --gr-teal: #8cffe0;
+  --gr-teal-bg: rgba(46, 230, 184, 0.12);
+  --gr-poly-fill: rgba(46, 230, 184, 0.5);
+  --gr-poly-stroke: #8cffe0;
+  --gr-ring: #5a606c;
+  --gr-web-fill: rgba(255, 255, 255, 0.02);
+  --gr-web: #3d434e;
+  --gr-web-inner: #31363f;
+  --gr-num-bg: rgba(255, 255, 255, 0.08);
+  --gr-num-color: #eef1f5;
+
+  max-width: 520px;
+  margin: 3rem auto 1rem;
+  padding: 0.75rem 0.75rem 0.25rem;
+
+  .gr-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 0.4rem 0.35rem;
+  }
+
+  .gr-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: var(--gr-gold);
+    text-shadow: var(--gr-title-shadow);
+  }
+
+  .gr-total {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--gr-muted);
+
+    b {
+      display: inline-block;
+      margin-left: 0.3rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      background: var(--gr-teal-bg);
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--gr-teal);
+      vertical-align: middle;
+    }
+  }
+
+  .gr-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .gr-ring {
+    fill: none;
+    stroke: var(--gr-ring);
+    stroke-width: 2.5;
+  }
+
+  .gr-web {
+    fill: var(--gr-web-fill);
+    stroke: var(--gr-web);
+    stroke-width: 1.5;
+  }
+
+  .gr-web-inner {
+    fill: none;
+    stroke: var(--gr-web-inner);
+    stroke-width: 1;
+  }
+
+  .gr-spoke {
+    stroke: var(--gr-web-inner);
+    stroke-width: 1;
+  }
+
+  .gr-dot {
+    fill: var(--gr-gold-dim);
+  }
+
+  .gr-poly {
+    fill: var(--gr-poly-fill);
+    stroke: var(--gr-poly-stroke);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .gr-value {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    transform: scale(0);
+    transition: transform 0.9s cubic-bezier(0.2, 1.35, 0.4, 1);
+  }
+
+  &.gr-visible .gr-value {
+    transform: scale(1);
+  }
+
+  /* Original DDR label (Japanese), shown in the playground */
+  .gr-jp {
+    font-weight: 700;
+    font-size: 13px;
+    fill: var(--gr-gold);
+    paint-order: stroke;
+    stroke: var(--gr-name-stroke);
+    stroke-width: 3px;
+  }
+
+  .gr-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    fill: var(--gr-gold);
+    paint-order: stroke;
+    stroke: var(--gr-name-stroke);
+    stroke-width: 3px;
+  }
+
+  /* Axis descriptions use a techno font, like the original game */
+  .gr-sub {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    fill: var(--gr-muted);
+  }
+
+  .gr-val {
+    letter-spacing: 0.05em;
+    fill: var(--gr-teal);
+  }
+}
+
+/* Light palette: applied with the same scoping as the theme's mode switch */
+@mixin gr-light {
+  --gr-bg: #eceef2;
+  --gr-dots: rgba(0, 0, 0, 0.055);
+  --gr-border: rgba(0, 0, 0, 0.06);
+  --gr-shadow: rgba(0, 0, 0, 0.12);
+  --gr-gold: #8a6100;
+  --gr-gold-dim: #b8860b;
+  --gr-name-stroke: #f7f8fa;
+  --gr-title-shadow: none;
+  --gr-muted: #5b6470;
+  --gr-teal: #0b8f6f;
+  --gr-teal-bg: rgba(11, 143, 111, 0.12);
+  --gr-poly-fill: rgba(20, 184, 142, 0.4);
+  --gr-poly-stroke: #0ca57f;
+  --gr-ring: #a3aab6;
+  --gr-web-fill: rgba(0, 0, 0, 0.02);
+  --gr-web: #c6ccd5;
+  --gr-web-inner: #d5dae1;
+  --gr-num-bg: rgba(0, 0, 0, 0.06);
+  --gr-num-color: #2a2e33;
+}
+
+html[data-mode='light'] .groove-radar {
+  @include gr-light;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]) .groove-radar {
+    @include gr-light;
+  }
+}
+
+/* Home page: the bare radar sits at the bottom of the sidebar and reacts
+   to the hovered/focused post card, like the DDR song wheel. No panel:
+   it blends straight into the sidebar background. */
+#sidebar .home-radar {
+  width: calc(100% - 1rem);
+  max-width: none;
+  margin: 0 0.5rem 1.25rem;
+  padding: 0.4rem 0.3rem 0.3rem;
+
+  /* Rendered at ~220px wide: keep the labels legible and readable
+     even when the polygon overshoots underneath them */
+  .gr-sub {
+    font-size: 13px;
+    paint-order: stroke;
+    stroke: var(--sidebar-bg, var(--gr-bg));
+    stroke-width: 2.5px;
+  }
+
+  /* The theme's sidebar goes off-canvas below its `lg` breakpoint (850px) */
+  @media (max-width: 849.98px) {
+    display: none;
+  }
+}
+
+/* Interactive playground (About page) */
+.groove-radar-playground {
+  .gr-controls {
+    padding: 0.5rem 0.9rem 1rem;
+    border-top: 1px solid var(--gr-border);
+  }
+
+  .gr-control {
+    margin-top: 0.65rem;
+  }
+
+  .gr-row {
+    display: grid;
+    grid-template-columns: 7rem 1fr 3rem;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .gr-label {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--gr-gold);
+    text-shadow: var(--gr-title-shadow);
+  }
+
+  input[type='range'] {
+    width: 100%;
+    accent-color: #2ee6b8;
+  }
+
+  .gr-num {
+    width: 100%;
+    padding: 0.15rem 0;
+    border: 0;
+    border-radius: 6px;
+    background: var(--gr-num-bg);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--gr-num-color);
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2ee6b8;
+    }
+  }
+
+  .gr-meaning {
+    margin: 0.15rem 0 0 7.75rem;
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--gr-muted);
+  }
+
+  @media (max-width: 480px) {
+    .gr-meaning {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .groove-radar .gr-value {
+    transform: scale(1);
+    transition: none;
+  }
+}

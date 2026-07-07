@@ -46,6 +46,12 @@
     </ul>
   </nav>
 
+  <!-- DDR-style blog radar, fed by home-radar.js when a post card is hovered.
+    Same home detection as js-selector.html so the div only exists where home.js loads. -->
+  {{ if or (eq .RelPermalink "/") (eq .RelPermalink (relLangURL "/")) (eq .RelPermalink (.Site.Home.RelPermalink)) }}
+    <div id="home-radar" class="groove-radar home-radar" aria-label="Blog radar post statistics"></div>
+  {{ end }}
+
   <div class="sidebar-bottom d-flex flex-wrap align-items-center w-100">
     {{ if not .Site.Params.themeMode }}
       <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
