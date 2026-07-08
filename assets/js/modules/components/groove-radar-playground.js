@@ -3,6 +3,7 @@
  * Five sliders (with typeable number fields) drive the same radar drawing
  * used at the end of posts, showing the aggregate "blog radar value" and
  * translating each percentage into what it means for a blog post.
+ * Changes tween DDR MAX2 style (~100ms, fast start, smooth finish).
  */
 
 import {
@@ -13,7 +14,10 @@ import {
   AXES,
   radarSvg,
   radarHead,
-  grooveValue
+  grooveValue,
+  polygonPoints,
+  displayPercent,
+  tweenValues
 } from './groove-radar';
 
 const SLIDER_MAX = Math.round(OVERFLOW * 100);
@@ -108,6 +112,24 @@ export function initGrooveRadarPlayground() {
     </div>`;
   container.classList.add('gr-visible');
 
+  const poly = container.querySelector('.gr-poly');
+  const valEls = container.querySelectorAll('.gr-val');
+  const totalEl = container.querySelector('.gr-total-num');
+  const shown = valuesFrom(percents);
+  let cancelTween = () => {};
+
+  function refresh() {
+    cancelTween();
+    cancelTween = tweenValues({ ...shown }, valuesFrom(percents), (values) => {
+      Object.assign(shown, values);
+      poly.setAttribute('points', polygonPoints(values));
+      AXES.forEach((axis, i) => {
+        valEls[i].textContent = `${displayPercent(values[axis.key])}%`;
+      });
+      totalEl.textContent = grooveValue(values);
+    });
+  }
+
   container.addEventListener('input', (event) => {
     const control = event.target.closest('.gr-control');
     const type = event.target.type;
@@ -126,8 +148,7 @@ export function initGrooveRadarPlayground() {
     const other = type === 'range' ? '.gr-num' : 'input[type="range"]';
     control.querySelector(other).value = percents[key];
     control.querySelector('.gr-meaning').textContent = meaningFor(key, percents[key]);
-    container.querySelector('.gr-canvas').innerHTML = radarSvg(valuesFrom(percents));
-    container.querySelector('.gr-total-num').textContent = grooveValue(valuesFrom(percents));
+    refresh();
   });
 
   // Snap the number field back to the clamped value once editing is done

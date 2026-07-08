@@ -60,11 +60,7 @@
                 {{ range $i, $author := $authors }}
                   {{ with $authorsData }}
                     {{ with (index . $author) }}
-                      {{ if .url }}
-                        <a href="{{ .url }}">{{ .name }}</a>
-                      {{ else }}
-                        {{ .name }}
-                      {{ end }}
+                      {{ .name }}
                     {{ end }}
                   {{ else }}
                     {{ $author }}

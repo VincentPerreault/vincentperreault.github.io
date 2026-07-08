@@ -8,10 +8,9 @@
  * code as the post radar.
  */
 
-import { AXES, radarSvg, polygonPoints, analyzeContent } from './groove-radar';
+import { AXES, radarSvg, polygonPoints, analyzeContent, tweenValues } from './groove-radar';
 
 const RESET_DELAY = 1000;
-const DURATION = 400;
 
 const IDLE = AXES.reduce((values, axis) => ({ ...values, [axis.key]: 0 }), {});
 
@@ -27,40 +26,19 @@ export function initHomeRadar() {
   container.classList.add('gr-visible');
 
   const poly = container.querySelector('.gr-poly');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const cache = new Map();
   const current = { ...IDLE };
-  let frame = 0;
+  let cancelTween = () => {};
   let resetTimer = 0;
   let activeUrl = null;
 
-  function render(values) {
-    poly.setAttribute('points', polygonPoints(values, true));
-  }
-
   function animateTo(target) {
-    cancelAnimationFrame(frame);
-    if (reduceMotion) {
-      Object.assign(current, target);
-      render(current);
-      return;
-    }
-
-    const from = { ...current };
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min((now - start) / DURATION, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      AXES.forEach((axis) => {
-        current[axis.key] = from[axis.key] + (target[axis.key] - from[axis.key]) * eased;
-      });
-      render(current);
-      if (t < 1) {
-        frame = requestAnimationFrame(step);
-      }
-    };
-    frame = requestAnimationFrame(step);
+    cancelTween();
+    cancelTween = tweenValues({ ...current }, target, (values) => {
+      Object.assign(current, values);
+      poly.setAttribute('points', polygonPoints(values, true));
+    });
   }
 
   function statsFor(url) {
