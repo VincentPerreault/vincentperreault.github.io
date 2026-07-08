@@ -8,13 +8,20 @@
  * the theme (data-mode attribute / OS preference).
  */
 
+/* Display face for the title and axis names: a real-italic techno font,
+   like the slanted DDR arcade labels. Swap this one line to try another
+   (e.g. 'Saira Semi Condensed' or 'Exo 2'); update the Google Fonts link
+   in layouts/partials/metadata-hook.html to match. The small axis
+   descriptions stay in Orbitron so the two faces read as distinct. */
+$gr-display: 'Chakra Petch', sans-serif;
+
 .groove-radar {
   /* Dark look (default) */
   --gr-bg: #16181d;
   --gr-dots: rgba(255, 255, 255, 0.06);
   --gr-border: rgba(255, 255, 255, 0.08);
   --gr-shadow: rgba(0, 0, 0, 0.35);
-  --gr-gold: #cf9738;
+  --gr-gold: #f2bb32;
   --gr-gold-dim: #e8c73c;
   --gr-name-stroke: #101216;
   --gr-title-shadow: 0 1px 0 #000;
@@ -42,11 +49,13 @@
   }
 
   .gr-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
+    font-family: $gr-display;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
     color: var(--gr-gold);
+    -webkit-text-stroke: 0.5px currentcolor;
     text-shadow: var(--gr-title-shadow);
   }
 
@@ -133,17 +142,21 @@
   }
 
   .gr-name {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
+    font-family: $gr-display;
+    font-style: italic;
+    font-weight: 700;
     font-size: 14px;
     letter-spacing: 0.02em;
     fill: var(--gr-gold);
+    /* Chakra Petch tops out at 700, so a same-colour self-stroke fattens
+       the glyphs a touch (faux-bold) without needing a heavier face. */
     paint-order: stroke;
-    stroke: var(--gr-name-stroke);
-    stroke-width: 3px;
+    stroke: var(--gr-gold);
+    stroke-width: 0.9px;
   }
 
-  /* Axis descriptions use a techno font, like the original game */
+  /* Axis descriptions keep the Orbitron techno face, distinct from the
+     slanted display font on the names, like the original game */
   .gr-sub {
     font-family: 'Orbitron', sans-serif;
     font-weight: 600;
@@ -234,11 +247,13 @@ html[data-mode='light'] .groove-radar {
   }
 
   .gr-label {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
+    font-family: $gr-display;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
     color: var(--gr-gold);
+    -webkit-text-stroke: 0.5px currentcolor;
     text-shadow: var(--gr-title-shadow);
   }
 

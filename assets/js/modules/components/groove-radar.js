@@ -83,6 +83,39 @@ export function displayPercent(value) {
   return Math.round(Math.min(Math.max(value, 0), OVERFLOW) * 100);
 }
 
+/* Transition used when a radar changes target: ~6 frames of a 60 fps game
+   (DDR MAX2), so 100ms — fast start, smooth finish (cubic ease-out). */
+export const TWEEN_MS = 100;
+
+/**
+ * Interpolate between two value sets, calling `onUpdate(values)` each frame.
+ * Returns a cancel function. Jumps straight to the target when the user
+ * prefers reduced motion.
+ */
+export function tweenValues(from, to, onUpdate) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    onUpdate({ ...to });
+    return () => {};
+  }
+
+  let frame = 0;
+  const start = performance.now();
+  const step = (now) => {
+    const t = Math.min((now - start) / TWEEN_MS, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const values = {};
+    AXES.forEach((axis) => {
+      values[axis.key] = from[axis.key] + (to[axis.key] - from[axis.key]) * eased;
+    });
+    onUpdate(values);
+    if (t < 1) {
+      frame = requestAnimationFrame(step);
+    }
+  };
+  frame = requestAnimationFrame(step);
+  return () => cancelAnimationFrame(frame);
+}
+
 /* The single "blog radar value": sum of the five displayed percentages */
 export function grooveValue(values) {
   return AXES.reduce((sum, axis) => sum + displayPercent(values[axis.key]), 0);

@@ -44,34 +44,34 @@ Chaque axe atteint 100 % à l'anneau extérieur et plafonne à 150 %; la *valeur
 
 #### READING TIME
 
-Dans le jeu, **STREAM** (全体密度, « densité globale ») mesure la densité globale des pas. Ici, l'axe mesure la taille globale du billet : le temps de lecture à 180 mots par minute, où une lecture de 20 minutes atteint 100 % et tout ce qui dépasse 30 minutes sature l'axe :
+Dans le jeu, **STREAM** (全体密度, « densité globale ») mesure la densité globale des pas. Ici, l'axe mesure la taille globale du billet, notée \(T\) : le temps de lecture à 180 mots par minute, où une lecture de 20 minutes atteint 100 % et tout ce qui dépasse 30 minutes sature l'axe :
 
-$$ \text{TIME} = \frac{w / 180}{20} $$
+$$ T = \frac{w / 180}{20} $$
 
 #### HEAVINESS
 
-Dans le jeu, **VOLTAGE** (最大密度, « densité maximale ») mesure la densité au sommet — le moment le plus chargé de la chanson. Ici, l'axe mesure le passage le plus lourd du texte, en mélangeant le paragraphe le plus long \(p_{\max}\), la moyenne de mots par paragraphe \(\bar{p}\) et le nombre de paragraphes \(n\) :
+Dans le jeu, **VOLTAGE** (最大密度, « densité maximale ») mesure la densité au sommet — le moment le plus chargé de la chanson. Ici, l'axe mesure le passage le plus lourd du texte, noté \(\rho\) — la lettre des physiciens pour la densité (et DDR adore ses lettres grecques) — en mélangeant le paragraphe le plus long \(p_{\max}\), la moyenne de mots par paragraphe \(\bar{p}\) et le nombre de paragraphes \(n\) :
 
-$$ \text{DENSITY} = 0.5\,\frac{p_{\max}}{160} + 0.3\,\frac{\bar{p}}{60} + 0.2\,\frac{n}{80} $$
+$$ \rho = 0.5\,\frac{p_{\max}}{160} + 0.3\,\frac{\bar{p}}{60} + 0.2\,\frac{n}{80} $$
 
 #### BREATHER
 
-Dans le jeu, **AIR** (ジャンプ度, « degré de sauts ») compte les sauts. Ici, l'axe compte la fréquence à laquelle le texte saute aux yeux et laisse respirer. Les éléments visuels sont pondérés — les images en premier, et les styles de texte sont plafonnés pour qu'un billet entièrement en gras ne gagne rien :
+Dans le jeu, **AIR** (ジャンプ度, « degré de sauts ») compte les sauts. Ici, l'axe compte la fréquence à laquelle le texte saute aux yeux et laisse respirer, notée \(B\). Les éléments visuels sont pondérés — avec \(i\) images, \(p\) encadrés, \(z\) spoilers, \(h\) séparations de sections, et \(b\)/\(e\) les passages en gras et en italique (plafonnés, pour qu'un billet entièrement en gras ne gagne rien) :
 
-$$ E = 5\,\text{img} + 2\,\text{encadrés} + 2\,\text{spoilers} + \text{sections} + \tfrac{1}{4}\min(\text{gras},30) + \tfrac{1}{4}\min(\text{italique},30) $$
+$$ E = 5\,i + 2\,p + 2\,z + h + \tfrac{1}{4}\min(b,\,30) + \tfrac{1}{4}\min(e,\,30) $$
 
 L'axe mélange ensuite leur densité, leur quantité absolue et la variété \(v\) de ce qui est utilisé (jusqu'à 7 sortes) :
 
-$$ \text{VISUAL} = 0.5\,\frac{E / (w/1000)}{30}\,s + 0.3\,\frac{E}{40} + 0.2\,\frac{v}{7} $$
+$$ B = 0.5\,\frac{E / (w/1000)}{30}\,s + 0.3\,\frac{E}{40} + 0.2\,\frac{v}{7} $$
 
 #### TECHNICAL
 
-Dans le jeu, **FREEZE** (踏みっぱ度, « degré de maintien », de 踏みっぱなし — *rester appuyé*) mesure la durée des flèches à maintenir. Ici, l'axe mesure le temps passé figé à l'écran à lire du code et des équations : \(c\) est le nombre de caractères de code, \(C\) le nombre total de caractères, et chacune des \(m\) équations mathématiques pèse 200 caractères de masse technique :
+Dans le jeu, **FREEZE** (踏みっぱ度, « degré de maintien », de 踏みっぱなし — *rester appuyé*) mesure la durée des flèches à maintenir. Ici, l'axe mesure le temps passé figé à l'écran à lire du code et des équations, noté \(C\) : \(k\) est le nombre de caractères de code, \(N\) le nombre total de caractères, et chacune des \(m\) équations mathématiques pèse 200 caractères de masse technique :
 
-$$ \text{CODE} = 0.6\,\frac{c/C}{0.35}\,s + 0.4\,\frac{c + 200\,m}{5000} $$
+$$ C = 0.6\,\frac{k/N}{0.35}\,s + 0.4\,\frac{k + 200\,m}{5000} $$
 
 #### COMPLEXITY
 
-Dans le jeu, **CHAOS** (変則度, « degré d'irrégularité ») mesure les pas irréguliers et à contretemps. Ici, l'axe mesure l'irrégularité de la lecture, sur la prose seulement (code exclu) : \(L\) est la proportion de mots longs (9 caractères et plus), \(A\) la proportion d'acronymes et de jargon, et \(S\) la longueur moyenne des phrases :
+Dans le jeu, **CHAOS** (変則度, « degré d'irrégularité ») mesure les pas irréguliers et à contretemps. Ici, l'axe mesure l'irrégularité de la lecture, notée \(X\), sur la prose seulement (code exclu) : \(L\) est la proportion de mots longs (9 caractères et plus), \(A\) la proportion d'acronymes et de jargon, et \(S\) la longueur moyenne des phrases :
 
-$$ \text{DEPTH} = \left( 0.55\,\frac{L}{0.25} + 0.25\,\frac{A}{0.05} + 0.2\,\min\left(\frac{S}{30},\ 1.5\right) \right) s $$
+$$ X = \left( 0.55\,\frac{L}{0.25} + 0.25\,\frac{A}{0.05} + 0.2\,\min\left(\frac{S}{30},\ 1.5\right) \right) s $$
