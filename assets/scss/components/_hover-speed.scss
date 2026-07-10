@@ -1,0 +1,74 @@
+/*
+ * Faster hover feedback across the theme: the stock transitions
+ * (0.2-0.5s) feel sluggish, so every hover effect is normalized to the
+ * same 100ms used by the custom teal accents (see hover-accent).
+ * Selectors are `html`-prefixed to outrank the theme's own rules, which
+ * compile after these components (see the theme's main.scss).
+ */
+
+/* Heading anchor links (the # that fades in next to h2-h5): 0.25s stock */
+@media (hover: hover) {
+  html h2 .anchor,
+  html h3 .anchor,
+  html h4 .anchor,
+  html h5 .anchor {
+    transition:
+      opacity 0.1s ease-in,
+      visibility 0s ease-in 0.1s;
+  }
+
+  html h2:hover .anchor,
+  html h3:hover .anchor,
+  html h4:hover .anchor,
+  html h5:hover .anchor {
+    transition:
+      opacity 0.1s ease-in,
+      visibility 0s ease-in 0s;
+  }
+}
+
+/* Sidebar: site title + profile block (0.3s stock), avatar zoom (0.5s)
+   and the language dropdown (0.2s) */
+html #sidebar {
+  .profile-wrapper,
+  .site-title {
+    transition: all 0.1s ease-in-out;
+  }
+
+  #avatar img {
+    transition: transform 0.1s;
+  }
+
+  .lang-select {
+    transition: all 0.1s ease;
+  }
+}
+
+/* Sidebar nav items: 0.3s background fade in the theme */
+html .nav-link {
+  transition:
+    background-color 0.1s ease-out,
+    color 0.1s ease-out;
+}
+
+/* Nav item hover also lifts the label/icon for visibility: a lighter gray
+   in dark mode, a darker one in light mode - never pure white/black, and
+   the .active item keeps its stronger color (higher specificity). */
+:root,
+html[data-mode='light'] {
+  --nav-hover-color: #2e2e2e;
+}
+
+html[data-mode='dark'] {
+  --nav-hover-color: #c2c4c3;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode]) {
+    --nav-hover-color: #c2c4c3;
+  }
+}
+
+html #sidebar ul .nav-link:hover {
+  color: var(--nav-hover-color);
+}

@@ -62,3 +62,10 @@ html footer a:hover {
   color: var(--link-hover-color) !important;
   border-bottom-color: var(--link-hover-color);
 }
+
+/* Archives timeline: the theme strips the hover underline on its post
+   titles (`#archives a:hover { border-bottom: none }`); restore it so
+   Archives hovers like every other link surface */
+html #archives a:hover {
+  border-bottom: 1px solid var(--link-hover-color);
+}
