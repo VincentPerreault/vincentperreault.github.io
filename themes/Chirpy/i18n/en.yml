@@ -23,7 +23,10 @@ search:
   no_results: Oops! No results found.
 
 panel:
-  lastmod: Recently Updated
+  # deliberately "Added" rather than "Updated": the panel lists the latest
+  # posts, not modified ones. Edited here rather than in the project's
+  # i18n/ because this file outranks a project-level en.yml.
+  lastmod: Recently Added
   trending_tags: Trending Tags
   toc: Contents
 
