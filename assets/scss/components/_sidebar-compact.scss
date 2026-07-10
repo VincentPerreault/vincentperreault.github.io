@@ -1,0 +1,36 @@
+/*
+ * Tighten the sidebar's vertical rhythm so the home-page blog radar and the
+ * social buttons fit in a single view without scrolling. The profile keeps
+ * the theme's default position (a lower top section shrinks the flex-grow
+ * gap between the language selector and the radar); the nav, radar and
+ * social row below are pulled together.
+ *
+ * Note: custom `components` are compiled BEFORE the theme's `layout` (see the
+ * theme's main.scss), so these are prefixed with `html` to outrank the
+ * theme's own `#sidebar ...` sidebar rules that load later.
+ */
+
+html #sidebar {
+  /* nav list (also carries the language selector) */
+  ul {
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-bottom {
+    margin-bottom: 0.6rem;
+
+    /* The theme fades the social buttons over 0.3s but leaves the mode
+       toggle instant; give them all the same 100ms fade */
+    a,
+    #mode-toggle {
+      transition:
+        background-color 0.1s ease-out,
+        color 0.1s ease-out;
+    }
+  }
+
+  /* radar sits just above the social row */
+  .home-radar {
+    margin-bottom: 0.4rem;
+  }
+}

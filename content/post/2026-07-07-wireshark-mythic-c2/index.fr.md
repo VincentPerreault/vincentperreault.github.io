@@ -14,7 +14,8 @@ tags:
   - TLS
   - Cybersecurity
   - Write-up
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: Comment nous avons extrait un agent Mythic/Apollo d'une capture réseau, prouvé qu'il n'avait pas été altéré, épluché deux couches de chiffrement pour rejouer les commandes de l'attaquant, et comment Wireshark s'est retrouvé devant un vrai tribunal.
 toc: true
 comments: false

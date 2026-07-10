@@ -4,11 +4,6 @@ date: 2023-04-20
 draft: false
 layout: page
 math: true
-menu:
-  main:
-    name: À propos
-    weight: 5
-    pre: fa-info-circle
 ---
 
 [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) est un thème de blog initialement basé sur [Jekyll](https://jekyllrb.com/). En raison des limitations de conception de Jekyll, l'internationalisation (i18n) n'est pas prise en charge nativement et nécessite des plugins tiers pour bénéficier de cette fonctionnalité.. Pour activer la prise en charge de l'internationalisation (i18n) pour Chirpy sans avoir à dépendre de plugins tiers, le projet [hugo-theme-chirpy](https://github.com/geekifan/hugo-theme-chirpy) a migré le thème Chirpy vers [Hugo](https://gohugo.io/) avec des adaptations minimales. Toutes les fonctionnalités de Chirpy sont disponibles dans hugo-theme-chirpy (bien que certaines fonctionnalités puissent fonctionner différemment au sein du framework Hugo).

@@ -3,7 +3,8 @@
  * Five sliders (with typeable number fields) drive the same radar drawing
  * used at the end of posts, showing the aggregate "blog radar value" and
  * translating each percentage into what it means for a blog post.
- * Changes tween DDR MAX2 style (~100ms, fast start, smooth finish).
+ * Values redraw instantly (no tween): sliders fire a stream of input
+ * events and any animation reads as the radar lagging behind the thumb.
  */
 
 import {
@@ -16,8 +17,7 @@ import {
   radarHead,
   grooveValue,
   polygonPoints,
-  displayPercent,
-  tweenValues
+  displayPercent
 } from './groove-radar';
 
 const SLIDER_MAX = Math.round(OVERFLOW * 100);
@@ -115,19 +115,14 @@ export function initGrooveRadarPlayground() {
   const poly = container.querySelector('.gr-poly');
   const valEls = container.querySelectorAll('.gr-val');
   const totalEl = container.querySelector('.gr-total-num');
-  const shown = valuesFrom(percents);
-  let cancelTween = () => {};
 
   function refresh() {
-    cancelTween();
-    cancelTween = tweenValues({ ...shown }, valuesFrom(percents), (values) => {
-      Object.assign(shown, values);
-      poly.setAttribute('points', polygonPoints(values));
-      AXES.forEach((axis, i) => {
-        valEls[i].textContent = `${displayPercent(values[axis.key])}%`;
-      });
-      totalEl.textContent = grooveValue(values);
+    const values = valuesFrom(percents);
+    poly.setAttribute('points', polygonPoints(values));
+    AXES.forEach((axis, i) => {
+      valEls[i].textContent = `${displayPercent(values[axis.key])}%`;
     });
+    totalEl.textContent = grooveValue(values);
   }
 
   container.addEventListener('input', (event) => {

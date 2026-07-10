@@ -13,7 +13,8 @@ tags:
   - Opinion
   - Cybersecurity
   - Blogging
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: An overview about the CAS-005 exam and CompTIA's cybersecurity pathway.
 toc: true
 comments: false

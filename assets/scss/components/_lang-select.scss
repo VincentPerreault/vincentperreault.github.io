@@ -1,0 +1,58 @@
+/*
+ * Sidebar language selector: colour fixes + a "selected" visual aid.
+ * The theme's own `.lang-select` rules reference CSS variables that don't
+ * exist (`--sidebar-muted`, `--sidebar-active`, `--sidebar-hover`), so the
+ * colours never followed the theme and looked out of place in dark mode.
+ * These overrides use the real variables and theme the native `<option>`
+ * popup. The active language (closed control + the checked option) is drawn
+ * in the radar's pale-blue accent so it's obvious which language is selected,
+ * especially in dark mode. Scoped under `.lang-dropdown` so it outranks the
+ * theme's `#sidebar .lang-select`.
+ */
+
+#sidebar .lang-dropdown {
+  /* Radar "pale blue" accent (light mode default) */
+  --lang-accent: #0b8f6f;
+
+  .lang-select {
+    /* the closed control shows the current language: accent it */
+    color: var(--lang-accent);
+
+    &:hover {
+      color: var(--lang-accent);
+      background-color: var(--sidebar-hover-bg);
+    }
+
+    &:focus {
+      outline: 2px solid var(--lang-accent);
+      color: var(--lang-accent);
+    }
+
+    &:-moz-focusring {
+      text-shadow: 0 0 0 var(--lang-accent);
+    }
+
+    /* Native dropdown popup: dark, theme-matched background; the other
+       languages stay muted so the selected one (accent + bold) stands out. */
+    option {
+      color: var(--sidebar-muted-color);
+      background-color: var(--sidebar-bg);
+    }
+
+    option:checked {
+      color: var(--lang-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+/* Dark mode: brighter pale blue, matching the radar polygon */
+html[data-mode='dark'] #sidebar .lang-dropdown {
+  --lang-accent: #8cffe0;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode]) #sidebar .lang-dropdown {
+    --lang-accent: #8cffe0;
+  }
+}

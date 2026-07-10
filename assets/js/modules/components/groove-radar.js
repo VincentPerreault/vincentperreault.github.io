@@ -89,15 +89,11 @@ export const TWEEN_MS = 100;
 
 /**
  * Interpolate between two value sets, calling `onUpdate(values)` each frame.
- * Returns a cancel function. Jumps straight to the target when the user
- * prefers reduced motion.
+ * Returns a cancel function. The morph between one post's radar and the next
+ * is the core "song wheel" interaction (a tiny, non-flashing 100ms polygon
+ * tween), so it plays regardless of prefers-reduced-motion by request.
  */
 export function tweenValues(from, to, onUpdate) {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    onUpdate({ ...to });
-    return () => {};
-  }
-
   let frame = 0;
   const start = performance.now();
   const step = (now) => {

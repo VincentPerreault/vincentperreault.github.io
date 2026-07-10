@@ -1,0 +1,32 @@
+# Sidebar main menu (French). See menus.en.toml for why this lives in
+# config instead of page front matter.
+
+[[main]]
+  name = 'Accueil'
+  pageRef = '/'
+  weight = 1
+  pre = 'fa-house'
+
+[[main]]
+  name = 'Catégories'
+  pageRef = '/categories'
+  weight = 2
+  pre = 'fa-stream'
+
+[[main]]
+  name = 'Tags'
+  pageRef = '/tags'
+  weight = 3
+  pre = 'fa-tags'
+
+[[main]]
+  name = 'Archives'
+  pageRef = '/archives'
+  weight = 4
+  pre = 'fa-archive'
+
+[[main]]
+  name = 'À propos'
+  pageRef = '/about'
+  weight = 5
+  pre = 'fa-info-circle'
