@@ -1,0 +1,27 @@
+{{ if hugo.IsMultilingual }}
+  <div class="lang-dropdown">
+    <select class="lang-select" onchange="location = this.value;">
+      {{ $page := . }}
+      {{ $currentLang := .Site.Language.Lang }}
+      {{ $siteBase := strings.TrimSuffix "/" .Site.BaseURL }}
+      {{ range .Site.Languages }}
+        {{ $lang := . }}
+        {{/* Prefer the current page's translation in this language so the
+             reader stays on the same page; fall back to the language home
+             when this page has no translation in that language. */}}
+        {{ $url := "" }}
+        {{ range $page.AllTranslations }}
+          {{ if eq .Language.Lang $lang.Lang }}
+            {{ $url = .RelPermalink }}
+          {{ end }}
+        {{ end }}
+        {{ if not $url }}
+          {{ $url = printf "%s/%s/" $siteBase $lang.Lang }}
+        {{ end }}
+        <option value="{{ $url }}" {{ if eq $lang.Lang $currentLang }}selected{{ end }}>
+          {{ $lang.LanguageName }}
+        </option>
+      {{ end }}
+    </select>
+  </div>
+{{ end }}

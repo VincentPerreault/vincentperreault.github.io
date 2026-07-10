@@ -1,5 +1,5 @@
 ---
-title: J'ai passé SecurityX pour obtenir CSIE. Pis là?
+title: J'ai passé SecurityX pour obtenir CSIE. Maintenant quoi?
 date: 2026-02-13 01:31:22 -0500
 draft: false
 categories:
@@ -13,7 +13,8 @@ tags:
   - Opinion
   - Cybersecurity
   - Blogging
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: Un aperçu de l'examen CAS-005 et du parcours de cybersécurité de CompTIA.
 toc: true
 comments: false

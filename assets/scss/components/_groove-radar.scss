@@ -230,6 +230,13 @@ html[data-mode='light'] .groove-radar {
 
 /* Interactive playground (About page) */
 .groove-radar-playground {
+  /* The sliders drive the stats live: any transition here reads as lag,
+     so the polygon pop-in is disabled and updates render instantly */
+  .gr-value {
+    transform: scale(1);
+    transition: none;
+  }
+
   .gr-controls {
     padding: 0.5rem 0.9rem 1rem;
     border-top: 1px solid var(--gr-border);

@@ -56,20 +56,18 @@
             {{ i18n "post.written_by" }}
 
             <em>
-              {{ if $authors }}
-                {{ range $i, $author := $authors }}
-                  {{ with $authorsData }}
-                    {{ with (index . $author) }}
-                      {{ .name }}
-                    {{ end }}
-                  {{ else }}
-                    {{ $author }}
-                  {{ end }}
-                  {{ if not (eq $i (sub (len $authors) 1)) }}{{ "</em>, <em>" | safeHTML }}{{ end }}
-                {{ end }}
-              {{ else }}
-                <a href="{{ index $.Site.Params.Social.links 0 }}">{{ $.Site.Params.Social.name }}</a>
-              {{ end }}
+              {{- if $authors -}}
+                {{- range $i, $author := $authors -}}
+                  {{- if $i }}, {{ end -}}
+                  {{- with $authorsData -}}
+                    {{- with (index . $author) }}{{ .name }}{{ else }}{{ $author }}{{ end -}}
+                  {{- else -}}
+                    {{- $author -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- else -}}
+                {{- $.Site.Params.Social.name -}}
+              {{- end -}}
             </em>
           </span>
 

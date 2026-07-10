@@ -1,0 +1,141 @@
+/*
+ * Unified hover accent for the post cards and trending tags.
+ * A pale-blue "radar teal" outer edge over a darker, same-tone interior.
+ * The whole state lives on a ::before layer painted BEHIND the content, so
+ * only its opacity animates (100ms ease-out, in and out) — a clean fade with
+ * no box-shadow interpolation and, crucially, no re-rasterising of the text
+ * (which is what produced the faint blur during the animation).
+ */
+
+/* Accent palette, mode-aware to match the blog radar polygon */
+:root,
+html[data-mode='light'] {
+  --hv-edge: #0b8f6f;
+  --hv-edge-rgb: 11, 143, 111;
+  --hv-card-bg: #e8f7f1;
+  --hv-fill: rgba(11, 143, 111, 0.1);
+  --hv-text: #1d1d1d;
+}
+
+html[data-mode='dark'] {
+  --hv-edge: #8cffe0;
+  --hv-edge-rgb: 140, 255, 224;
+  --hv-card-bg: #17302a;
+  --hv-fill: rgba(46, 230, 184, 0.13);
+  --hv-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode]) {
+    --hv-edge: #8cffe0;
+    --hv-edge-rgb: 140, 255, 224;
+    --hv-card-bg: #17302a;
+    --hv-fill: rgba(46, 230, 184, 0.13);
+    --hv-text: #ffffff;
+  }
+}
+
+/* Post preview cards (home list + "Further Reading") */
+.post-preview {
+  position: relative;
+
+  /* hover layer: teal fill + teal outer edge, behind the content */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background-color: var(--hv-card-bg);
+    box-shadow: 0 0 0 1.5px var(--hv-edge);
+    opacity: 0;
+    transition: opacity 0.1s ease-out; /* fade in AND out over 100ms */
+    pointer-events: none;
+  }
+
+  /* keep the card's own content above the hover layer, crisp and white */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Tag pills everywhere (trending panel, end of posts, Tags page): teal
+   edge + fill, with white text so the label pops. The end-of-post pills
+   need the `html .post-tags` variant to outrank the theme's own
+   `.post-tags .post-tag:hover { color: #d2603a !important }`, and the
+   Tags-page pills need `html .content a.tag` to outrank the theme's
+   `.content a:not(.img-link):hover` (same orange, also !important). */
+#panel-wrapper .post-tag,
+html .post-tags .post-tag,
+html .content a.tag,
+.post-tag,
+.tag {
+  transition:
+    background-color 0.1s ease-out,
+    border-color 0.1s ease-out,
+    color 0.1s ease-out;
+
+  &:hover {
+    color: var(--hv-text) !important;
+    background: var(--hv-fill) !important;
+    border-color: var(--hv-edge) !important;
+
+    /* The theme strips the pill's bottom border on hover (%no-bottom-border,
+       meant for text-link underlines), which cut off the outline's bottom */
+    border-bottom: 1px solid var(--hv-edge) !important;
+
+    /* The theme re-declares slower transitions on the hover state itself
+       (0.3s in the panel, 0.35s via %tag-hover), which would win during
+       hover-in; force the same 100ms fade both ways */
+    transition:
+      background-color 0.1s ease-out,
+      border-color 0.1s ease-out,
+      color 0.1s ease-out !important;
+  }
+}
+
+/* Older / Newer post navigation: same look and 100ms fade as the post
+   cards. Styled directly (with the `html` prefix for specificity) because
+   the theme pins a static border-color on these buttons and CDN Bootstrap
+   drives the state colors; only the focus ring stays on Bootstrap's
+   variable, re-tinted teal instead of its blue. */
+html .post-navigation .btn {
+  --bs-btn-focus-shadow-rgb: var(--hv-edge-rgb);
+
+  /* outranks the theme's 0.35s `transition: all` on these buttons */
+  transition:
+    color 0.1s ease-out,
+    background-color 0.1s ease-out,
+    border-color 0.1s ease-out,
+    box-shadow 0.1s ease-out;
+
+  &::before {
+    transition: color 0.1s ease-out;
+  }
+
+  &:hover:not(.disabled),
+  &:focus-visible:not(.disabled),
+  &:active:not(.disabled) {
+    color: var(--heading-color);
+    background-color: var(--hv-card-bg);
+    border-color: var(--hv-edge);
+
+    /* 1px border + 0.5px ring = the same crisp 1.5px teal contour as the
+       post cards; also replaces Bootstrap's translucent focus glow */
+    box-shadow: 0 0 0 0.5px var(--hv-edge);
+
+    /* lift above the adjacent button, whose edge otherwise covers the
+       shared middle border and thins out this button's outline */
+    z-index: 1;
+  }
+
+  /* keep the OLDER / NEWER label muted (the theme flips it to whitesmoke) */
+  &:hover:not(.disabled)::before {
+    color: var(--text-muted-color);
+  }
+}

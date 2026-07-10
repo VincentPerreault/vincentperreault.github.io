@@ -7,12 +7,13 @@ categories:
   - Certification
 tags:
   - Writing
-  - Advise
+  - Advice
   - OffSec
   - Cybersecurity
   - Wi-Fi
   - Opinion
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: An overview about the OSWP exam and the PEN-210 course.
 toc: true
 comments: false

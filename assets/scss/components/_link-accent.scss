@@ -1,0 +1,64 @@
+/*
+ * Link colors matched to the blog radar: teal at rest (like the radar
+ * polygon), DDR MAX2 song-wheel gold on hover. The theme hardcodes its own
+ * palette — `--link-color` in `base` plus an orange `#d2603a !important`
+ * on every `%link-hover` surface — so:
+ *   - the vars are re-declared with the theme's exact mode scoping; these
+ *     components compile after `base`, so equal specificity wins;
+ *   - the hover surfaces are re-listed (tag pills excluded, they keep the
+ *     teal hover-accent) with an `html` prefix + `!important` to outrank
+ *     the theme's originals.
+ * Light mode uses the radar's light palette instead of the examples tuned
+ * for dark backgrounds, which would be unreadable on white.
+ */
+
+@mixin link-accent-dark {
+  --link-color: #44c6a4;
+  --link-underline-color: rgba(68, 198, 164, 0.4);
+  --link-hover-color: #ffd930;
+  --toc-highlight: var(--link-color);
+}
+
+@mixin link-accent-light {
+  --link-color: #0b8f6f;
+  --link-underline-color: rgba(11, 143, 111, 0.35);
+  --link-hover-color: #8a6100;
+  --toc-highlight: var(--link-color);
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]),
+  html[data-mode='light'] {
+    @include link-accent-light;
+  }
+
+  html[data-mode='dark'] {
+    @include link-accent-dark;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode]),
+  html[data-mode='dark'] {
+    @include link-accent-dark;
+  }
+
+  html[data-mode='light'] {
+    @include link-accent-light;
+  }
+}
+
+/* Every %link-hover surface except the tag pills (the Tags page renders
+   its `.tag` pills inside `.content`, hence the extra :not) */
+html .content a:not(.img-link):not(.tag):hover,
+html .post-meta a:not([class]):hover,
+html #topbar #breadcrumb a:hover,
+html #access-lastmod a:hover,
+html #page-category a:hover,
+html #page-tag a:hover,
+html #search-results a:hover,
+html .post-tail-wrapper .license-wrapper > a:hover,
+html footer a:hover {
+  color: var(--link-hover-color) !important;
+  border-bottom-color: var(--link-hover-color);
+}

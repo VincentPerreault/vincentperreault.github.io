@@ -7,12 +7,13 @@ categories:
   - Certification
 tags:
   - Writing
-  - Advise
+  - Advice
   - OffSec
   - Cybersecurity
   - Pentesting
   - Opinion
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: Un aperçu de l'examen OSCP+ et du cours PEN-200.
 toc: true
 comments: false

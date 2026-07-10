@@ -14,7 +14,8 @@ tags:
   - TLS
   - Cybersecurity
   - Write-up
-author: VincentPerreault
+author: 
+- VincentPerreault
 description: How we carved a Mythic/Apollo agent out of a packet capture, proved it wasn't altered in transit, peeled back two layers of encryption to replay the attacker's commands, and how Wireshark ended up in a real courtroom.
 toc: true
 comments: false

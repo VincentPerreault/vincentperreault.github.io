@@ -9,6 +9,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Vertical buffer so short posts (whose card collapses to the image
+       height) don't render the badge flush against the card's edges. */
+    padding: 1rem 0;
   }
   #post-list .card .col-md-5 img {
     max-height: 150px;
