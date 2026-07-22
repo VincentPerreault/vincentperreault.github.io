@@ -16,8 +16,18 @@ html #sidebar {
     margin-bottom: 0.5rem;
   }
 
+  /* Keep the social row clear of the bottom of the viewport: the browser's
+     native URL-preview bar floats at the bottom-left (~1.3rem tall) and would
+     otherwise overlap the buttons. This matches the theme's default clearance
+     while the rest of the sidebar stays compact. */
   .sidebar-bottom {
-    margin-bottom: 0.6rem;
+    margin-bottom: 1.5rem;
+
+    /* Match the theme's wider clearance on large screens (xxxl = 1650px),
+       so the gap below the social row is identical to the stock theme. */
+    @media all and (min-width: 1650px) {
+      margin-bottom: 1.75rem;
+    }
 
     /* The theme fades the social buttons over 0.3s but leaves the mode
        toggle instant; give them all the same 100ms fade */
