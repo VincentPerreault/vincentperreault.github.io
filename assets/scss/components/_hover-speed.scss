@@ -51,6 +51,15 @@ html .nav-link {
     color 0.1s ease-out;
 }
 
+/* Home post cards: the theme fades their background over 0.35s, so on a
+   colour-mode switch the card background lags behind its (instant) text.
+   Normalize it to the same 100ms as everything else. */
+@media (hover: hover) {
+  html .post-preview {
+    transition: background-color 0.1s ease-in-out;
+  }
+}
+
 /* Nav item hover also lifts the label/icon for visibility: a lighter gray
    in dark mode, a darker one in light mode - never pure white/black, and
    the .active item keeps its stronger color (higher specificity). */
