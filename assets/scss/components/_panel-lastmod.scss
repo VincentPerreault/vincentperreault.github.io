@@ -1,0 +1,37 @@
+/*
+ * "Recently Updated" panel: give the keyboard focus ring some breathing room.
+ *
+ * The theme leaves these links `display: inline` with no padding, so the focus
+ * ring hugs the text - unlike the TOC, whose links are padded blocks and look
+ * roomy by comparison. Two constraints shape the fix:
+ *
+ *   - The anchor must stay inline. It gets a hover underline (border-bottom,
+ *     see link-accent), which would stretch the full panel width as a block,
+ *     and inline padding would push that underline away from the text.
+ *   - The <li> carries Bootstrap's .text-truncate (`overflow: hidden`), which
+ *     clips the ring, so simply offsetting it would cut off its left edge.
+ *
+ * So pad the <li> instead: that widens its clip box, leaving room for the ring
+ * to be offset into. The negative margin cancels the left padding so the titles
+ * stay aligned with the panel heading, and the anchor itself is untouched.
+ *
+ * Note: `html`-prefixed to outrank the theme's own rules, which compile after
+ * these components (see the theme's main.scss).
+ */
+
+html #access-lastmod {
+  li {
+    padding: 0.15rem 0.45rem;
+    margin-left: -0.45rem;
+
+    /* The markup's .lh-lg utility (line-height: 2) spaces the entries further
+       apart than they need to be; tighten it a little while still leaving the
+       focus ring its room. !important is needed to outrank the Bootstrap
+       utility class, which carries !important itself. */
+    line-height: 1.75 !important;
+  }
+
+  a:focus-visible {
+    outline-offset: 3px;
+  }
+}

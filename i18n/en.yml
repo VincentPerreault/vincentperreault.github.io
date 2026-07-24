@@ -1,0 +1,15 @@
+# English UI strings for the project.
+#
+# The Chirpy theme is a Hugo module, so its own i18n/en.yml cannot be edited.
+# Note that for any key the module ALREADY defines, the module's value wins over
+# the one here (the reverse of the usual project-overrides-theme precedence), so
+# adding e.g. `posted:` below would silently do nothing. Keys the module does
+# not define — like the two here — resolve from this file as expected.
+
+# ----- Posts related labels -----
+
+post:
+  # Rendered as one sentence by layouts/post/single.html:
+  # "Posted on <date>, updated on <date_updated>"
+  posted_on: Posted on
+  updated_on: updated on

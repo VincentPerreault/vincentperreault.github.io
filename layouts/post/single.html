@@ -11,19 +11,25 @@
       {{ end }}
 
       <div class="post-meta text-muted">
-        <!-- published date -->
-        <span>
-          {{ i18n "post.posted" }}
-          {{ partial "datetime.html" (dict "date" .Date "tooltip" true "lang" $lang) }}
-        </span>
-
-        <!-- lastmod date -->
-        {{ if and (ne .Lastmod .Date) (.Lastmod) }}
-          <span>
-            {{ i18n "post.updated" }}
-            {{ partial "datetime.html" (dict "date" .Lastmod "tooltip" true "lang" $lang) }}
-          </span>
+        {{/* Publish date, followed by the optional revision date taken from the
+             `date_updated` front matter param. Both run through datetime.html so
+             they share one format (the visible text is rendered client-side by
+             dayjs from data-ts/data-df, so the two always stay in sync).
+             The partial output is trimmed so the comma hugs the </time> tag. */}}
+        {{ $updated := "" }}
+        {{ with .Params.date_updated }}
+          {{ $updated = time.AsTime . }}
         {{ end }}
+
+        <!-- published date (+ updated date) -->
+        <span>
+          {{ i18n "post.posted_on" }}
+          {{ partial "datetime.html" (dict "date" .Date "tooltip" true "lang" $lang) | strings.TrimSpace | safeHTML }}
+          {{- with $updated -}}
+            , {{ i18n "post.updated_on" }}
+            {{ partial "datetime.html" (dict "date" . "tooltip" true "lang" $lang) | strings.TrimSpace | safeHTML }}
+          {{- end -}}
+        </span>
 
         {{ with .Params.image }}
           {{ $src := $page.Resources.GetMatch ( .path | default . ) }}

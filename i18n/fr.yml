@@ -58,6 +58,13 @@ post:
   written_by: Par
   posted: Posté
   updated: Mis à jour
+  # Rendered as one sentence by layouts/post/single.html:
+  # "Publié le <date>, mis à jour le <date_updated>".
+  # Deliberately NOT reusing `posted`/`updated` above: for any key the theme
+  # module already defines, the module's own i18n wins over the project's, so
+  # overriding those two has no effect. Names the theme does not define do work.
+  posted_on: Publié le
+  updated_on: mis à jour le
   words: mots
   pageview_measure: vues
   read_time:
