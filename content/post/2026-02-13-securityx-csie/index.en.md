@@ -1,11 +1,11 @@
 ---
 title: Passed SecurityX and obtained CSIE. Now what?
 date: 2026-02-13 01:31:22 -0500
-date_updated: 2026-07-24 13:32:45 -0500
+date_updated: 2026-07-30 17:08:15 -0500
 draft: false
 categories:
   - Blogging
-  - Cybersecurity
+  - Certification
 tags:
   - Writing
   - Advice
@@ -77,10 +77,12 @@ The first thing my boss told me about this certification after I passed it was: 
 
 ## Which certifications felt more rewarding? 🏅
 
-This is a really good question and the answer is: it depends on your situation. Below are some explanations and some real-life anecdotes:
+This is a really good question and the answer is: ||it depends on your situation||. I know it's a bit of a cliché, but the answer will vary greatly depending on your background, your current expertise, and what you're aiming for in the short term. Here are some explanations and personal anecdotes to justify my point:
 
 ### Security+
-If you want to get your very first job in IT, Security+ will definitely have a small *plus* (no pun intended) to your portfolio. Does it guarantee you a job in cyber? Not at all. Does it guarantee you an entry-level job in IT? No, but it sure helps you stand out among other juniors or graduates. You want to put some luck on your side whenever you can and with a little more luck on your side, you may have the opportunity that someone else won't, simply because of that small investment you've made in yourself. However, while it is still recognized in the market, it basically stops there: it is a certification for an entry-level role and that is pretty much it. A friend of mine who wanted to get his first cybersecurity job, went to a defence company for an interview and the first question his interviewer asked was: "Do you have Security+? If not, come back later when you have it." While he still got a cybersecurity role elsewhere without Security+, not having the certification did not prevent him from succeeding in the hiring process for an entry-level role. In fact, it was his homelab project and connections that made him stand out from the crowd and landed him a job in the field. In short, if you are a young student who is trying to get into IT, it can be worth considering.
+If you want to get your very first job in IT, Security+ will definitely have a small *plus* (no pun intended) to your portfolio. Does it guarantee you a job in cyber? Not at all. Does it guarantee you an entry-level job in IT? No, but it will certainly help you stand out from the crowd of junior staff or recent graduates. Like anything in life, it's always good to stack the odds in your favour when an opportunity arises, and with a little more luck, you might get a chance that others won't, simply because you've demonstrated that you've voluntarily invested in yourself (both in money and time). For me, I did it during right after finishing my college degree and just before starting my first year for my bachelor's degree. The difficulty of the Security+ certification was just right for my needs 👌. I learned enough stuff in college before starting this certification to be able to retain information quickly from the training, and it made my first year of university much easier. The new stuff I've learned with the certification was then explored more thoroughly in my university classes, which made the certification a really good summer project before going back to school.
+
+However, while it is still recognized in the market, its plus-value basically stops there for Security+: it is a certification for entry-level roles, it might allow you to bypass HR in certain cases, and that's about it. A friend of mine who wanted to get his first job in cybersecurity went for an interview at a defence company, and the first question his interviewer asked him was: "Do you have Security+? If not, come back later when you have it." Although he still managed to get a cybersecurity job elsewhere _without Security+_, not having the certification didn't prevent him from successfully completing the hiring process for an entry-level position. In fact, it was his homelab project and his connections/plugs that made him stand out from the crowd and landed him a job in the field. In short, if you're a young student trying to break into IT, it might be worth considering and the benefits are there. The certification helped me out when I started my career in IT, so it can definitely help you too in the short term. Other than that, the certification won't add much value to your career, especially in the long run.
 
 ### CySA+
 CySA+ is definitely a step-up from Security+ in terms of difficulty and personally, I really dig it. I did it after two years of cyber experience working in a SOC and it was a great way to test my knowledge in the field in general. I was doing my bachelor's degree at the same time, and it was just the right difficulty to be a good revision of everything I've seen in school so far, as well as new concepts I could use for my job at the time. While it may not be as recognized as other more technical certifications, it was good enough to be worth doing.

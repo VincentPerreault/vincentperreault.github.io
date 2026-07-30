@@ -30,32 +30,72 @@ const DEFAULTS = {
   chaos: 70
 };
 
+/* The slider descriptions are the only prose in the radar, and the About page
+   exists in English and French. One bundle serves both languages (the theme's
+   js-selector.html builds it without Hugo params), so the wording is picked at
+   runtime from <html lang>. Only these sentences are translated: the axis names
+   and subtitles stay in English on purpose, being the DDR-style arcade labels.
+   French keeps its typographic no-break space before % and as the thousands
+   separator. */
+const NBSP = ' ';
+
+const LOCALES = { en: 'en-CA', fr: 'fr-CA' };
+
+const MEANINGS = {
+  en: {
+    stream: (minutes, words) => `≈ ${minutes} min of reading (~${words} words)`,
+    voltage: (peak, avg, count) =>
+      `longest paragraph ≈ ${peak} words · ~${avg} words/paragraph · ~${count} paragraphs`,
+    freeze: (share, chars) => `≈ ${share}% of the text is code (~${chars} chars of code)`,
+    air: (density) =>
+      `≈ ${density} visual pts / 1,000 words (media, prompts, spoilers, bold/italic) and their variety`,
+    chaos: (longWords, acronyms) =>
+      `≈ ${longWords}% ${LONG_WORD}+ char words · ≈ ${acronyms}% acronyms · long sentences`
+  },
+  fr: {
+    stream: (minutes, words) => `≈ ${minutes} min de lecture (~${words} mots)`,
+    voltage: (peak, avg, count) =>
+      `paragraphe le plus long ≈ ${peak} mots · ~${avg} mots/paragraphe · ~${count} paragraphes`,
+    freeze: (share, chars) =>
+      `≈ ${share}${NBSP}% du texte est du code (~${chars} caractères de code)`,
+    air: (density) =>
+      `≈ ${density} pts visuels / 1${NBSP}000 mots (médias, encadrés, spoilers, gras/italique) et leur variété`,
+    chaos: (longWords, acronyms) =>
+      `≈ ${longWords}${NBSP}% de mots de ${LONG_WORD}+ caractères · ≈ ${acronyms}${NBSP}% d'acronymes · phrases longues`
+  }
+};
+
 function meaningFor(key, percent) {
+  const lang = document.documentElement.lang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
+  const locale = LOCALES[lang];
+  const text = MEANINGS[lang];
   const frac = percent / 100;
+  /* Numbers follow the same language: "2,050" in English, "2 050" in French */
+  const int = (value) => Math.round(value).toLocaleString(locale);
+  const tenth = (value) =>
+    value.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
   switch (key) {
     case 'stream': {
       const minutes = frac * CAPS.stream;
       const words = Math.round((minutes * WPM) / 50) * 50;
-      return `≈ ${Math.round(minutes)} min of reading (~${words.toLocaleString()} words)`;
+      return text.stream(Math.round(minutes), words.toLocaleString(locale));
     }
     case 'voltage':
-      return `longest paragraph ≈ ${Math.round(frac * CAPS.voltage.peak)} words · ~${Math.round(
-        frac * CAPS.voltage.avg
-      )} words/paragraph · ~${Math.round(frac * CAPS.voltage.count)} paragraphs`;
+      return text.voltage(
+        int(frac * CAPS.voltage.peak),
+        int(frac * CAPS.voltage.avg),
+        int(frac * CAPS.voltage.count)
+      );
     case 'freeze':
-      return `≈ ${Math.round(frac * CAPS.freeze.ratio * 100)}% of the text is code (~${Math.round(
-        frac * CAPS.freeze.chars
-      ).toLocaleString()} chars of code)`;
+      return text.freeze(int(frac * CAPS.freeze.ratio * 100), int(frac * CAPS.freeze.chars));
     case 'air':
-      return `≈ ${Math.round(
-        frac * CAPS.air.density
-      )} visual pts / 1,000 words (media, prompts, spoilers, bold/italic) and their variety`;
+      return text.air(int(frac * CAPS.air.density));
     case 'chaos':
-      return `≈ ${Math.round(frac * CAPS.chaos.longWords * 100)}% ${LONG_WORD}+ char words · ≈ ${(
-        frac *
-        CAPS.chaos.acronyms *
-        100
-      ).toFixed(1)}% acronyms · long sentences`;
+      return text.chaos(
+        int(frac * CAPS.chaos.longWords * 100),
+        tenth(frac * CAPS.chaos.acronyms * 100)
+      );
     default:
       return '';
   }
