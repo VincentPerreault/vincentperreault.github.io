@@ -1,0 +1,38 @@
+/*
+ * Breathing room under images in post content.
+ *
+ * The theme's caption styling (%img-caption, applied to the `em` right after an
+ * image) sets no bottom margin, so a paragraph following a captioned image butts
+ * straight against it - measured at a 0px gap. It only looks right when a
+ * heading follows, because the heading contributes its own ~40px top margin.
+ *
+ * Putting the gap on the caption fixes the paragraph case, and adjacent-sibling
+ * margin collapsing keeps the heading case sane: the larger of the two margins
+ * wins rather than the two stacking up.
+ *
+ * Note: `html`-prefixed to outrank the theme's own rules, which compile after
+ * these components (see the theme's main.scss).
+ */
+
+/* The two knobs for the space around a captioned image, replacing the stock
+   lopsided 24px above / 0px below. Below runs a little tighter than above
+   (28px vs 36px) on purpose: the caption sits in that lower gap, so matching
+   the two exactly makes the bottom read as the heavier side. */
+$img-caption-gap: 1.75rem; /* below the caption */
+$img-gap-above: 1.25rem; /* stacks on the preceding paragraph's own 1rem */
+
+html .content {
+  /* The image link is an inline-flex (atomic inline) box, so its vertical
+     margin does count toward the line box - and it adds to the preceding
+     paragraph's bottom margin instead of collapsing with it. */
+  a.img-link {
+    margin-top: $img-gap-above;
+  }
+
+  /* Linked (lightbox) images keep the caption as a sibling of the <a>;
+     plain images have it right after the <img>. */
+  a.img-link + em,
+  img + em {
+    margin-bottom: $img-caption-gap;
+  }
+}
