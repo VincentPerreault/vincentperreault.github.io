@@ -1,0 +1,29 @@
+/*
+ * Mobile topbar title: keep long post titles on one line.
+ *
+ * The theme gives #topbar-title a width and `word-break: keep-all`, but never
+ * stops it wrapping, so a long title takes two lines (measured 53px) inside the
+ * fixed 48px topbar and spills out of the bar. The mobile TOC bar already
+ * handles this correctly with Bootstrap's .text-truncate; this applies the same
+ * treatment so both bars read as one-liners with an ellipsis.
+ *
+ * Note: `html`-prefixed to outrank the theme's own rules, which compile after
+ * these components (see the theme's main.scss).
+ */
+
+html #topbar-title {
+  /* The theme's fixed `width: 70%` is narrower than the space actually free
+     between the hamburger and search icons, so even moderate titles were
+     ellipsised with room to spare. #topbar is a flex row, so let the title take
+     whatever is left between the two icons instead, keeping a small gap either
+     side. `min-width: 0` is what allows a flex item to shrink far enough for
+     the ellipsis to appear at all. */
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  margin: 0 0.25rem;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
