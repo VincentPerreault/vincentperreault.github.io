@@ -1,7 +1,7 @@
 ---
 title: Passed SecurityX and obtained CSIE. Now what?
 date: 2026-02-13 01:31:22 -0500
-date_updated: 2026-08-04 21:35:25 -0400
+date_updated: 2026-08-16 17:10:26 -0400
 draft: false
 categories:
   - Blogging
@@ -114,7 +114,7 @@ In addition, it is unwise to do certifications for the sake of doing certificati
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> Look at the jobs you want to strive for and take note of the certifications employers ask for in the requirements, then invest in those. It's not rocket science: it's computer science 🧠
+> Look at the jobs you want to strive for and take note of the certifications employers ask for in the requirements, then invest in those. It's not rocket science: it's computer science 🧠.
 {.prompt-tip }
 <!-- markdownlint-restore -->
 
