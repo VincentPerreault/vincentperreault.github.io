@@ -110,6 +110,14 @@ Personally, when I started taking the CompTIA certifications, I thought that if 
 
 However, as I got more experience, certifications started to have diminishing returns, and I needed to demonstrate my skills elsewhere, either with projects, homelabs, blogs (such as this one), research or community contributions. Chasing certifications is undeniably good, but you must figure out where you want to be in the near future. Sure, SecurityX won't help me get a role in Red Teaming, but it might reinforce my current role to then pivot into something else related, maybe in security architecture or engineering. I've also come to realize that time is a finite resource: as you get older, you don't have as much of it as you did when you were younger to do all the certifications you wanted to do. You need to focus on those that are more relevant and to generally do increasingly more difficult certifications to deepen your knowledge. 
 
+In addition, it is unwise to do certifications for the sake of doing certifications: if your dream job doesn't mention the certification you are aiming for or you can't find the added value of a certification for your future dream role, then maybe it is not the right certification for you. Your time and your money are valuable: make them count on your own terms. Everyone's path and preferences are different, so adapt your training to what you actually value. For me, the four CompTIA certifications I took were about 50/50 in terms of value: some of them genuinely gave me the boost I needed to kickstart my career, while others felt more like a chore to complete for the sole reason that I wanted the ultimate stackable certification, whatever that means. In the end, it is better to go for certifications that are in demand from recruiters, since the return is _somewhat_ guaranteed (your mileage may vary a lot, but it's still there). And on the plus side, certifications can become a nice little decoration in your office.
+
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+> Look at the jobs you want to strive for and take note of the certifications employers ask for in the requirements, then invest in those. It's not rocket science: it's computer science 🧠
+{.prompt-tip }
+<!-- markdownlint-restore -->
+
 ## TL;DR 🎯
 
 SecurityX was challenging, personally rewarding since I ultimately got the CSIE, but no headhunter has sent me a DM on LinkedIn since I got it. If you need to renew your CompTIA certifications, this is quite the challenge and it's a nice step-up from more intermediate certifications like CySA+ or PenTest+, and it's considerably harder than Security+. The PBQs were really fun and overall, I do respect people who have passed the exam. Ultimately, knowing I helped someone make a more informed decision about whether these certifications are worthwhile, and where to best invest their time was all I needed to make the journey worth it.
