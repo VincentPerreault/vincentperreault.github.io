@@ -1,7 +1,7 @@
 ---
 title: J'ai passé SecurityX pour obtenir CSIE. Maintenant quoi?
 date: 2026-02-13 01:31:22 -0500
-date_updated: 2026-08-04 21:35:25 -0400
+date_updated: 2026-08-16 17:10:26 -0400
 draft: false
 categories:
   - Blogging
@@ -114,7 +114,7 @@ De plus, il n'est pas sage de passer des certifications simplement pour le princ
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> Observe les jobs que tu vises, prends en note les certifications que les employeurs demandent dans les exigences de ce rôle, puis investis dans ces certifications-là. Ça prend pas la tête à Papineau, mais il faut quand même y penser 🧠.
+> Regarde les jobs que tu aimerais décrocher, prends en note les certifications que les employeurs demandent dans les exigences, puis investis dans celles-là. Ça prend pas la tête à Papineau, mais il faut quand même y penser 🧠.
 {.prompt-tip }
 <!-- markdownlint-restore -->
 
