@@ -13,10 +13,11 @@ tags:
   - Mythic
   - TLS
   - Cybersecurity
+  - NSEC
   - Write-up
 author: 
 - VincentPerreault
-description: How we carved a Mythic/Apollo agent out of a packet capture, proved it wasn't altered in transit, peeled back two layers of encryption to replay the attacker's commands, and how Wireshark ended up in a real courtroom.
+description: Analysis of encrypted traffic from C2 Mythic using Wireshark.
 toc: true
 comments: false
 image:
