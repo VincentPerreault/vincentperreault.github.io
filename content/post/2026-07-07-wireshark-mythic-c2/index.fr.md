@@ -16,7 +16,7 @@ tags:
   - Write-up
 author: 
 - VincentPerreault
-description: Comment nous avons extrait un agent Mythic/Apollo d'une capture réseau, prouvé qu'il n'avait pas été altéré, épluché deux couches de chiffrement pour rejouer les commandes de l'attaquant, et comment Wireshark s'est retrouvé devant un vrai tribunal.
+description: Analyse de traffic chiffré du C2 Mythic en utilisant Wireshark.
 toc: true
 comments: false
 image:
