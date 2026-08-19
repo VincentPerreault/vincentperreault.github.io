@@ -22,7 +22,7 @@ toc: true
 comments: false
 image:
   path: nsec-portobello-53.png
-  alt: Le logo du NSEC accompagné d'une mascotte familier durant l'évènement
+  alt: Le logo du NSEC accompagné d'une mascotte familière durant l'évènement
 ---
 
 Le fichier `portobello53.pcapng` est un artefact de la track **Portobello** de NorthSec 2022; une série de défis dont les noms font référence aux cinq étapes du deuil (Déni, Colère, Marchandage, Dépression). Le « 53 » correspond au numéro de port, ce qui nous donne déjà la plupart des informations nécessaires avant d'ouvrir le fichier: tout se passe via DNS.

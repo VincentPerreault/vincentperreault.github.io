@@ -40,6 +40,8 @@ Why did I do this write-up? To clean up some artifacts from this challenges host
 
 ## 1. The recon
 
+Before diving into any pcap file, it is important to understand what we are dealing with. We can get the available statistics (infos) of the capture file by using `capinfos`, such as follow:
+
 ```bash
 capinfos portobello53.pcapng
 ```
@@ -53,24 +55,21 @@ capinfos portobello53.pcapng
 | Capture filter | `ip6 and !icmp6 and !dst host ff02::16` |
 | Capture app | Dumpcap 3.4.9 on Linux 5.13 |
 
-The capture filter is already a spoiler: IPv6 only, ICMPv6 stripped out. Someone
-wanted a clean file.
+By analysing the capture filter, we already have a spoiler: IPv6 only, ICMPv6 stripped out. Someone wanted a clean file and it shows, especially with the "_small_" number of packets (for the magnitude of this track).
 
 The protocol hierarchy confirms it:
 
 ```bash
 tshark -r portobello53.pcapng -q -z io,phs
+
+frame         frames:13913 bytes:2622122
+  eth         frames:13913 bytes:2622122
+    ipv6      frames:13913 bytes:2622122
+      udp     frames:13913 bytes:2622122
+        dns   frames:13913 bytes:2622122
 ```
 
-```
-frame     frames:13913 bytes:2622122
-  eth     frames:13913 bytes:2622122
-    ipv6  frames:13913 bytes:2622122
-      udp frames:13913 bytes:2622122
-        dns frames:13913 bytes:2622122
-```
-
-**100% DNS.** Not "mostly DNS" — every single packet is a DNS query or response.
+The capture is **100% DNS**. Not "mostly DNS"; every single packet is a DNS query or response.
 
 ### The network
 
@@ -127,7 +126,7 @@ tshark -r portobello53.pcapng \
   -T fields -e ipv6.src -e dns.qry.name -e dns.qry.type
 ```
 
-Four channels, cleanly separated — one host, one domain, one record type each:
+Four channels, cleanly separated; one host, one domain, one record type each:
 
 | Host | Domain | Type | Queries | Stage |
 |---|---|---|---|---|
@@ -140,9 +139,43 @@ Note the third domain: the queries are `f.lag-dns-cannot-be-abused…`,
 `o.lag-dns-…` — so the domain is *deliberately* named `lag-` so that the first
 label completes it into `flag-`. That's the joke, and it's also the mechanism.
 
+### Extra: A little GUI for you
+
+Another tool we can use to obtain information in a pcap file is with using the free version of the tool `NetworkMiner`, to extract artifacts as well as seeing broad information that might help us out. By simply saving the `pcapng` file into a simple `pcap` file, we can make it work to see what we have in our hands. The very first thing we see in the interface are the hosts and already, we might have an idea where to look to obtain more information, and possibly a flag:
+
+![NetworkMiner's hosts view of the pcap file](NetworkMiner-Hosts.png)
+{ caption="NetworkMiner's hosts view of the pcap file"}
+
+while other tabs doesn't contain relevant information, there is a lot to discover in the DNS tab and basically, we can see multiple DNS Query format that might be relevant to solve the track (spoiler: ||they all are||):
+
+![NetworkMiner's DNS view of the pcap file](NetworkMiner-DNS.png)
+{caption="NetworkMiner's DNS view of the pcap file"}
+
 ---
 
-## 2. Anger — base64 in TXT records
+## 2. Anger - base64 in TXT records
+
+Challenge statement:
+```
+YOU HAVE NO RIGHTS TO USE THE DNS PROTOCOL MALICIOUSLY. Respect the RFCs spirit like any good technology user would.
+Our vendor guaranteed us that nothing could get stolen from the Mycoverse and I still believe him.
+Because any data leaving or entering the Mycoverse goes through our AI-backed deep packet inspection appliance, we have never had any user misuse our technologies.
+
+They have no need to do so because anything a user would want is acquireable through our online store.
+
+My AI appliance alerted me numerous time about large DNS responses from a single domain name but I deleted these alerts as false positives.
+I don’t want to sound like a broken record but we both know that DNS is a benign protocol.
+
+You can still try to find the traffic, I bet it is still happening.
+
+Rosie Meyer - A+, Server+, CCNA, CCNP, CCIE, MSDST, CSM
+Network Admin
+```
+
+The large DNS responses that the challenge statement is talking about can be found in the TXT records. We can see a lot of query and responses for TXT records in the why-pay-for-bits-when-you-can-drop-the-beats.ctf.
+
+![A packet with a large TXT record](anger1.png)
+{caption="A packet with a large TXT record"}
 
 ### The shape
 
@@ -365,13 +398,7 @@ tshark -r portobello53.pcapng \
 Characters DNS labels can't carry are spelled out as words — `space` and `dash`.
 Substitute them back:
 
-> forget about safe protocols **flag-dns-as-covert-communication-channel**
-> commercial appliances will not replace good practices originally cultivation
-> was unreliable as mushroom growers would watch for good flushes of mushrooms in
-> fields before digging up the mycelium and replanting them in beds of composted
-> manure or inoculating bricks of compressed litter loam and manure spawn
-> collected this way contained pathogens and crops commonly would be infected or
-> not grow at all
+> forget about safe protocols **flag-dns-as-covert-communication-channel** commercial appliances will not replace good practices originally cultivation was unreliable as mushroom growers would watch for good flushes of mushrooms in fields before digging up the mycelium and replanting them in beds of composted manure or inoculating bricks of compressed litter loam and manure spawn collected this way contained pathogens and crops commonly would be infected or not grow at all
 
 > 🚩 **`flag-dns-as-covert-communication-channel`**
 
