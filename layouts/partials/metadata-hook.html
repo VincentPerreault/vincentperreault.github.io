@@ -1,3 +1,10 @@
+{{/* Fediverse author attribution (upstream Chirpy 7.6.0, PR #2593): lets
+     Mastodon & friends credit the author on shared links. Set
+     `fediverse_creator = "@you@instance.tld"` under [params] to enable. */}}
+{{ with site.Params.fediverse_creator }}
+  <meta name="fediverse:creator" content="{{ . }}">
+{{ end }}
+
 <!-- Blog radar fonts: Chakra Petch (italic) for the title + axis names,
      like the DDR arcade labels; Orbitron for the small axis descriptions -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

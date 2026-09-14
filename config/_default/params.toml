@@ -4,6 +4,16 @@ toc = true
 avatar = "img/commons/avatar.png"
 author = "yifan"
 
+# "Edit this post" link shown at the bottom of every post
+# (upstream Chirpy 7.6.0 feature, see layouts/partials/post-edit.html).
+[actions]
+  [actions.edit_post]
+    enabled = true
+    # Repository base URL for the editor. With `static_url = false` the post's
+    # source path (relative to content/) is appended to it.
+    url = "https://github.com/VincentPerreault/vincentperreault.github.io/edit/main/content"
+    static_url = false
+
 [assets]
   # Self-hosted static assets, default to false. If true, the assets will be hosted on your own server.
   self_host = false
