@@ -47,12 +47,12 @@
 }
 
 /* Dark mode: brighter pale blue, matching the radar polygon */
-html[data-mode='dark'] #sidebar .lang-dropdown {
+html[data-bs-theme='dark'] #sidebar .lang-dropdown {
   --lang-accent: #8cffe0;
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-mode]) #sidebar .lang-dropdown {
+  html:not([data-bs-theme]) #sidebar .lang-dropdown {
     --lang-accent: #8cffe0;
   }
 }

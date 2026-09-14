@@ -53,10 +53,49 @@
   {{ end }}
 
   <div class="sidebar-bottom d-flex flex-wrap align-items-center w-100">
-    {{ if not .Site.Params.themeMode }}
-      <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
-        <i class="fas fa-adjust"></i>
-      </button>
+    {{/* Theme switcher: light / dark / follow the OS. Ported from upstream
+         Chirpy 7.6.0 (PR #2756), which replaced the old single "flip" button
+         with this menu and made the choice stick across visits. The button
+         shows the icon of the active mode; see modules/theme.js. */}}
+    {{ $themeMode := .Site.Params.themeMode }}
+    {{ if not (or (eq $themeMode "light") (eq $themeMode "dark")) }}
+      {{ $iconSystem := `<i class="fa-solid fa-display" data-theme-mode="system"></i>` }}
+      {{ $iconLight := `<i class="fa-regular fa-sun" data-theme-mode="light"></i>` }}
+      {{ $iconDark := `<i class="fa-regular fa-moon" data-theme-mode="dark"></i>` }}
+
+      <div class="btn-group dropup">
+        <button
+          type="button"
+          class="btn btn-link nav-link"
+          aria-label="Switch Mode"
+          id="mode-toggle"
+          data-bs-toggle="dropdown"
+        >
+          {{- $iconLight | safeHTML -}}
+          {{- $iconDark | safeHTML -}}
+          {{- $iconSystem | safeHTML -}}
+        </button>
+        <ul class="dropdown-menu rounded-3 mb-1 p-1">
+          <li>
+            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="light">
+              {{- $iconLight | safeHTML -}}
+              {{- i18n "theme.light" -}}
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="dark">
+              {{- $iconDark | safeHTML -}}
+              {{- i18n "theme.dark" -}}
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item d-flex align-items-center" type="button" data-theme-mode="system">
+              {{- $iconSystem | safeHTML -}}
+              {{- i18n "theme.system" -}}
+            </button>
+          </li>
+        </ul>
+      </div>
 
       {{ if .Site.Params.social.links }}
         <span class="icon-border"></span>

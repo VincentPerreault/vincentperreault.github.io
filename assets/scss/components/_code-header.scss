@@ -1,0 +1,46 @@
+/*
+ * Code block header, upstream Jekyll Chirpy fixes the theme module predates.
+ *
+ * - A long filename label no longer overflows into the copy button; it is
+ *   truncated with an ellipsis (PR #2771).
+ * - The copy button is a bit smaller, and its "copied" checkmark slightly
+ *   smaller still, so it stops crowding the label.
+ *
+ * `base/_syntax.scss` is loaded before `components/`, so these plain
+ * overrides win on equal specificity.
+ */
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+
+.code-header {
+  /* the label block */
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* clipboard */
+  button {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.125rem;
+
+    &[timeout] i {
+      font-size: 90%;
+    }
+  }
+
+  @include bp.sm {
+    $dot-margin: 1rem;
+
+    span {
+      margin-left: v.$code-icon-width * -1; /* center the label text */
+      max-width: calc(
+        100% - $dot-margin - (v.$code-dot-gap + v.$code-dot-size) * 3 -
+          v.$code-icon-width * 4
+      );
+    }
+  }
+}

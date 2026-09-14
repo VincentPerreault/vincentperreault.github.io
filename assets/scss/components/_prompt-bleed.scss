@@ -1,0 +1,20 @@
+/*
+ * On phones, tip/info/warning/danger prompts run edge to edge instead of
+ * sitting in the text column — upstream Jekyll Chirpy 7.x styling the theme
+ * module predates. `components/` is compiled after `base/`, where the
+ * prompts are defined, so this needs no extra specificity.
+ */
+
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/mixins' as mx;
+
+main {
+  @include bp.lte(bp.get(sm)) {
+    .content > blockquote[class^='prompt-'] {
+      @include mx.ml-mr(-1rem);
+
+      border-radius: 0;
+      max-width: none;
+    }
+  }
+}

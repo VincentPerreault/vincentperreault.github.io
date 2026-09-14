@@ -1,0 +1,47 @@
+{{/* Post sharing snippet.
+     The theme module dropped upstream Chirpy's share row when it was ported
+     to Hugo; this brings it back (7.6.0 markup). The platforms come from
+     data/share.yaml, and the trailing button copies the post's link using
+     the theme's own clipboard module (it looks for #copy-link). */}}
+{{ $title := printf "%s - %s" .Title site.Title | urlquery }}
+{{ $url := .Permalink | urlquery }}
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">{{ i18n "post.share" }}</span>
+  <span class="share-icons">
+    {{ range site.Data.share.platforms }}
+      {{ $tooltip := printf `data-bs-toggle="tooltip" data-bs-placement="top" title="%s" aria-label="%s"` .type .type }}
+
+      {{ if eq .type "Mastodon" }}
+        <script defer type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/share-to-mastodon/+esm"></script>
+        <button class="btn text-start" {{ $tooltip | safeHTMLAttr }}>
+          <share-to-mastodon
+            class="share-mastodon"
+            message="{{ $title }}"
+            url="{{ $url }}"
+            {{- with .instances }} customInstanceList="{{ . | jsonify }}"{{ end }}
+          >
+            <i class="fa-fw {{ .icon }}"></i>
+          </share-to-mastodon>
+        </button>
+      {{ else }}
+        {{ $link := replace (replace .link "TITLE" $title) "URL" $url }}
+        <a href="{{ $link | safeURL }}" target="_blank" rel="noopener" {{ $tooltip | safeHTMLAttr }}>
+          <i class="fa-fw {{ .icon }}"></i>
+        </a>
+      {{ end }}
+    {{ end }}
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="{{ i18n "post.button.share_link.title" }}"
+      data-title-succeed="{{ i18n "post.button.share_link.succeed" }}"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>

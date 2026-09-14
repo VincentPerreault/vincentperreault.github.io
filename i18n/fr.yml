@@ -72,6 +72,8 @@ post:
     # Leading space is intentional: the theme's read-time partial only auto-inserts
     # a space before single-word prompts, so multi-word ones must carry their own.
     prompt: ' de lecture'
+  # Link to the source file of the post on GitHub (params.actions.edit_post).
+  edit: Modifier ce post
   relate_posts: Autres lectures
   share: Partager
   button:
@@ -93,3 +95,10 @@ categories:
   post_measure:
     singular: post
     plural: posts
+
+# ----- Theme switcher (sidebar) -----
+
+theme:
+  light: Clair
+  dark: Sombre
+  system: Système

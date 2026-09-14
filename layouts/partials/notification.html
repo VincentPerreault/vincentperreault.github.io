@@ -1,0 +1,22 @@
+{{/* PWA "a new version is available" toast. Ported from upstream Chirpy
+     7.6.0 (PR #2757) — the theme module never shipped it, so a service
+     worker update went unnoticed. Only rendered when PWA is enabled. */}}
+<aside
+  id="notification"
+  class="toast w-auto rounded-5 text-nowrap"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-animation="true"
+  data-bs-autohide="false"
+>
+  <div class="d-flex align-items-center">
+    <div class="toast-body ps-3">
+      {{- i18n "notification.update_found" -}}
+    </div>
+    <button type="button" class="btn btn-primary btn-sm rounded-2 py-0" aria-label="Update">
+      {{- i18n "notification.update" -}}
+    </button>
+    <button type="button" class="btn-close mx-3 ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</aside>

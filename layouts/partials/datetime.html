@@ -1,0 +1,15 @@
+{{/* Overrides the theme's partial: the timestamp is exposed through the
+     standard `datetime` attribute (upstream Chirpy 7.6.0, PR #2759) rather
+     than a custom `data-ts` one, so the markup stays valid HTML and search
+     engines can read the date even before dayjs rewrites the text. */}}
+{{ $dateFormat := default "02/01/2006" (i18n "df.post.strftime") }}
+{{ $dayjsFormat := default "DD/MM/YYYY" (i18n "df.post.dayjs") }}
+
+<time
+  {{ if .class }}class="{{ .class }}"{{ end }}
+  datetime="{{ .date.Format "2006-01-02T15:04:05Z07:00" }}"
+  data-df="{{ $dayjsFormat }}"
+  {{ if .tooltip }}data-bs-toggle="tooltip" data-bs-placement="bottom"{{ end }}
+>
+  {{ .date | time.Format $dateFormat }}
+</time>

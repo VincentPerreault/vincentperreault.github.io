@@ -9,7 +9,7 @@
 
 /* Accent palette, mode-aware to match the blog radar polygon */
 :root,
-html[data-mode='light'] {
+html[data-bs-theme='light'] {
   --hv-edge: #0b8f6f;
   --hv-edge-rgb: 11, 143, 111;
   --hv-card-bg: #e8f7f1;
@@ -17,7 +17,7 @@ html[data-mode='light'] {
   --hv-text: #1d1d1d;
 }
 
-html[data-mode='dark'] {
+html[data-bs-theme='dark'] {
   --hv-edge: #8cffe0;
   --hv-edge-rgb: 140, 255, 224;
   --hv-card-bg: #17302a;
@@ -26,7 +26,7 @@ html[data-mode='dark'] {
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-mode]) {
+  html:not([data-bs-theme]) {
     --hv-edge: #8cffe0;
     --hv-edge-rgb: 140, 255, 224;
     --hv-card-bg: #17302a;
