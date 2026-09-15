@@ -11,14 +11,25 @@
       {{ end }}
 
       <div class="post-meta text-muted">
-        {{/* Publish date, followed by the optional revision date taken from the
-             `date_updated` front matter param. Both run through datetime.html so
-             they share one format (the visible text is rendered client-side by
-             dayjs from data-ts/data-df, so the two always stay in sync).
-             The partial output is trimmed so the comma hugs the </time> tag. */}}
+        {{/* Publish date, followed by the revision date. `.Lastmod` is the
+             date of the last commit that touched this post's markdown file
+             (see enableGitInfo / [frontmatter] in config), so editing a post
+             and committing is enough — nothing to maintain by hand, which is
+             how upstream Chirpy behaves as well.
+
+             Only shown once it lands on a later *day* than the publish date:
+             the commit that first publishes a post is normally same-day, and
+             "posted on Feb 13, updated on Feb 13" says nothing. Upstream gets
+             the same effect by requiring more than one commit on the file.
+             The exact time is still in the tooltip.
+
+             Both dates run through datetime.html so they share one format (the
+             visible text is rendered client-side by dayjs from datetime/data-df,
+             so the two always stay in sync). The partial output is trimmed so
+             the comma hugs the </time> tag. */}}
         {{ $updated := "" }}
-        {{ with .Params.date_updated }}
-          {{ $updated = time.AsTime . }}
+        {{ if and .Lastmod (gt (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) }}
+          {{ $updated = .Lastmod }}
         {{ end }}
 
         <!-- published date (+ updated date) -->
@@ -112,9 +123,7 @@
       <dialog id="toc-popup" class="p-0">
         <div class="header d-flex flex-row align-items-center justify-content-between">
           <div class="label text-truncate py-2 ms-4">{{ .Title }}</div>
-          <button id="toc-popup-close" type="button" class="btn mx-1 my-1 opacity-75">
-            <i class="fas fa-close"></i>
-          </button>
+          <button id="toc-popup-close" type="button" class="btn-close btn-sm mx-3" aria-label="Close"></button>
         </div>
         <div id="toc-popup-content" class="px-4 py-3 pb-4">{{ .TableOfContents }}</div>
       </dialog>
@@ -127,24 +136,29 @@
     {{ partial "groove-radar.html" . }}
 
     <div class="post-tail-wrapper text-muted">
-      <!-- categories -->
-      {{ with .Params.categories }}
-        <div class="post-meta mb-3">
-          <i class="far fa-folder-open fa-fw me-1"></i>
-          {{ $len := len . }}
-          {{ range $i, $category := . }}
+      <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+        <!-- categories -->
+        {{ with .Params.categories }}
+          <div class="post-meta">
+            <i class="far fa-folder-open fa-fw me-1"></i>
+            {{ $len := len . }}
+            {{ range $i, $category := . }}
             {{ if eq $i 0 }}
-              <!-- 主分类 -->
+              <!-- main category -->
               <a href="{{ "/categories/" | relLangURL }}{{ $category | urlize }}/">{{ $category }}</a>
             {{ else }}
-              <!-- 子分类：确保链接包含主分类路径 -->
+              <!-- sub-category: keep the main category in the link path -->
               {{ $parentCategory := index $.Params.categories 0 }}
               <a href="{{ "/categories/" | relLangURL }}{{ $parentCategory | urlize }}/{{ $category | urlize }}/">{{ $category }}</a>
             {{ end }}
             {{ if not (eq $i (sub $len 1)) }},{{ end }}
-          {{ end }}
-        </div>
-      {{ end }}
+            {{ end }}
+          </div>
+        {{ end }}
+
+        <!-- "Edit this post" link -->
+        {{ partial "post-edit.html" . }}
+      </div>
 
       <!-- tags -->
       {{ with .Params.tags }}
@@ -169,6 +183,7 @@
           {{ end }}
         </div>
 
+        {{ partial "post-sharing.html" . }}
       </div>
     </div>
   </article>

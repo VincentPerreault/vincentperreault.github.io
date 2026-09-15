@@ -1,0 +1,21 @@
+{{/* "Edit this post" link. Ported from upstream Chirpy 7.6.0 (PR #2517).
+     Configured under [params.actions.edit_post]; when `static_url` is false
+     the source file's path is appended to `url`, so the link opens GitHub's
+     editor on the exact file backing the page. */}}
+{{ $action := site.Params.actions.edit_post }}
+
+{{ if and $action $action.enabled $action.url }}
+  {{ $url := $action.url }}
+  {{ if not $action.static_url }}
+    {{ with .File }}
+      {{ $url = printf "%s/%s" (strings.TrimSuffix "/" $action.url) .Path }}
+    {{ end }}
+  {{ end }}
+
+  <div class="post-edit">
+    <a href="{{ $url }}" target="_blank" rel="noopener">
+      <i class="fa fa-pen fa-fw me-1"></i>
+      <span>{{ i18n "post.edit" }}</span>
+    </a>
+  </div>
+{{ end }}

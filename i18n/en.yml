@@ -13,3 +13,13 @@ post:
   # "Posted on <date>, updated on <date_updated>"
   posted_on: Posted on
   updated_on: updated on
+
+  # Link to the source file of the post on GitHub (params.actions.edit_post).
+  edit: Edit this post
+
+# ----- Theme switcher (sidebar) -----
+
+theme:
+  light: Light
+  dark: Dark
+  system: System

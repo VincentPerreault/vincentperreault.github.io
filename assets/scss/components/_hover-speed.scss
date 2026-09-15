@@ -64,16 +64,16 @@ html .nav-link {
    in dark mode, a darker one in light mode - never pure white/black, and
    the .active item keeps its stronger color (higher specificity). */
 :root,
-html[data-mode='light'] {
+html[data-bs-theme='light'] {
   --nav-hover-color: #2e2e2e;
 }
 
-html[data-mode='dark'] {
+html[data-bs-theme='dark'] {
   --nav-hover-color: #c2c4c3;
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-mode]) {
+  html:not([data-bs-theme]) {
     --nav-hover-color: #c2c4c3;
   }
 }

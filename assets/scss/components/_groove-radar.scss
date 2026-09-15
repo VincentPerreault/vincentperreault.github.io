@@ -5,7 +5,7 @@
  * with the theme; only the home sidebar keeps the DDR cabinet look.
  * Colors are driven by custom properties: dark values are the default,
  * and a light palette is applied following the same mode scoping as
- * the theme (data-mode attribute / OS preference).
+ * the theme (data-bs-theme attribute / OS preference).
  */
 
 /* Display face for the title and axis names: a real-italic techno font,
@@ -194,12 +194,12 @@ $gr-display: 'Chakra Petch', sans-serif;
   --gr-num-color: #2a2e33;
 }
 
-html[data-mode='light'] .groove-radar {
+html[data-bs-theme='light'] .groove-radar {
   @include gr-light;
 }
 
 @media (prefers-color-scheme: light) {
-  html:not([data-mode]) .groove-radar {
+  html:not([data-bs-theme]) .groove-radar {
     @include gr-light;
   }
 }

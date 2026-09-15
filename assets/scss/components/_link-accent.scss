@@ -27,23 +27,23 @@
 }
 
 @media (prefers-color-scheme: light) {
-  html:not([data-mode]),
-  html[data-mode='light'] {
+  html:not([data-bs-theme]),
+  html[data-bs-theme='light'] {
     @include link-accent-light;
   }
 
-  html[data-mode='dark'] {
+  html[data-bs-theme='dark'] {
     @include link-accent-dark;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-mode]),
-  html[data-mode='dark'] {
+  html:not([data-bs-theme]),
+  html[data-bs-theme='dark'] {
     @include link-accent-dark;
   }
 
-  html[data-mode='light'] {
+  html[data-bs-theme='light'] {
     @include link-accent-light;
   }
 }

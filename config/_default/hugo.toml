@@ -1,9 +1,30 @@
-# The base URL for the site.
-baseURL = 'https://geekifan.github.io/chirpy-starter/'
-# The title of the site.
-title = 'Chirpy'
+# The base URL for the site. Left over from the starter template, it pointed
+# at geekifan's own demo — and since `config/_default/` outranks the root
+# `hugo.toml`, that stale value won: `hugo server` served the site under
+# http://localhost:1313/chirpy-starter/ instead of the root. Production was
+# unaffected only because the deploy workflow passes --baseURL explicitly.
+baseURL = 'https://vincentperreault.github.io/'
+# The title of the site. (Overridden per language in languages.toml.)
+title = "Vincent's Blog"
 # Enable Git info › https://gohugo.io/methods/page/gitinfo/
-enableGitInfo = false
+# This is what makes a post's "updated on" date automatic: Hugo reads the
+# date of the last commit that touched the post's own markdown file. It is
+# how upstream Chirpy does it too (_plugins/posts-lastmod-hook.rb runs
+# `git log -1` per post). Needs full history, which the deploy workflow
+# already checks out (fetch-depth: 0).
+enableGitInfo = true
+
+# Where `.Lastmod` comes from, in order. Git normally wins, so the date is
+# automatic and always reflects the real last edit — the same contract as
+# upstream Chirpy, whose hook overwrites the value outright. An explicit
+# `lastmod:` in a post's front matter is the one escape hatch, for pinning a
+# date by hand; `date` is the fallback when a file has no commit yet (a new
+# post you have not committed), and renders no "updated" line at all.
+#
+# The older `date_updated:` key is no longer read — the post still carrying
+# one can have that line dropped next time it is edited.
+[frontmatter]
+  lastmod = ['lastmod', ':git', 'date']
 # The default content language.
 defaultContentLanguage = "en"
 # Whether the default content language is in a subdirectory.

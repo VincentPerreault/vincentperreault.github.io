@@ -1,0 +1,17 @@
+{{/* Spotify embed. Ported from upstream Chirpy 7.6.0 (PR #2515).
+     Usage: the embed/spotify shortcode with a track id, e.g.
+     id="3OuMIIFP5TxM8tLXMWYPGV" (the last path segment of a track URL).
+     Optional: compact="true" (short player), dark="true" (dark player). */}}
+{{ $size := cond (eq (.Get "compact") "true") 152 352 }}
+{{ $theme := cond (eq (.Get "dark") "true") "?theme=0" "" }}
+
+<iframe
+  class="embed-audio spotify"
+  src="https://open.spotify.com/embed/track/{{ .Get "id" }}{{ $theme }}"
+  height="{{ $size }}"
+  frameborder="0"
+  allowfullscreen=""
+  allowtransparency="true"
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  loading="lazy"
+></iframe>
