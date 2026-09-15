@@ -1,7 +1,11 @@
-# The base URL for the site.
-baseURL = 'https://geekifan.github.io/chirpy-starter/'
-# The title of the site.
-title = 'Chirpy'
+# The base URL for the site. Left over from the starter template, it pointed
+# at geekifan's own demo — and since `config/_default/` outranks the root
+# `hugo.toml`, that stale value won: `hugo server` served the site under
+# http://localhost:1313/chirpy-starter/ instead of the root. Production was
+# unaffected only because the deploy workflow passes --baseURL explicitly.
+baseURL = 'https://vincentperreault.github.io/'
+# The title of the site. (Overridden per language in languages.toml.)
+title = "Vincent's Blog"
 # Enable Git info › https://gohugo.io/methods/page/gitinfo/
 enableGitInfo = false
 # The default content language.
