@@ -15,16 +15,22 @@
  * media queries are only the fallback for visitors who never picked a mode.
  */
 
-:root[data-bs-theme='light'] {
+/* Deliberately `html[...]` rather than upstream's `:root[...]`: `:root` is a
+   pseudo-class, so `:root[data-bs-theme='dark']` scores (0,2,0) and would
+   outrank this site's own `html[data-bs-theme='dark']` palette overrides in
+   `components/` (0,1,1) — which is how the teal link accent got silently
+   reverted to the theme's blue. `html` matches the same element and keeps
+   those components winning on source order, as they did before. */
+html[data-bs-theme='light'] {
   @include light.styles;
 }
 
-:root[data-bs-theme='dark'] {
+html[data-bs-theme='dark'] {
   @include dark.styles;
 }
 
 /* No preference stored and no theme applied yet (JS disabled): follow the OS. */
-:root:not([data-bs-theme]) {
+html:not([data-bs-theme]) {
   @media (prefers-color-scheme: light) {
     @include light.styles;
   }
