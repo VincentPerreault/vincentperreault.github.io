@@ -5,6 +5,7 @@ import {
   initClipboard,
   loadMermaid,
   initSpoilers,
+  initTextFx,
   initGrooveRadarPlayground
 } from './modules/components';
 
@@ -15,5 +16,6 @@ initTopbar();
 initClipboard();
 loadMermaid();
 initSpoilers();
+initTextFx();
 initGrooveRadarPlayground();
 basic();

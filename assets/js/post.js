@@ -8,6 +8,7 @@ import {
   initToc,
   loadMermaid,
   initSpoilers,
+  initTextFx,
   initGrooveRadar
 } from './modules/components';
 
@@ -20,5 +21,6 @@ initClipboard();
 initTopbar();
 loadMermaid();
 initSpoilers();
+initTextFx();
 initGrooveRadar();
 basic();

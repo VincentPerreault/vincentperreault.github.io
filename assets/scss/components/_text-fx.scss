@@ -1,0 +1,117 @@
+/*
+ * Inline text effects marked up in the markdown itself (see text-fx.js):
+ *   wave     a travelling sine, one character behind the next
+ *   rainbow  per-character hues that cycle through the whole wheel
+ *
+ * Both read the character's position from `--i`, set by the JS, so they stay
+ * in step when one run is nested inside the other.
+ */
+
+/* Rainbow saturation/lightness, tuned per mode so the hues stay legible
+   against the page background (dark text on white needs to be darker).
+   `--fx-still` is the flat colour used when motion is off: classic terminal
+   green. It sits in the same family as the teal link colour, so it leans on
+   the fact that links carry a 1px underline and this text does not. Brightened
+   on dark, where the light-mode green would go muddy against the background. */
+:root,
+html[data-bs-theme='light'] {
+  --fx-rainbow-sat: 85%;
+  --fx-rainbow-lit: 42%;
+  --fx-still: #1f8e1f; /* 4.2:1 on white */
+}
+
+html[data-bs-theme='dark'] {
+  --fx-rainbow-sat: 95%;
+  --fx-rainbow-lit: 68%;
+  --fx-still: #3ecf3e; /* 8.4:1 on the dark background */
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-bs-theme]) {
+    --fx-rainbow-sat: 95%;
+    --fx-rainbow-lit: 68%;
+    --fx-still: #3ecf3e;
+  }
+}
+
+.fx {
+  /* the animations move glyphs, not boxes: nothing here affects layout */
+  display: inline;
+}
+
+/* The unsplit copy kept for screen readers. `user-select: none` keeps it out
+   of the clipboard, so copying the phrase still yields it exactly once. */
+.fx-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.fx-char {
+  display: inline-block;
+}
+
+/* ---- wave ---------------------------------------------------------- */
+
+[data-fx~='wave'] .fx-char {
+  animation: fx-wave 1.6s ease-in-out infinite;
+
+  /* negative delay = every character starts already in motion, at its own
+     point in the cycle, which is what makes the crest travel */
+  animation-delay: calc(var(--i, 0) * -0.085s);
+}
+
+@keyframes fx-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-0.18em);
+  }
+  75% {
+    transform: translateY(0.18em);
+  }
+}
+
+/* ---- rainbow ------------------------------------------------------- */
+
+/* Each character gets a fixed hue offset; rotating the hue of the whole
+   container then cycles them all together without restating the colours. */
+[data-fx~='rainbow'] {
+  animation: fx-hue 5s linear infinite;
+}
+
+[data-fx~='rainbow'] .fx-char {
+  color: hsl(calc(var(--i, 0) * 28), var(--fx-rainbow-sat), var(--fx-rainbow-lit));
+}
+
+@keyframes fx-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* ---- reduced motion ------------------------------------------------ */
+
+/* With motion off the wave simply lies flat, and the rainbow drops to one
+   flat colour rather than a frozen spread of hues, which reads as broken. */
+@media (prefers-reduced-motion: reduce) {
+  /* attribute selectors, so these tie with the rules above on specificity
+     and win on order -- `.fx-char` alone would lose to `[data-fx~='wave']` */
+  [data-fx],
+  [data-fx] .fx-char {
+    animation: none;
+  }
+
+  [data-fx~='rainbow'] .fx-char {
+    color: var(--fx-still);
+  }
+}
