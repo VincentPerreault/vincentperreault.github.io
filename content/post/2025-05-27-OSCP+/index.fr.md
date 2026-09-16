@@ -32,21 +32,25 @@ J'ai passé mon examen OSCP+. Voici comment je m'y suis pris, et surtout comment
 {.prompt-danger }
 <!-- markdownlint-restore -->
 
-## Pourquoi viser l'OSCP? 🔍
+## Pourquoi viser OSCP? 🔍
 
-L'OSCP n'est pas une fin en soi : c'est un excellent moyen d'approfondir tes connaissances techniques en sécurité offensive. Si tu veux mieux comprendre l'aspect technique des vulnérabilités, la certification va te permettre de :
+La certification OSCP n'est pas une fin en soi : c'est un excellent moyen d'approfondir ses connaissances techniques en sécurité offensive. Si tu veux mieux comprendre l'aspect technique des vulnérabilités, la certification te permettra notamment de :
 
 - mieux comprendre comment une vulnérabilité fonctionne réellement;
-- mieux comprendre les impacts et les post-exploitations possibles une fois qu'elle est exploitée;
-- mieux comprendre les conséquences sur un environnement à la suite d'une exploitation;
+- mieux comprendre les impacts et les post-exploitations possibles une fois qu'une vulnérabilité est exploitée;
+- mieux comprendre les conséquences dans un environnement technologique à la suite d'une exploitation;
 - mieux reconnaître les mauvaises configurations dans le code et l'infrastructure;
-- être plus confiant lorsque tu te retrouves face à l'inconnu.
+- être plus confiant lorsque tu te retrouves face à l'inconnu;
 
-Cela dit, l'OSCP n'a de valeur pour toi que si son contenu est aligné avec tes fonctions actuelles ou celles que tu vises. Ce n'est pas une certification qu'on obtient « juste pour le faire » : c'est un investissement important en temps et en argent, alors assure-toi d'abord qu'elle sert un objectif concret dans ton parcours.
+Il faut toutefois prendre note que la certification OSCP t'apportera davantage de plus-value que si son contenu est aligné avec tes fonctions actuelles ou celles que tu vises. Ce n'est pas tant une certification que tu devrais obtenir « juste pour le faire » : c'est un investissement important en temps et en argent, alors assure-toi d'abord qu'elle sert un objectif concret dans ton parcours. 
+
+Ceci étant dit, comme on dit, l'exception fait la règle : OSCP peut t'apporter une certaine valeur profesionnelle, particulièrement sur ton approche face à un problème, ta prise de notes et tes aptitudes de _troubleshooting_, et qui n'est pas forcément en lien avec un rôle en sécurité offensive. C'est notamment le cas pour ces deux personnes qui l'ont réussi ayant comme profession [dentiste](https://www.reddit.com/r/oscp/comments/rs38pm/a_different_kind_of_root_how_a_dentist_passed_the/) et [chirurgien bucale](https://www.reddit.com/r/oscp/comments/1f15xo1/oscp_on_the_first_attempt_by_an_oral_surgeon_my/). 
+
+Ultimement, tu es le seul à savoir si ce cours correspond à ce que tu souhaite faire plus tard dans ta carrière. Si c'est simplement pour dire à tes chums de brosse que tu es un ∼≈⋒"1337 h4x0r"⋒≈∼, OSCP sera probablement _overkill_ pour tes besoins. Parlant d'être _overkill_...
 
 ## Avant de te lancer : les prérequis 🧗
 
-L'OSCP est reconnue à l'international pour son « haut niveau » de difficulté, notamment parce qu'elle est l'une des seules certifications pratiques liées aux tests d'intrusion à être sur le marché depuis près de 20 ans (2006). Ce n'est pas la certification la plus difficile qui existe en pentest, mais elle n'est pas facile pour autant. Il faut donc t'assurer d'avoir un bagage de compétences suffisant avant de te lancer.
+L'OSCP est reconnue à l'international pour son « haut niveau » de difficulté, notamment parce qu'elle est l'une des seules certifications pratiques liées aux tests d'intrusion à être sur le marché depuis près de 20 ans (2006). Ce n'est pas la certification la plus difficile qui existe en pentest, bien au contraire, mais elle n'est pas facile pour autant. Il faut donc s'assurer d'avoir un bagage de compétences suffisant avant de s'y lancer.
 
 ### Les compétences de base
 
@@ -65,21 +69,23 @@ Une fois les compétences de base acquises, on arrive au prérequis le plus exig
 
 Personne ne devrait se lancer dans l'OSCP sans plusieurs préalables techniques, et c'est l'une des étapes les plus difficiles à franchir. Il faut être honnête avec toi-même : as-tu assez d'expertise pratique pour consacrer le temps nécessaire et avoir une chance raisonnable de réussir l'examen? Deux gros bloquants pour tout le monde :
 
-- **Le coût.** Le cours coûte désormais près de **4 000 $ CAD**.
+- **Le coût.** Le cours coûte désormais près de 4'000 $ CAD.
 - **Le temps.** C'est un engagement d'au minimum **300 heures** de ton temps pour passer à travers le contenu, compléter les laboratoires, les *Challenge Labs*, les « boxes » suggérées dans la *TJ Null List*, ainsi que plusieurs dizaines de boxes supplémentaires sur *Proving Grounds*. Dans bien des cas, ça peut prendre 500 heures, voire au-delà de 700 heures, pour tout compléter et être suffisamment à l'aise pour l'examen. Le tout, dans un délai de moins de 365 jours.
 
 ### Comment démontrer (et bâtir) ta préparation
 
 Il y a plusieurs manières de développer et de prouver ton expertise technique avant de te lancer. En voici quelques-unes qui sont largement reconnues :
 
-- **Fortement recommandé :** obtenir des certifications abordables et pratiques en sécurité offensive, comme **eJPT** et/ou **CRTP**;
+- **Fortement recommandé :** obtenir des certifications abordables et pratiques en sécurité offensive, comme [eJPT](https://ine.com/security/certifications/ejpt-certification), [CPTS](https://academy.hackthebox.com/preview/certifications/htb-certified-penetration-testing-specialist) ou [CRTP](https://www.alteredsecurity.com/post/certified-red-team-professional-crtp);
 - plusieurs années d'expérience professionnelle en pentest;
 - avoir complété un grand nombre de boxes sur des plateformes de style « black box », comme **HackTheBox** et **Proving Grounds**;
-- un bon classement dans des CTF reconnues, comme le **NorthSec** ou **RingZer0** (par exemple, être dans le top 100 ou avoir plus de 500 points sur RingZer0).
+- un bon classement dans des CTF reconnues, comme le **NorthSec** ou **RingZer0**;
+
+ La liste ci-dessus n'est pas absolue; il y a plein d'autres certifications et d'autres manières qui te permetteront de démontrer ton expertise technique aux yeux des employeurs (et plein d'autres qui ne le démontreront pas...) Assure-toi d'investir ton temps dans les bonnes choses  et de faire un peu de recherche avant de lancer dans un projet d'envergure!
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> Ceux qui ont préalablement obtenu eJPT et/ou CRTP ont généralement beaucoup plus de facilité à aborder l'OSCP. Si tu n'as ni l'une ni l'autre, tu vas devoir travailler d'arrache-pied pour te bâtir une base solide avant de te lancer.
+> D'après mes observations, ceux qui ont préalablement obtenu eJPT et/ou CRTP ont généralement beaucoup plus de facilité à décrocher la formation OSCP auprès de leur employeur. Si tu n'as ni l'une ni l'autre, tu vas devoir travailler d'arrache-pied pour te bâtir une base solide avant de te lancer.
 {.prompt-tip }
 <!-- markdownlint-restore -->
 
@@ -90,6 +96,150 @@ Il faut commencer quelque part, et il est très rare de débuter avec l'une des 
 > Si tu accèdes au cours via un abonnement **LearnOne** (un an d'accès à la plateforme d'OffSec), tu obtiens aussi deux cours plus « légers » : **PEN-100** (KLCP) et **PEN-210** (OSWP). Je te suggère de commencer par PEN-210 : le contenu est du même niveau que PEN-200, mais nettement plus court, et c'est une belle introduction avant de t'attaquer à l'OSCP. J'en parle en détail dans mon billet sur l'[OSWP](/fr/post/2025-05-26-oswp/).
 {.prompt-info }
 <!-- markdownlint-restore -->
+
+### L'auto-évaluation : es-tu prêt?
+
+Avant d'aller plus loin, prends deux minutes pour faire le point. Cette liste ne teste pas des outils ni des techniques d'attaque : elle teste les réflexes de base sur lesquels tout le reste du PEN-200 va s'appuyer. Si plusieurs cases restent vides, ce n'est pas un échec, c'est simplement le signe que ton temps et ton argent seront mieux investis ailleurs pour quelques mois.
+
+- [ ] je me déplace dans un système de fichiers Linux et je gère les permissions sans rechercher la syntaxe à chaque fois;
+- [ ] je comprends ce qu'est une adresse IP privée, un port et un pare-feu, et comment les trois interagissent;
+- [ ] je peux lire un script Python ou Bash écrit par quelqu'un d'autre et expliquer ce qu'il fait;
+- [ ] je sais interpréter le résultat d'un balayage de ports et décider quoi examiner en premier;
+- [ ] je fais la différence entre une session ordinaire et une session privilégiée (root, SYSTEM, administrateur de domaine);
+- [ ] j'ai déjà monté, configuré et brisé une machine virtuelle sans paniquer;
+- [ ] je cherche une réponse dans la documentation ou dans le code avant de chercher un tutoriel;
+- [ ] je prends des notes qu'une autre personne pourrait suivre sans moi;
+- [ ] je suis capable de rester bloqué plusieurs heures sur un problème sans abandonner.
+
+### Les fondamentaux - mini-quiz
+
+Si la liste ci-dessus est cochée au complet, voici douze questions pour le vérifier. Elles ne couvrent pas la matière du PEN-200 : elles couvrent ce que le cours tient pour acquis dès le premier module. Réponds sans rien chercher sur Internet, c'est tout l'intérêt de l'exercice.
+
+**1.** Tu trouves `-rwsr-xr-x 1 root root /usr/local/bin/backup`. Que t'indique le `s`?
+
+- le fichier est un lien symbolique;
+- le fichier s'exécute avec les privilèges de son propriétaire;
+- le fichier est écrit sur le disque à chaque modification;
+- seul root peut lire le fichier;
+- le fichier ne peut pas être supprimé par un autre utilisateur.
+
+**2.** Sur une distribution Linux moderne, quelle commande liste les ports TCP en écoute **avec** le processus qui les détient?
+
+- `ifconfig -a`;
+- `route -n`;
+- `ss -tlnp`;
+- `top -p tcp`;
+- `ls -la /proc/net`.
+
+**3.** `sudo -l` te répond `(ALL) NOPASSWD: /usr/bin/find`. Pourquoi est-ce que la partie est terminée?
+
+- parce que `find` peut lire `/etc/shadow` directement;
+- parce que `find` peut lancer une commande avec `-exec`, ce qui donne un shell root;
+- parce que ça prouve que le fichier sudoers est modifiable par tout le monde;
+- parce que ça permet de remplacer `/usr/bin/find` par son propre binaire;
+- elle ne l'est pas : `find` ne fait que lire des fichiers.
+
+**4.** Un *reverse shell* fonctionne parce que :
+
+- tu te connectes à un port que la cible a ouvert pour toi;
+- la cible se connecte vers un écouteur que tu contrôles;
+- la cible et ta machine négocient une session partagée en UDP;
+- le shell transite par la passerelle par défaut de la cible;
+- le pare-feu de la cible est désactivé.
+
+**5.** Tu balayes un hôte Windows et le port `5985/tcp` est ouvert. Qu'est-ce que ça t'offre?
+
+- un partage SMB à énumérer;
+- un annuaire LDAP interrogeable anonymement;
+- un point d'accès WinRM, donc un shell distant si tu as des identifiants valides;
+- une session RDP;
+- une instance MSSQL.
+
+**6.** À partir de `https://cible/view?file=rapport.pdf`, tu essaies `file=../../../../etc/passwd` et le fichier s'affiche. De quoi s'agit-il?
+
+- d'une injection SQL;
+- d'un *cross-site scripting*;
+- d'une traversée de répertoires (*path traversal*, ou LFI);
+- d'une falsification de requête côté serveur (SSRF);
+- d'une falsification de requête côté client (CSRF).
+
+**7.** Qu'est-ce que le *Kerberoasting*, en une phrase?
+
+- forcer par dictionnaire le contrôleur de domaine à travers le réseau;
+- demander un ticket de service pour un compte doté d'un SPN, puis le casser hors ligne;
+- extraire des identifiants de la mémoire du processus LSASS;
+- relayer une authentification NTLM vers LDAP;
+- forger un TGT à partir du secret du compte krbtgt.
+
+**8.** Tu as l'empreinte NTLM d'un utilisateur, mais pas son mot de passe. Qu'est-ce qui est réaliste?
+
+- rien : l'empreinte est inutile tant qu'elle n'est pas cassée;
+- t'authentifier directement sur SMB avec l'empreinte (*pass-the-hash*);
+- déchiffrer l'empreinte avec la clé publique du domaine;
+- la saisir telle quelle dans une fenêtre de connexion RDP standard;
+- l'envoyer au KDC comme horodatage de pré-authentification Kerberos.
+
+**9.** Tu compromets un hôte qui possède une seconde carte réseau sur `172.16.50.0/24`, injoignable depuis ta machine. Quelle est la suite?
+
+- relancer le balayage depuis ta machine avec `--source-port 445`;
+- monter un proxy SOCKS ou une redirection de port à travers l'hôte compromis;
+- ajouter `172.16.50.0/24` à ta table de routage locale;
+- usurper l'adresse MAC de la seconde interface;
+- demander un accès VPN vers ce segment.
+
+**10.** Un balayage `nmap` par défaut ne donne rien d'intéressant. Que fais-tu?
+
+- tu conclus que l'hôte est hors périmètre;
+- tu relances exactement le même balayage pour en être certain;
+- tu balayes les 65535 ports, tu ajoutes la détection de version et tu vérifies l'UDP;
+- tu passes à la machine suivante et tu y reviendras plus tard;
+- tu lances un scanneur de vulnérabilités et tu attends le rapport.
+
+**11.** Un exploit public échoue avec `SyntaxError` sur la ligne `print "shell"`. La correction minimale, c'est :
+
+- recompiler l'exploit avec `gcc`;
+- l'exécuter avec Python 2, ou convertir les `print` en appels de fonction;
+- changer la version de Python installée sur la cible;
+- ajouter un en-tête `#!/usr/bin/env python3` et relancer;
+- chercher un autre exploit, celui-là est brisé.
+
+**12.** Tu obtiens `root` sur une machine d'examen à 3 h du matin, tu récupères le drapeau et tu vas dormir. Tes notes contiennent le drapeau, mais pas la commande qui t'y a mené. Qu'est-ce qui arrive?
+
+- rien, le drapeau est la preuve;
+- tu perds les points : une trouvaille doit être reproductible à partir du rapport;
+- tu obtiens des points partiels pour le drapeau;
+- tu peux envoyer les étapes à OffSec après coup;
+- les journaux du laboratoire servent à reconstituer tes étapes.
+
+#### Le corrigé
+
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+> Les réponses sont masquées : clique dessus pour les révéler.
+{.prompt-tip }
+<!-- markdownlint-restore -->
+
+1. ||Le fichier s'exécute avec les privilèges de son propriétaire.|| Le bit SUID est le vecteur d'élévation de privilèges le plus courant sous Linux.
+2. ||ss -tlnp|| `netstat` a disparu des distributions modernes, et de l'énumération locale, tu vas en faire sur chaque machine.
+3. ||find peut lancer une commande avec -exec, ce qui donne un shell root.|| Les réflexes GTFOBins sont tenus pour acquis dès le départ.
+4. ||La cible se connecte vers un écouteur que tu contrôles.|| Mal comprendre ça rend insoluble chaque problème de pare-feu que tu vas rencontrer.
+5. ||Un point d'accès WinRM, donc un shell distant avec des identifiants valides.|| L'accès Windows après la récupération d'identifiants est au coeur de la portion Active Directory.
+6. ||Une traversée de répertoires, ou LFI.|| C'est le point d'entrée web le plus fréquent sur les boxes de Proving Grounds.
+7. ||Demander un ticket de service pour un compte doté d'un SPN, puis le casser hors ligne.|| Active Directory est maintenant obligatoire à l'examen, ce n'est plus une portion que tu peux éviter.
+8. ||T'authentifier directement sur SMB avec l'empreinte.|| Une empreinte est un identifiant à part entière; l'ignorer, c'est perdre des heures à vouloir la casser.
+9. ||Monter un proxy SOCKS ou une redirection de port à travers l'hôte compromis.|| Le pivot est l'endroit où la majorité des premières tentatives calent.
+10. ||Balayer les 65535 ports, ajouter la détection de version et vérifier l'UDP.|| « Je n'ai rien trouvé » veut presque toujours dire « je n'ai pas assez énuméré ».
+11. ||L'exécuter avec Python 2, ou convertir les print en appels de fonction.|| Les exploits publics fonctionnent rarement sans retouche, et c'est exactement ce que le cours va te demander de faire.
+12. ||Tu perds les points.|| Le rapport est le livrable, pas le shell : sans étapes reproductibles, la compromission n'existe pas.
+
+#### Ton résultat
+
+| Score | Ce que ça veut dire |
+|:---|:---|
+| **11 à 12** | Tes fondations sont là. Ce qui te manque, c'est du volume : va accumuler des boxes sur Proving Grounds et compléter la liste de TJ Null. |
+| **8 à 10** | Tu survivrais au PEN-200, mais tu apprendrais les bases sur la plateforme la plus chère du marché. Deux ou trois mois sur HackTheBox avant de commencer vont te faire économiser bien du temps et de l'argent. |
+| **5 à 7** | Pas encore. eJPT ou CPTS vont combler cet écart beaucoup plus efficacement, et pour une fraction du prix. |
+| **0 à 4** | Beaucoup trop tôt. Monte-toi un laboratoire, apprends Linux et les réseaux comme il faut, et reviens dans un an. Il n'y a aucune honte là-dedans : tout le monde a commencé là. |
 
 ## Le cours PEN-200 : par où commencer 📚
 
