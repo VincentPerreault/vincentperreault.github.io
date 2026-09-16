@@ -10,6 +10,7 @@ export { back2top } from './components/back-to-top';
 export { loadTooptip } from './components/tooltip-loader';
 export { initSpoilers } from './components/spoiler';
 export { initTextFx } from './components/text-fx';
+export { initChecklists } from './components/checklist';
 export { initGrooveRadar } from './components/groove-radar';
 export { initGrooveRadarPlayground } from './components/groove-radar-playground';
 export { initHomeRadar } from './components/home-radar';

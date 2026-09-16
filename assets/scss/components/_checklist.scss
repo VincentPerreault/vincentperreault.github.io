@@ -1,0 +1,124 @@
+@use '../abstracts/variables' as v;
+
+/*
+ * Interactive self-assessment checklists (see checklist.js).
+ *
+ * The card reuses the same tokens as the code-block chrome -- `--card-bg`
+ * body, `--card-header-bg` strip, `--main-border-color` edge and the 10px
+ * `$radius-lg` -- so it reads as part of the theme rather than a bolted-on
+ * widget. The tick colours are the theme's own `--checkbox-*` variables.
+ *
+ * Everything that has to beat `base/_base.scss` is nested under
+ * `.checklist-card`: the theme's `.content ul.task-list li > i` is (0,2,3),
+ * so a flat `.checklist-card li.task-list-item` would quietly lose.
+ */
+
+.checklist-card {
+  /* Dark ties the tick colour to the link accent (`_dark.scss`), light
+     hardcodes a Chirpy blue. Re-point it at the accent for the whole card so
+     the ticks and the progress bar match the site in both modes. */
+  --checkbox-checked-color: var(--link-color);
+
+  margin: 1.5rem 0;
+  border: 1px solid var(--main-border-color);
+  border-radius: v.$radius-lg;
+  background-color: var(--card-bg);
+  overflow: hidden; /* keeps the header strip inside the rounded corners */
+
+  .checklist-body > ul.task-list {
+    /* the card supplies the padding; the theme's list indent would push the
+       icons in a second time */
+    margin: 0;
+    padding-inline-start: 0;
+  }
+
+  ul.task-list li.task-list-item {
+    /* A flex row is what fixes the wrapped-line alignment: as a list-item the
+       icon only offsets the FIRST line, so every continuation line fell back
+       under the icon. Here the label is its own column and wraps inside it,
+       and `center` keeps the tick opposite the middle of a wrapped label
+       rather than pinned to its first line. */
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+
+    cursor: pointer;
+    /* full-bleed rows: the padding lives here rather than on the body, so the
+       separators below run edge to edge like table rows */
+    padding: 0.7rem 1rem;
+    margin: 0;
+    border-radius: 0;
+    transition: background-color 0.1s ease-out;
+
+    + li.task-list-item {
+      border-top: 1px solid var(--main-border-color);
+    }
+
+    > i {
+      /* undo the gutter hang: the icon is a flex column now, not an inline
+         box pulled into the list's padding */
+      flex: 0 0 auto;
+      width: auto;
+      margin-left: 0;
+    }
+
+    &:hover {
+      background-color: rgba(125, 125, 135, 0.14);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--checkbox-checked-color);
+      outline-offset: 1px;
+    }
+
+    /* the icon carries the state via --checkbox-checked-color; the label just
+       steps back a little so a finished list is scannable */
+    &.is-checked {
+      color: var(--text-muted-color);
+    }
+  }
+}
+
+.checklist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 1rem;
+
+  /* `--card-header-bg` is only defined by the dark theme, so light mode needs
+     the fallback or the strip renders transparent */
+  background-color: var(--card-header-bg, #f7f7f7);
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+}
+
+.checklist-count {
+  font-variant-numeric: tabular-nums; /* the counter must not jitter */
+}
+
+/* progress strip sitting between the header and the items */
+.checklist-bar {
+  height: 2px;
+  background-color: var(--main-border-color);
+}
+
+.checklist-fill {
+  height: 100%;
+  width: 0;
+  background-color: var(--checkbox-checked-color);
+  transition: width 0.15s ease-out;
+}
+
+.checklist-body {
+  /* no padding: each row supplies its own, so the row separators and the
+     hover highlight reach both edges of the card */
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checklist-fill,
+  .checklist-card ul.task-list li.task-list-item {
+    transition: none;
+  }
+}

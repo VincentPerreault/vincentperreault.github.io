@@ -122,7 +122,10 @@ $sidebar-display: 'sidebar-display'; /* the attribute for sidebar display */
     color: var(--site-subtitle-color);
     margin-top: 0.25rem;
     word-spacing: 1px;
-    height: 3rem; /* reserve the space up front: no vertical flicker on load */
+    /* Reserve the space up front so the sidebar does not jump while the web
+       font loads. `min-height`, not `height`: a three-line tagline (the FR
+       one is) overflows a fixed 3rem and collides with the nav below. */
+    min-height: 3rem;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

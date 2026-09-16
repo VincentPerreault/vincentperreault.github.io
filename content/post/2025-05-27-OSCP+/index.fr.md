@@ -46,74 +46,34 @@ Il faut toutefois prendre note que la certification OSCP t'apportera davantage d
 
 Ceci étant dit, comme on dit, l'exception fait la règle : OSCP peut t'apporter une certaine valeur profesionnelle, particulièrement sur ton approche face à un problème, ta prise de notes et tes aptitudes de _troubleshooting_, et qui n'est pas forcément en lien avec un rôle en sécurité offensive. C'est notamment le cas pour ces deux personnes qui l'ont réussi ayant comme profession [dentiste](https://www.reddit.com/r/oscp/comments/rs38pm/a_different_kind_of_root_how_a_dentist_passed_the/) et [chirurgien bucale](https://www.reddit.com/r/oscp/comments/1f15xo1/oscp_on_the_first_attempt_by_an_oral_surgeon_my/). 
 
-Ultimement, tu es le seul à savoir si ce cours correspond à ce que tu souhaite faire plus tard dans ta carrière. Si c'est simplement pour dire à tes chums de brosse que tu es un ∼≈⋒"1337 h4x0r"⋒≈∼, OSCP sera probablement _overkill_ pour tes besoins. Parlant d'être _overkill_...
+Ultimement, tu es le seul à savoir si ce cours correspond à ce que tu souhaite faire plus tard dans ta carrière. Si c'est simplement pour dire à tes chums de brosse que tu es un "∼≈⋒1337 h4x0r⋒≈∼", OSCP sera probablement _overkill_ pour tes besoins.
 
 ## Avant de te lancer : les prérequis 🧗
 
-L'OSCP est reconnue à l'international pour son « haut niveau » de difficulté, notamment parce qu'elle est l'une des seules certifications pratiques liées aux tests d'intrusion à être sur le marché depuis près de 20 ans (2006). Ce n'est pas la certification la plus difficile qui existe en pentest, bien au contraire, mais elle n'est pas facile pour autant. Il faut donc s'assurer d'avoir un bagage de compétences suffisant avant de s'y lancer.
+Parlant d'être _overkill_, OSCP est reconnue à l'international pour son « haut niveau » de difficulté, notamment parce qu'elle est l'une des seules certifications pratiques liées aux tests d'intrusion à être sur le marché depuis près de 20 ans (2006). Ce n'est pas la certification la plus difficile qui existe en pentest, bien au contraire, mais elle n'est pas facile pour autant. Il faut donc s'assurer d'avoir un bagage de compétences suffisant avant de s'y lancer.
 
-### Les compétences de base
+### Autoévaluation sur les fondamentaux
 
-Avant de commencer, tu devrais déjà être à l'aise avec les fondamentaux entourant les vulnérabilités et leur analyse :
+Ce n'est pas évident de faire une autoévaluation de ses propres compétences, et encore moins via le biais d'un simple blog. La checklist suivante n'est un indicateur absolu pour déterminer si tu as les fondamentaux pour bien comprendre le contenue du cours PEN-200, sans pour autant valider pour la mille et unième fois qu'est-ce que le CIA... Plutôt, il devrait être vue comme un guide à prendre avec un grain de sel, et de fournir des pistes de recherche potentielles si jamais il y a des lacunes.
 
-- être capable d'expliquer une vulnérabilité à un public non technique, de manière autonome;
-- être capable de contextualiser les vulnérabilités et d'offrir des recommandations pertinentes;
-- être capable de synthétiser les menaces en fonction des vulnérabilités et des chaînes d'attaque;
-- être capable d'évaluer l'impact réel d'une vulnérabilité ou d'une chaîne d'attaque.
+La _checklist_ ci-dessous n'a pas pour but de tester tes connaissances sur des outils ni des techniques d'attaque : elle vient tester les réflexes de base sur lesquels tout le reste du cours PEN-200 va s'appuyer. Si plusieurs cases restent vides, ce n'est pas un échec; ce n'est qu'un signe que ton temps et ton argent seront mieux investis ailleurs pour l'instant et d'y revenir ultérieurement.
 
-Ces compétences se développent avec l'expérience, et il n'y a pas de raccourci : c'est en travaillant régulièrement avec des vulnérabilités que tu vas les acquérir. Le temps requis varie beaucoup d'une personne à l'autre selon ton bagage professionnel et personnel.
-
-### L'expérience technique : la vraie barrière
-
-Une fois les compétences de base acquises, on arrive au prérequis le plus exigeant et à la plus grande barrière à l'entrée : l'expérience technique.
-
-Personne ne devrait se lancer dans l'OSCP sans plusieurs préalables techniques, et c'est l'une des étapes les plus difficiles à franchir. Il faut être honnête avec toi-même : as-tu assez d'expertise pratique pour consacrer le temps nécessaire et avoir une chance raisonnable de réussir l'examen? Deux gros bloquants pour tout le monde :
-
-- **Le coût.** Le cours coûte désormais près de 4'000 $ CAD.
-- **Le temps.** C'est un engagement d'au minimum **300 heures** de ton temps pour passer à travers le contenu, compléter les laboratoires, les *Challenge Labs*, les « boxes » suggérées dans la *TJ Null List*, ainsi que plusieurs dizaines de boxes supplémentaires sur *Proving Grounds*. Dans bien des cas, ça peut prendre 500 heures, voire au-delà de 700 heures, pour tout compléter et être suffisamment à l'aise pour l'examen. Le tout, dans un délai de moins de 365 jours.
-
-### Comment démontrer (et bâtir) ta préparation
-
-Il y a plusieurs manières de développer et de prouver ton expertise technique avant de te lancer. En voici quelques-unes qui sont largement reconnues :
-
-- **Fortement recommandé :** obtenir des certifications abordables et pratiques en sécurité offensive, comme [eJPT](https://ine.com/security/certifications/ejpt-certification), [CPTS](https://academy.hackthebox.com/preview/certifications/htb-certified-penetration-testing-specialist) ou [CRTP](https://www.alteredsecurity.com/post/certified-red-team-professional-crtp);
-- plusieurs années d'expérience professionnelle en pentest;
-- avoir complété un grand nombre de boxes sur des plateformes de style « black box », comme **HackTheBox** et **Proving Grounds**;
-- un bon classement dans des CTF reconnues, comme le **NorthSec** ou **RingZer0**;
-
- La liste ci-dessus n'est pas absolue; il y a plein d'autres certifications et d'autres manières qui te permetteront de démontrer ton expertise technique aux yeux des employeurs (et plein d'autres qui ne le démontreront pas...) Assure-toi d'investir ton temps dans les bonnes choses  et de faire un peu de recherche avant de lancer dans un projet d'envergure!
-
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-> D'après mes observations, ceux qui ont préalablement obtenu eJPT et/ou CRTP ont généralement beaucoup plus de facilité à décrocher la formation OSCP auprès de leur employeur. Si tu n'as ni l'une ni l'autre, tu vas devoir travailler d'arrache-pied pour te bâtir une base solide avant de te lancer.
-{.prompt-tip }
-<!-- markdownlint-restore -->
-
-Il faut commencer quelque part, et il est très rare de débuter avec l'une des certifications reconnues pour être parmi les plus difficiles. Prends le temps de bâtir tes fondations : tu t'éviteras bien des frustrations une fois l'aventure commencée.
-
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-> Si tu accèdes au cours via un abonnement **LearnOne** (un an d'accès à la plateforme d'OffSec), tu obtiens aussi deux cours plus « légers » : **PEN-100** (KLCP) et **PEN-210** (OSWP). Je te suggère de commencer par PEN-210 : le contenu est du même niveau que PEN-200, mais nettement plus court, et c'est une belle introduction avant de t'attaquer à l'OSCP. J'en parle en détail dans mon billet sur l'[OSWP](/fr/post/2025-05-26-oswp/).
-{.prompt-info }
-<!-- markdownlint-restore -->
-
-### L'auto-évaluation : es-tu prêt?
-
-Avant d'aller plus loin, prends deux minutes pour faire le point. Cette liste ne teste pas des outils ni des techniques d'attaque : elle teste les réflexes de base sur lesquels tout le reste du PEN-200 va s'appuyer. Si plusieurs cases restent vides, ce n'est pas un échec, c'est simplement le signe que ton temps et ton argent seront mieux investis ailleurs pour quelques mois.
-
-- [ ] je me déplace dans un système de fichiers Linux et je gère les permissions sans rechercher la syntaxe à chaque fois;
+- [ ] je suis à l'aise à me déplacer dans un système de fichiers Linux ou Windows en ligne de commande, sans rechercher la syntaxe à chaque fois;
 - [ ] je comprends ce qu'est une adresse IP privée, un port et un pare-feu, et comment les trois interagissent;
-- [ ] je peux lire un script Python ou Bash écrit par quelqu'un d'autre et expliquer ce qu'il fait;
+- [ ] je peux lire un script Python, Bash, Batch et Powershell écrit par quelqu'un d'autre et expliquer sommairement ce qu'il fait;
 - [ ] je sais interpréter le résultat d'un balayage de ports et décider quoi examiner en premier;
-- [ ] je fais la différence entre une session ordinaire et une session privilégiée (root, SYSTEM, administrateur de domaine);
-- [ ] j'ai déjà monté, configuré et brisé une machine virtuelle sans paniquer;
-- [ ] je cherche une réponse dans la documentation ou dans le code avant de chercher un tutoriel;
+- [ ] je fais la différence entre une session ordinaire et une session privilégiée (root, NT Authority/SYSTEM, domain admin, >, $, #);
+- [ ] j'ai déjà monté, configuré et "cassé" une machine virtuelle sans paniquer;
+- [ ] je cherche une réponse dans la documentation ou dans le code avant de chercher de l'aide;
 - [ ] je prends des notes qu'une autre personne pourrait suivre sans moi;
-- [ ] je suis capable de rester bloqué plusieurs heures sur un problème sans abandonner.
+- [ ] je suis capable de rester bloqué quelques heures sur un problème sans abandonner;
+- [ ] je suis capable de garder un secret;
 
-### Les fondamentaux - mini-quiz
+Si tu fais déjà des CTF, tu devrais avoir plusieurs, voir toutes ces cases cochés, ce qui signifie que tu as déjà les connaissances et réflexes pour aller un peu plus loin en sécurité offensive.
 
-Si la liste ci-dessus est cochée au complet, voici douze questions pour le vérifier. Elles ne couvrent pas la matière du PEN-200 : elles couvrent ce que le cours tient pour acquis dès le premier module. Réponds sans rien chercher sur Internet, c'est tout l'intérêt de l'exercice.
+### Mini-quiz
+
+Maintenant, laisson place à quelque chose d'un peu plus technique. Voici douze questions pour tester ton expertise technique. Quoiqu'elles couvrent d'une certaine manière la matière du PEN-200, les questions couvrent ce que le cours tient pour acquis dès les premiers modules. Les questions sont peut-être plus difficile que nécessaire pour tester ton expertise technique, mais essaie de répondre sans rien chercher sur Internet, juste du par coeur.
 
 **1.** Tu trouves `-rwsr-xr-x 1 root root /usr/local/bin/backup`. Que t'indique le `s`?
 
@@ -155,13 +115,13 @@ Si la liste ci-dessus est cochée au complet, voici douze questions pour le vér
 - une session RDP;
 - une instance MSSQL.
 
-**6.** À partir de `https://cible/view?file=rapport.pdf`, tu essaies `file=../../../../etc/passwd` et le fichier s'affiche. De quoi s'agit-il?
+**6.** À partir de `https://target/view?file=FinancialReportQ2.pdf`, tu essaies `file=../../../../etc/passwd` et le fichier s'affiche. De quoi s'agit-il?
 
-- d'une injection SQL;
-- d'un *cross-site scripting*;
-- d'une traversée de répertoires (*path traversal*, ou LFI);
-- d'une falsification de requête côté serveur (SSRF);
-- d'une falsification de requête côté client (CSRF).
+- d'un SQLi;
+- d'un XSS;
+- d'un _path traversal_, ou LFI;
+- d'un SSRF;
+- d'un CSRF.
 
 **7.** Qu'est-ce que le *Kerberoasting*, en une phrase?
 
@@ -203,7 +163,7 @@ Si la liste ci-dessus est cochée au complet, voici douze questions pour le vér
 - ajouter un en-tête `#!/usr/bin/env python3` et relancer;
 - chercher un autre exploit, celui-là est brisé.
 
-**12.** Tu obtiens `root` sur une machine d'examen à 3 h du matin, tu récupères le drapeau et tu vas dormir. Tes notes contiennent le drapeau, mais pas la commande qui t'y a mené. Qu'est-ce qui arrive?
+**12.** Tu obtiens `root` sur une machine d'examen à 3 h du matin, tu récupères le drapeau et tu vas te coucher. Tes notes contiennent le drapeau, mais pas la commande qui t'y a mené. Qu'est-ce qui arrive?
 
 - rien, le drapeau est la preuve;
 - tu perds les points : une trouvaille doit être reproductible à partir du rapport;
@@ -240,6 +200,40 @@ Si la liste ci-dessus est cochée au complet, voici douze questions pour le vér
 | **8 à 10** | Tu survivrais au PEN-200, mais tu apprendrais les bases sur la plateforme la plus chère du marché. Deux ou trois mois sur HackTheBox avant de commencer vont te faire économiser bien du temps et de l'argent. |
 | **5 à 7** | Pas encore. eJPT ou CPTS vont combler cet écart beaucoup plus efficacement, et pour une fraction du prix. |
 | **0 à 4** | Beaucoup trop tôt. Monte-toi un laboratoire, apprends Linux et les réseaux comme il faut, et reviens dans un an. Il n'y a aucune honte là-dedans : tout le monde a commencé là. |
+
+### L'expérience technique : la vraie barrière
+
+Une fois les compétences de base acquises, on arrive au prérequis le plus exigeant et à la plus grande barrière à l'entrée : l'expérience technique.
+
+Personne ne devrait se lancer dans l'OSCP sans plusieurs préalables techniques, et c'est l'une des étapes les plus difficiles à franchir. Il faut être honnête avec toi-même : as-tu assez d'expertise pratique pour consacrer le temps nécessaire et avoir une chance raisonnable de réussir l'examen? Deux gros bloquants pour tout le monde :
+
+- **Le coût.** Le cours coûte désormais près de 4'000 $ CAD.
+- **Le temps.** C'est un engagement d'au minimum **300 heures** de ton temps pour passer à travers le contenu, compléter les laboratoires, les *Challenge Labs*, les « boxes » suggérées dans la *TJ Null List*, ainsi que plusieurs dizaines de boxes supplémentaires sur *Proving Grounds*. Dans bien des cas, ça peut prendre 500 heures, voire au-delà de 700 heures, pour tout compléter et être suffisamment à l'aise pour l'examen. Le tout, dans un délai de moins de 365 jours.
+
+### Comment démontrer (et bâtir) ta préparation
+
+Il y a plusieurs manières de développer et de prouver ton expertise technique avant de te lancer. En voici quelques-unes qui sont largement reconnues :
+
+- **Fortement recommandé :** obtenir des certifications abordables et pratiques en sécurité offensive, comme [eJPT](https://ine.com/security/certifications/ejpt-certification), [CPTS](https://academy.hackthebox.com/preview/certifications/htb-certified-penetration-testing-specialist) ou [CRTP](https://www.alteredsecurity.com/post/certified-red-team-professional-crtp);
+- plusieurs années d'expérience professionnelle en pentest;
+- avoir complété un grand nombre de boxes sur des plateformes de style « black box », comme **HackTheBox** et **Proving Grounds**;
+- un bon classement dans des CTF reconnues, comme le **NorthSec** ou **RingZer0**;
+
+ La liste ci-dessus n'est pas absolue; il y a plein d'autres certifications et d'autres manières qui te permetteront de démontrer ton expertise technique aux yeux des employeurs (et plein d'autres qui ne le démontreront pas...) Assure-toi d'investir ton temps dans les bonnes choses  et de faire un peu de recherche avant de lancer dans un projet d'envergure!
+
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+> D'après mes observations, ceux qui ont préalablement obtenu eJPT et/ou CRTP ont généralement beaucoup plus de facilité à décrocher la formation OSCP auprès de leur employeur. Si tu n'as ni l'une ni l'autre, tu vas devoir travailler d'arrache-pied pour te bâtir une base solide avant de te lancer.
+{.prompt-tip }
+<!-- markdownlint-restore -->
+
+Il faut commencer quelque part, et il est très rare de débuter avec l'une des certifications reconnues pour être parmi les plus difficiles. Prends le temps de bâtir tes fondations : tu t'éviteras bien des frustrations une fois l'aventure commencée.
+
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+> Si tu accèdes au cours via un abonnement **LearnOne** (un an d'accès à la plateforme d'OffSec), tu obtiens aussi deux cours plus « légers » : **PEN-100** (KLCP) et **PEN-210** (OSWP). Je te suggère de commencer par PEN-210 : le contenu est du même niveau que PEN-200, mais nettement plus court, et c'est une belle introduction avant de t'attaquer à l'OSCP. J'en parle en détail dans mon billet sur l'[OSWP](/fr/post/2025-05-26-oswp/).
+{.prompt-info }
+<!-- markdownlint-restore -->
 
 ## Le cours PEN-200 : par où commencer 📚
 

@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "hugo-server",
+      "name": "hugo-test-server",
       "runtimeExecutable": "hugo",
       "runtimeArgs": ["server", "-D", "--port", "1315"],
       "port": 1315,

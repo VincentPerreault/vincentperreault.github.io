@@ -1,0 +1,22 @@
+/*
+ * Code block corners.
+ *
+ * `base/_syntax.scss` rounds `.code-block` (`%rounded`, plus a 1px
+ * `box-shadow` standing in for a border) and then zeroes only the TOP radii
+ * of the `.highlight` inside it, on the assumption that something else gives
+ * that child its bottom radii. Nothing does -- and because `.code-block` is
+ * `overflow: visible`, the child's square, opaque background paints straight
+ * over the parent's rounded bottom corners, leaving a notch where the border
+ * curves away from the fill.
+ *
+ * Clipping the parent fixes it at every breakpoint: `.code-block` drops its
+ * radius on narrow screens to go full-bleed, so hardcoding bottom radii on
+ * the child would reintroduce the mismatch there, inverted. An element's own
+ * box-shadow is not clipped by its overflow, so the border is untouched.
+ *
+ * `base` is compiled before `components`, so this wins on equal specificity.
+ */
+
+.code-block {
+  overflow: hidden;
+}
