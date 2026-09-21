@@ -3,6 +3,11 @@
 /* breathing room between the topbar and a pinned card header */
 $pin-gap: 0.4rem;
 
+/* How far the pinned header's page-coloured fill reaches. Must clear both the
+   corner radius and the gap; the offset cancels it downward so it never
+   bleeds onto the body below. */
+$pin-fill: 12px;
+
 /*
  * Collapsible card shared by the checklist and the quiz shortcodes.
  *
@@ -215,38 +220,21 @@ details[open] > .fold-head {
   border-top-left-radius: v.$radius-lg;
   border-top-right-radius: v.$radius-lg;
 
-  /* The gap sits INSIDE the card, so body content would show through it
-     while scrolling. Mask it in the page colour across the full border-box,
-     stopping 1px short so the header's own top border survives. */
-  &::before {
-    content: '';
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    bottom: calc(100% + 1px);
-    height: $pin-gap;
-    background-color: var(--main-bg);
-  }
-
-  /* The header's border and the card's sit exactly on top of each other --
-     except across the top corners, where the header's curves inward and
-     leaves the card's straight border behind it exposed as a short stub.
-     Cover just that arc: two 1px columns, one radius tall, stopping 1px
-     short so the header's own border is untouched where it returns. */
-  &::after {
-    content: '';
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    top: -1px;
-    height: v.$radius-lg - 1px;
-    pointer-events: none;
-    background:
-      linear-gradient(var(--main-bg), var(--main-bg)) left top / 1px 100%
-        no-repeat,
-      linear-gradient(var(--main-bg), var(--main-bg)) right top / 1px 100%
-        no-repeat;
-  }
+  /*
+   * One spread shadow does all the masking an outer shadow can reach, which
+   * is everything OUTSIDE the header's rounded border-box:
+   *
+   *   - the gap above it, where body content would otherwise scroll through
+   *   - the card's side borders beside it, which used to survive as stubs
+   *   - the corner notches -- inside the header's square box but outside its
+   *     curve -- where a scrolled row showed through and read as an artefact
+   *
+   * Offsetting up by exactly the spread pins the shadow's bottom edge to the
+   * header's own, so none of it lands on the body underneath.
+   */
+  box-shadow:
+    0 4px 8px -2px rgba(0, 0, 0, 0.3),
+    0 (-$pin-fill) 0 $pin-fill var(--main-bg);
 }
 
 /*
@@ -277,14 +265,6 @@ html #topbar-wrapper {
      compiles AFTER project components and would otherwise win. */
   background-color: var(--main-bg);
   background-image: linear-gradient(var(--topbar-bg), var(--topbar-bg));
-}
-
-/* The shadow appears only while the header is actually pinned (fold-card.js
-   sets `.is-pinned`), so content sliding underneath reads as layered rather
-   than clipped -- and an unpinned header stays perfectly flat. This is what
-   stops the scroll in and out of the card from looking abrupt. */
-.fold-card.is-pinned > .fold-head {
-  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.3);
 }
 
 details[open] > .fold-head .fold-chevron {
