@@ -92,3 +92,12 @@ categories:
   post_measure:
     singular: post
     plural: posts
+
+# ----- Foldable cards (checklist / quiz shortcodes) -----
+
+fold:
+  toggle: Collapse or expand
+  checklist_reset: Uncheck all
+  checklist_reveal: Check all
+  quiz_reset: Clear my answers
+  quiz_reveal: Show the answers

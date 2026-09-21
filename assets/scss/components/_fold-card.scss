@@ -1,0 +1,324 @@
+@use '../abstracts/variables' as v;
+
+/* breathing room between the topbar and a pinned card header */
+$pin-gap: 0.4rem;
+
+/*
+ * Collapsible card shared by the checklist and the quiz shortcodes.
+ *
+ * Built on a native <details>, so the fold works with the keyboard, is
+ * announced to screen readers and survives JS being off -- the components
+ * only add the interactive parts inside. Folded is the default: a reader who
+ * does not want the exercise scrolls past one header line.
+ *
+ * The header copies the code-block chrome: macOS window buttons on the left
+ * at the theme's own dot size, the label centred, a state chevron on the
+ * right. Unlike the theme's dots (one ::before plus two box-shadows) these
+ * are real buttons, because they act -- see fold-card.js.
+ */
+
+.fold-card {
+  /* Dark ties the tick colour to the link accent (`_dark.scss`), light
+     hardcodes a Chirpy blue. Re-point it at the accent in both modes. */
+  --checkbox-checked-color: var(--link-color);
+
+  margin: 1.5rem 0;
+
+  border: 1px solid var(--main-border-color);
+  border-radius: v.$radius-lg;
+
+  /* The card deliberately has NO background of its own: the body carries it
+     instead. Nothing inside the header can paint behind the header's own
+     background (negative z-index children still sit above it), so the only
+     way for a pinned header's rounded corners to reveal the page colour is
+     for the card not to paint there in the first place. */
+
+  /* `clip`, not `hidden`: both keep the header strip inside the rounded
+     corners, but `hidden` would make the card a scroll container and the
+     sticky header would then stick to the card instead of the viewport.
+     The margin pushes the clip out over the border, which is what lets a
+     pinned header widen by 1px a side and lay its own border exactly on the
+     card's. Where it is unsupported the header is clipped back to the padding
+     box and its border sits just inside the card's, doubling the line. */
+  overflow: clip;
+  overflow-clip-margin: 1px;
+}
+
+.fold-head {
+  /* the containing block for the window buttons, the chevron and the
+     progress strip, which are all absolutely positioned. It has to live on
+     the base rule: the sticky below only applies while the card is open, and
+     without this a folded header would let them escape to a wider ancestor. */
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center; /* the label is centred, like a window title */
+  gap: 0.5rem;
+  min-height: v.$code-header-height;
+
+  /* symmetric room for the buttons and the chevron, so "centred" really is */
+  padding: 0.35rem 4.5rem;
+
+  background-color: var(--card-header-bg, #f7f7f7);
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+
+  /* drop the native disclosure triangle; the chevron below replaces it */
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::marker {
+    content: '';
+  }
+}
+
+/* Carries the card's fill, since the card itself paints nothing (see above).
+   Everything inside is transparent over this. */
+.fold-body {
+  background-color: var(--card-bg);
+}
+
+/* ---- macOS window buttons ------------------------------------------ */
+
+.fold-lights {
+  position: absolute;
+  left: 1rem;
+  display: flex;
+  gap: v.$code-dot-gap;
+}
+
+.fold-light {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: v.$code-dot-size;
+  height: v.$code-dot-size;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--code-header-muted-color);
+  cursor: pointer;
+
+  /* Clean circles at rest, symbols on hover -- the way macOS reveals them
+     when you point at a title bar. At this size an always-on glyph reads as
+     a smudge rather than an icon, and the resting state then matches the
+     code-block dots exactly. */
+  /* Flex, so the glyph is centred as a box rather than sat on a text
+     baseline: as inline text it is 5.4x7.2px of ink in a 12px circle and
+     rides high. `::before` becomes the flex item and lands dead centre. */
+  > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+
+    font-size: 0.45rem;
+    color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+  }
+
+  /* keyboard users get it without a pointer */
+  &:focus-visible > i {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+  }
+}
+
+/* pointing anywhere at the header reveals all three, like a macOS window */
+.fold-head:hover .fold-light > i {
+  opacity: 1;
+}
+
+/* ---- centred label ------------------------------------------------- */
+
+.fold-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0; /* lets the title ellipsize instead of pushing the score out */
+}
+
+.fold-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.fold-meta {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums; /* the counter must not jitter */
+  opacity: 0.85;
+}
+
+.fold-chevron {
+  position: absolute;
+  right: 1rem;
+  font-size: 0.75rem;
+  transition: transform 0.15s ease-out;
+}
+
+/*
+ * Sticky only while the card is open: folded, the header IS the card, so
+ * pinning it would just park a duplicate line under the topbar.
+ *
+ * `top` has to clear the theme's topbar, which is a hide-on-scroll bar: it
+ * pulls up out of view on the way down and slides back on the way up, so no
+ * fixed offset can track it. fold-card.js measures its live bottom edge into
+ * `--fold-sticky-top` on every frame it matters, which also covers the wide
+ * layouts where the topbar simply scrolls away and the offset is 0.
+ *
+ * `position: relative` stays on the base rule above, so a FOLDED header
+ * still gives the buttons, chevron and progress strip a containing block.
+ */
+details[open] > .fold-head {
+  position: sticky;
+
+  /* a little clear of the topbar, so the pinned header reads as the top of a
+     card rather than a strip fused to the bar above it */
+  top: calc(var(--fold-sticky-top, 0px) + #{$pin-gap});
+  z-index: 1;
+}
+
+/*
+ * A pinned header has to look exactly like the card's own top does when it is
+ * not pinned: the 1px edge wrapping round two rounded corners.
+ *
+ * The card's real top has scrolled away by then, so the header draws that
+ * edge itself. It is widened by 1px on each side (allowed by the card's
+ * `overflow-clip-margin`) so its border lands exactly on top of the card's
+ * side borders rather than beside them -- no doubled line, no stub.
+ *
+ * Only while genuinely pinned (`.is-pinned`, set by fold-card.js). On
+ * `details[open]` alone this would also hit an open card sitting at its
+ * natural position, which already has a perfectly good border of its own.
+ */
+.fold-card.is-pinned > .fold-head {
+  margin-left: -1px;
+  margin-right: -1px;
+
+  border: 1px solid var(--main-border-color);
+  border-bottom: 0;
+  border-top-left-radius: v.$radius-lg;
+  border-top-right-radius: v.$radius-lg;
+
+  /* The gap sits INSIDE the card, so body content would show through it
+     while scrolling. Mask it in the page colour across the full border-box,
+     stopping 1px short so the header's own top border survives. */
+  &::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    bottom: calc(100% + 1px);
+    height: $pin-gap;
+    background-color: var(--main-bg);
+  }
+
+  /* The header's border and the card's sit exactly on top of each other --
+     except across the top corners, where the header's curves inward and
+     leaves the card's straight border behind it exposed as a short stub.
+     Cover just that arc: two 1px columns, one radius tall, stopping 1px
+     short so the header's own border is untouched where it returns. */
+  &::after {
+    content: '';
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    height: v.$radius-lg - 1px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--main-bg), var(--main-bg)) left top / 1px 100%
+        no-repeat,
+      linear-gradient(var(--main-bg), var(--main-bg)) right top / 1px 100%
+        no-repeat;
+  }
+}
+
+/*
+ * SITE-WIDE CHANGE: the post title bar now stays put.
+ *
+ * Stock Chirpy lets #topbar-wrapper scroll away with the content, so once you
+ * were a screen into an article there was no title bar left -- and a pinned
+ * card header, correctly parked at offset 0, looked like it had taken over the
+ * top of the page. Sticking the bar is what actually puts a card header
+ * "under the blog title" at every scroll position rather than only near the
+ * top of the page.
+ *
+ * `z-index` beats the card header's 1, so the bar always wins if they meet,
+ * and fold-card.js measures this bar's live bottom edge into
+ * `--fold-sticky-top`, which now simply resolves to its height.
+ */
+html #topbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  /* `--topbar-bg` is only 64% opaque in dark and 70% in light. That never
+     showed while the bar scrolled away, but a sticky bar has the article
+     running underneath it, and the text ghosts straight through. `--main-bg`
+     is that same colour at full alpha in both modes, so painting the tint
+     over it keeps the intended shade and makes the bar solid.
+     The `html` prefix is needed because the theme's `layout/_topbar.scss`
+     compiles AFTER project components and would otherwise win. */
+  background-color: var(--main-bg);
+  background-image: linear-gradient(var(--topbar-bg), var(--topbar-bg));
+}
+
+/* The shadow appears only while the header is actually pinned (fold-card.js
+   sets `.is-pinned`), so content sliding underneath reads as layered rather
+   than clipped -- and an unpinned header stays perfectly flat. This is what
+   stops the scroll in and out of the card from looking abrupt. */
+.fold-card.is-pinned > .fold-head {
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.3);
+}
+
+details[open] > .fold-head .fold-chevron {
+  transform: rotate(90deg);
+}
+
+.fold-head:hover .fold-title,
+.fold-head:hover .fold-chevron {
+  color: var(--link-color);
+}
+
+/* Progress strip pinned to the bottom of the header, so it stays visible
+   while the card is folded -- that is the whole point of showing it. */
+.fold-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--main-border-color);
+}
+
+.fold-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: var(--checkbox-checked-color);
+  transition: width 0.15s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fold-chevron,
+  .fold-fill,
+  .fold-light > i {
+    transition: none;
+  }
+}

@@ -1,0 +1,164 @@
+@use '../abstracts/variables' as v;
+
+/*
+ * Single-choice quiz inside the shared fold card (see _fold-card.scss and
+ * quiz.js). Answering a question locks it, colours the pick, points out the
+ * right answer when the pick was wrong, and reveals the explanation.
+ *
+ * `--quiz-wrong` is the only new colour: the theme has no "incorrect" token,
+ * and the accent teal is already spoken for by the correct answer.
+ */
+
+:root,
+html[data-bs-theme='light'] {
+  --quiz-wrong: #c0392b; /* 5.6:1 on white */
+  --quiz-wrong-bg: rgba(192, 57, 43, 0.09);
+  --quiz-right-bg: rgba(11, 143, 111, 0.1);
+}
+
+html[data-bs-theme='dark'] {
+  --quiz-wrong: #ff7a6b; /* 7.1:1 on the dark card */
+  --quiz-wrong-bg: rgba(255, 122, 107, 0.13);
+  --quiz-right-bg: rgba(68, 198, 164, 0.13);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-bs-theme]) {
+    --quiz-wrong: #ff7a6b;
+    --quiz-wrong-bg: rgba(255, 122, 107, 0.13);
+    --quiz-right-bg: rgba(68, 198, 164, 0.13);
+  }
+}
+
+/* The authored markdown: read once by quiz.js, then never shown. Without JS
+   the card cannot be answered anyway, so there is nothing to fall back to. */
+.quiz-source {
+  display: none;
+}
+
+.quiz-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: quiz;
+}
+
+.quiz-q {
+  padding: 0.8rem 1rem;
+  counter-increment: quiz;
+
+  + .quiz-q {
+    border-top: 1px solid var(--main-border-color);
+  }
+}
+
+.quiz-prompt {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+
+  /* the number is generated, so the markdown holds only the question text */
+  &::before {
+    content: counter(quiz) '.';
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: var(--text-muted-color);
+  }
+
+  > p {
+    margin: 0;
+  }
+}
+
+.quiz-options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: v.$radius-sm;
+  cursor: pointer;
+  transition: background-color 0.1s ease-out;
+
+  > i {
+    flex: 0 0 auto;
+    color: var(--checkbox-color);
+  }
+
+  &:hover {
+    background-color: rgba(125, 125, 135, 0.14);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: -2px;
+  }
+}
+
+/* once answered the question is locked: no more hover affordance anywhere.
+   The reset skips the rows carrying an outcome, or hovering one would wipe
+   its tint. */
+.quiz-q.is-answered .quiz-option {
+  cursor: default;
+
+  &:hover:not(.is-answer):not(.is-wrong) {
+    background-color: transparent;
+  }
+}
+
+/*
+ * The outcome is carried by a tinted row, not by the label's own colour.
+ * Plenty of options are entirely a `<code>` span, which brings its own colour
+ * AND background: a text colour only reached the words around the code, and a
+ * strikethrough cut straight through the code block. A row tint applies to
+ * every option the same way, whatever it contains.
+ */
+
+/* the right answer -- whether the reader picked it or not */
+.quiz-option.is-answer {
+  background-color: var(--quiz-right-bg);
+
+  > i {
+    color: var(--checkbox-checked-color);
+  }
+}
+
+/* the reader's pick, wrong */
+.quiz-option.is-wrong {
+  background-color: var(--quiz-wrong-bg);
+
+  > i {
+    color: var(--quiz-wrong);
+  }
+}
+
+.quiz-explain {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid var(--checkbox-checked-color);
+  border-radius: 0 v.$radius-sm v.$radius-sm 0;
+  background-color: rgba(125, 125, 135, 0.1);
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
+
+  > p {
+    margin: 0;
+  }
+
+  /* wrong answers get the red rule, so the outcome reads at a glance */
+  .quiz-q.is-wrong & {
+    border-left-color: var(--quiz-wrong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-option {
+    transition: none;
+  }
+}

@@ -54,143 +54,156 @@ Parlant d'être _overkill_, OSCP est reconnue à l'international pour son « hau
 
 ### Autoévaluation sur les fondamentaux
 
-Ce n'est pas évident de faire une autoévaluation de ses propres compétences, et encore moins via le biais d'un simple blog. La checklist suivante n'est un indicateur absolu pour déterminer si tu as les fondamentaux pour bien comprendre le contenue du cours PEN-200, sans pour autant valider pour la mille et unième fois qu'est-ce que le CIA... Plutôt, il devrait être vue comme un guide à prendre avec un grain de sel, et de fournir des pistes de recherche potentielles si jamais il y a des lacunes.
+Ce n'est pas évident de faire une autoévaluation de ses propres compétences, et encore moins via le biais d'un simple blog. La checklist suivante n'est pas un indicateur absolu pour déterminer si tu as les fondamentaux pour bien comprendre le contenue du cours PEN-200, sans pour autant valider pour la mille et unième fois c'est quoi le CIA en cybersécurité... Plutôt, il devrait être vue comme un guide à prendre avec un grain de sel, et de fournir des pistes de recherche potentielles si jamais il y a des lacunes.
 
-La _checklist_ ci-dessous n'a pas pour but de tester tes connaissances sur des outils ni des techniques d'attaque : elle vient tester les réflexes de base sur lesquels tout le reste du cours PEN-200 va s'appuyer. Si plusieurs cases restent vides, ce n'est pas un échec; ce n'est qu'un signe que ton temps et ton argent seront mieux investis ailleurs pour l'instant et d'y revenir ultérieurement.
+La _checklist_ ci-dessous n'a pas pour but de tester tes connaissances sur des outils ni des techniques d'attaque : elle vient tester les réflexes de base sur lesquels tout le reste du cours PEN-200 va s'appuyer, et c'est pour ça que la formulation de certaines questions permet des réponses plus flexibles. Si plusieurs cases restent vides, ce n'est pas un échec : ce n'est qu'un signe que ton temps et ton argent seront mieux investis ailleurs pour l'instant et d'y revenir plus tard.
 
-- [ ] je suis à l'aise à me déplacer dans un système de fichiers Linux ou Windows en ligne de commande, sans rechercher la syntaxe à chaque fois;
-- [ ] je comprends ce qu'est une adresse IP privée, un port et un pare-feu, et comment les trois interagissent;
-- [ ] je peux lire un script Python, Bash, Batch et Powershell écrit par quelqu'un d'autre et expliquer sommairement ce qu'il fait;
-- [ ] je sais interpréter le résultat d'un balayage de ports et décider quoi examiner en premier;
-- [ ] je fais la différence entre une session ordinaire et une session privilégiée (root, NT Authority/SYSTEM, domain admin, >, $, #);
-- [ ] j'ai déjà monté, configuré et "cassé" une machine virtuelle sans paniquer;
-- [ ] je cherche une réponse dans la documentation ou dans le code avant de chercher de l'aide;
-- [ ] je prends des notes qu'une autre personne pourrait suivre sans moi;
-- [ ] je suis capable de rester bloqué quelques heures sur un problème sans abandonner;
-- [ ] je suis capable de garder un secret;
+{{< checklist title="Autoévaluation sur les fondamentaux" >}}
 
-Si tu fais déjà des CTF, tu devrais avoir plusieurs, voir toutes ces cases cochés, ce qui signifie que tu as déjà les connaissances et réflexes pour aller un peu plus loin en sécurité offensive.
+- [ ] Je suis à l'aise à me déplacer dans un système de fichiers Linux ou Windows en ligne de commande, sans rechercher la syntaxe à chaque fois
+- [ ] Je comprends ce qu'est une adresse IP privée, un port et un pare-feu, et comment les trois interagissent
+- [ ] Je peux lire un script Python, Bash, Batch et Powershell écrit par quelqu'un d'autre et expliquer sommairement ce qu'il fait
+- [ ] Je sais interpréter le résultat d'un balayage de ports et décider quoi examiner en premier
+- [ ] Je fais la différence entre une session ordinaire et une session privilégiée (root, NT Authority/SYSTEM, domain admin)
+- [ ] J'ai déjà monté, configuré et "cassé" une machine virtuelle sans paniquer
+- [ ] Je cherche une réponse dans la documentation ou dans le code avant de chercher de l'aide
+- [ ] Je cherche à comprendre comment une vulnérabilité fonctionne
+- [ ] Je sais reconnaitre les limites lorsque je fais face à un sujet que je ne maîtrise pas
+- [ ] J'ai une bonne éthique professionnelle
+- [ ] Je prends des notes qu'une autre personne pourrait suivre sans moi
+- [ ] Je suis capable de rester bloqué quelques heures sur un problème sans abandonner
+
+{{< /checklist >}}
+
+Si tu fais déjà des CTF, tu devrais avoir plusieurs, voir toutes ces cases cochés, ce qui signifie que tu as déjà les connaissances et réflexes requis pour poursuivre une formation intensive en sécurité offensive. Si tu as quelques cases qui ne sont pas cochées, ne t'inquiète pas : ce sont tous des choses que tu vas apprendre en cours de route durant la formation PEN-200, mais prends notes que chaque point non maitrisé te demandera un certain rattrapage et un effort supplémentaire à compenser durant ton apprentisage.
 
 ### Mini-quiz
 
-Maintenant, laisson place à quelque chose d'un peu plus technique. Voici douze questions pour tester ton expertise technique. Quoiqu'elles couvrent d'une certaine manière la matière du PEN-200, les questions couvrent ce que le cours tient pour acquis dès les premiers modules. Les questions sont peut-être plus difficile que nécessaire pour tester ton expertise technique, mais essaie de répondre sans rien chercher sur Internet, juste du par coeur.
+Maintenant, laisson place à quelque chose d'un peu plus ardu : voici douze questions pour tester ton expertise technique en lien avec de la matière que tu vas voir au courant de ton parcours PEN-200. Quoiqu'elles couvrent d'une certaine manière la matière du PEN-200, les questions couvrent ce que le cours tient pour acquis dès les premiers modules. Les questions sont volontairement plus difficile que nécessaire pour tester l'expertise technique de base requis pour le cours, mais ce sont tous des choses que tu vas retrouver dans la formation PEN-200. Essaie quand même de répondre sans rien chercher sur Internet, afin de rester intègre (ça va tester ton éthique en même temps, _clin d'oeil clin d'oeil_).
 
-**1.** Tu trouves `-rwsr-xr-x 1 root root /usr/local/bin/backup`. Que t'indique le `s`?
+{{< quiz title="Mini-quiz : douze questions" >}}
 
-- le fichier est un lien symbolique;
-- le fichier s'exécute avec les privilèges de son propriétaire;
-- le fichier est écrit sur le disque à chaque modification;
-- seul root peut lire le fichier;
-- le fichier ne peut pas être supprimé par un autre utilisateur.
+Tu trouves `-rwsr-xr-x 1 root root /usr/local/bin/backup`. Que t'indique le `s`?
 
-**2.** Sur une distribution Linux moderne, quelle commande liste les ports TCP en écoute **avec** le processus qui les détient?
+- [ ] le fichier est un lien symbolique
+- [x] le fichier s'exécute avec les privilèges de son propriétaire
+- [ ] le fichier est écrit sur le disque à chaque modification
+- [ ] seul root peut lire le fichier
+- [ ] le fichier ne peut pas être supprimé par un autre utilisateur
 
-- `ifconfig -a`;
-- `route -n`;
-- `ss -tlnp`;
-- `top -p tcp`;
-- `ls -la /proc/net`.
+> Le bit SUID est le vecteur d'élévation de privilèges le plus courant sous Linux.
 
-**3.** `sudo -l` te répond `(ALL) NOPASSWD: /usr/bin/find`. Pourquoi est-ce que la partie est terminée?
+Sur une distribution Linux moderne, quelle commande liste les ports TCP en écoute **avec** le processus qui les détient?
 
-- parce que `find` peut lire `/etc/shadow` directement;
-- parce que `find` peut lancer une commande avec `-exec`, ce qui donne un shell root;
-- parce que ça prouve que le fichier sudoers est modifiable par tout le monde;
-- parce que ça permet de remplacer `/usr/bin/find` par son propre binaire;
-- elle ne l'est pas : `find` ne fait que lire des fichiers.
+- [ ] `ifconfig -a`
+- [ ] `route -n`
+- [x] `ss -tlnp`
+- [ ] `top -p tcp`
+- [ ] `ls -la /proc/net`
 
-**4.** Un *reverse shell* fonctionne parce que :
+> `netstat` a disparu des distributions modernes, et de l'énumération locale, tu vas en faire sur chaque machine.
 
-- tu te connectes à un port que la cible a ouvert pour toi;
-- la cible se connecte vers un écouteur que tu contrôles;
-- la cible et ta machine négocient une session partagée en UDP;
-- le shell transite par la passerelle par défaut de la cible;
-- le pare-feu de la cible est désactivé.
+`sudo -l` te répond `(ALL) NOPASSWD: /usr/bin/find`. Pourquoi est-ce que la partie est terminée?
 
-**5.** Tu balayes un hôte Windows et le port `5985/tcp` est ouvert. Qu'est-ce que ça t'offre?
+- [ ] parce que `find` peut lire `/etc/shadow` directement
+- [x] parce que `find` peut lancer une commande avec `-exec`, ce qui donne un shell root
+- [ ] parce que ça prouve que le fichier sudoers est modifiable par tout le monde
+- [ ] parce que ça permet de remplacer `/usr/bin/find` par son propre binaire
+- [ ] elle ne l'est pas : `find` ne fait que lire des fichiers
 
-- un partage SMB à énumérer;
-- un annuaire LDAP interrogeable anonymement;
-- un point d'accès WinRM, donc un shell distant si tu as des identifiants valides;
-- une session RDP;
-- une instance MSSQL.
+> Les réflexes GTFOBins sont tenus pour acquis dès le départ.
 
-**6.** À partir de `https://target/view?file=FinancialReportQ2.pdf`, tu essaies `file=../../../../etc/passwd` et le fichier s'affiche. De quoi s'agit-il?
+Un *reverse shell* fonctionne parce que :
 
-- d'un SQLi;
-- d'un XSS;
-- d'un _path traversal_, ou LFI;
-- d'un SSRF;
-- d'un CSRF.
+- [ ] tu te connectes à un port que la cible a ouvert pour toi
+- [x] la cible se connecte vers un écouteur que tu contrôles
+- [ ] la cible et ta machine négocient une session partagée en UDP
+- [ ] le shell transite par la passerelle par défaut de la cible
+- [ ] le pare-feu de la cible est désactivé
 
-**7.** Qu'est-ce que le *Kerberoasting*, en une phrase?
+> Mal comprendre ça rend insoluble chaque problème de pare-feu que tu vas rencontrer.
 
-- forcer par dictionnaire le contrôleur de domaine à travers le réseau;
-- demander un ticket de service pour un compte doté d'un SPN, puis le casser hors ligne;
-- extraire des identifiants de la mémoire du processus LSASS;
-- relayer une authentification NTLM vers LDAP;
-- forger un TGT à partir du secret du compte krbtgt.
+Tu balayes un hôte Windows et le port `5985/tcp` est ouvert. Qu'est-ce que ça t'offre?
 
-**8.** Tu as l'empreinte NTLM d'un utilisateur, mais pas son mot de passe. Qu'est-ce qui est réaliste?
+- [ ] un partage SMB à énumérer
+- [ ] un annuaire LDAP interrogeable anonymement
+- [x] un point d'accès WinRM, donc un shell distant si tu as des identifiants valides
+- [ ] une session RDP
+- [ ] une instance MSSQL
 
-- rien : l'empreinte est inutile tant qu'elle n'est pas cassée;
-- t'authentifier directement sur SMB avec l'empreinte (*pass-the-hash*);
-- déchiffrer l'empreinte avec la clé publique du domaine;
-- la saisir telle quelle dans une fenêtre de connexion RDP standard;
-- l'envoyer au KDC comme horodatage de pré-authentification Kerberos.
+> L'accès Windows après la récupération d'identifiants est au coeur de la portion Active Directory.
 
-**9.** Tu compromets un hôte qui possède une seconde carte réseau sur `172.16.50.0/24`, injoignable depuis ta machine. Quelle est la suite?
+À partir de `https://target/view?file=FinancialReportQ2.pdf`, tu essaies `file=../../../../etc/passwd` et le fichier s'affiche. De quoi s'agit-il?
 
-- relancer le balayage depuis ta machine avec `--source-port 445`;
-- monter un proxy SOCKS ou une redirection de port à travers l'hôte compromis;
-- ajouter `172.16.50.0/24` à ta table de routage locale;
-- usurper l'adresse MAC de la seconde interface;
-- demander un accès VPN vers ce segment.
+- [ ] d'un SQLi
+- [ ] d'un XSS
+- [x] d'un _path traversal_, ou LFI
+- [ ] d'un SSRF
+- [ ] d'un CSRF
 
-**10.** Un balayage `nmap` par défaut ne donne rien d'intéressant. Que fais-tu?
+> C'est le point d'entrée web le plus fréquent sur les boxes de Proving Grounds.
 
-- tu conclus que l'hôte est hors périmètre;
-- tu relances exactement le même balayage pour en être certain;
-- tu balayes les 65535 ports, tu ajoutes la détection de version et tu vérifies l'UDP;
-- tu passes à la machine suivante et tu y reviendras plus tard;
-- tu lances un scanneur de vulnérabilités et tu attends le rapport.
+Qu'est-ce que le *Kerberoasting*, en une phrase?
 
-**11.** Un exploit public échoue avec `SyntaxError` sur la ligne `print "shell"`. La correction minimale, c'est :
+- [ ] forcer par dictionnaire le contrôleur de domaine à travers le réseau
+- [x] demander un ticket de service pour un compte doté d'un SPN, puis le casser hors ligne
+- [ ] extraire des identifiants de la mémoire du processus LSASS
+- [ ] relayer une authentification NTLM vers LDAP
+- [ ] forger un TGT à partir du secret du compte krbtgt
 
-- recompiler l'exploit avec `gcc`;
-- l'exécuter avec Python 2, ou convertir les `print` en appels de fonction;
-- changer la version de Python installée sur la cible;
-- ajouter un en-tête `#!/usr/bin/env python3` et relancer;
-- chercher un autre exploit, celui-là est brisé.
+> Active Directory est maintenant obligatoire à l'examen, ce n'est plus une portion que tu peux éviter.
 
-**12.** Tu obtiens `root` sur une machine d'examen à 3 h du matin, tu récupères le drapeau et tu vas te coucher. Tes notes contiennent le drapeau, mais pas la commande qui t'y a mené. Qu'est-ce qui arrive?
+Tu as l'empreinte NTLM d'un utilisateur, mais pas son mot de passe. Qu'est-ce qui est réaliste?
 
-- rien, le drapeau est la preuve;
-- tu perds les points : une trouvaille doit être reproductible à partir du rapport;
-- tu obtiens des points partiels pour le drapeau;
-- tu peux envoyer les étapes à OffSec après coup;
-- les journaux du laboratoire servent à reconstituer tes étapes.
+- [ ] rien : l'empreinte est inutile tant qu'elle n'est pas cassée
+- [x] t'authentifier directement sur SMB avec l'empreinte (*pass-the-hash*)
+- [ ] déchiffrer l'empreinte avec la clé publique du domaine
+- [ ] la saisir telle quelle dans une fenêtre de connexion RDP standard
+- [ ] l'envoyer au KDC comme horodatage de pré-authentification Kerberos
 
-#### Le corrigé
+> Une empreinte est un identifiant à part entière; l'ignorer, c'est perdre des heures à vouloir la casser.
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
-> Les réponses sont masquées : clique dessus pour les révéler.
-{.prompt-tip }
-<!-- markdownlint-restore -->
+Tu compromets un hôte qui possède une seconde carte réseau sur `172.16.50.0/24`, injoignable depuis ta machine. Quelle est la suite?
 
-1. ||Le fichier s'exécute avec les privilèges de son propriétaire.|| Le bit SUID est le vecteur d'élévation de privilèges le plus courant sous Linux.
-2. ||ss -tlnp|| `netstat` a disparu des distributions modernes, et de l'énumération locale, tu vas en faire sur chaque machine.
-3. ||find peut lancer une commande avec -exec, ce qui donne un shell root.|| Les réflexes GTFOBins sont tenus pour acquis dès le départ.
-4. ||La cible se connecte vers un écouteur que tu contrôles.|| Mal comprendre ça rend insoluble chaque problème de pare-feu que tu vas rencontrer.
-5. ||Un point d'accès WinRM, donc un shell distant avec des identifiants valides.|| L'accès Windows après la récupération d'identifiants est au coeur de la portion Active Directory.
-6. ||Une traversée de répertoires, ou LFI.|| C'est le point d'entrée web le plus fréquent sur les boxes de Proving Grounds.
-7. ||Demander un ticket de service pour un compte doté d'un SPN, puis le casser hors ligne.|| Active Directory est maintenant obligatoire à l'examen, ce n'est plus une portion que tu peux éviter.
-8. ||T'authentifier directement sur SMB avec l'empreinte.|| Une empreinte est un identifiant à part entière; l'ignorer, c'est perdre des heures à vouloir la casser.
-9. ||Monter un proxy SOCKS ou une redirection de port à travers l'hôte compromis.|| Le pivot est l'endroit où la majorité des premières tentatives calent.
-10. ||Balayer les 65535 ports, ajouter la détection de version et vérifier l'UDP.|| « Je n'ai rien trouvé » veut presque toujours dire « je n'ai pas assez énuméré ».
-11. ||L'exécuter avec Python 2, ou convertir les print en appels de fonction.|| Les exploits publics fonctionnent rarement sans retouche, et c'est exactement ce que le cours va te demander de faire.
-12. ||Tu perds les points.|| Le rapport est le livrable, pas le shell : sans étapes reproductibles, la compromission n'existe pas.
+- [ ] relancer le balayage depuis ta machine avec `--source-port 445`
+- [x] monter un proxy SOCKS ou une redirection de port à travers l'hôte compromis
+- [ ] ajouter `172.16.50.0/24` à ta table de routage locale
+- [ ] usurper l'adresse MAC de la seconde interface
+- [ ] demander un accès VPN vers ce segment
+
+> Le pivot est l'endroit où la majorité des premières tentatives calent.
+
+Un balayage `nmap` par défaut ne donne rien d'intéressant. Que fais-tu?
+
+- [ ] tu conclus que l'hôte est hors périmètre
+- [ ] tu relances exactement le même balayage pour en être certain
+- [x] tu balayes les 65535 ports, tu ajoutes la détection de version et tu vérifies l'UDP
+- [ ] tu passes à la machine suivante et tu y reviendras plus tard
+- [ ] tu lances un scanneur de vulnérabilités et tu attends le rapport
+
+> « Je n'ai rien trouvé » veut presque toujours dire « je n'ai pas assez énuméré ».
+
+Un exploit public échoue avec `SyntaxError` sur la ligne `print "shell"`. La correction minimale, c'est :
+
+- [ ] recompiler l'exploit avec `gcc`
+- [x] l'exécuter avec Python 2, ou convertir les `print` en appels de fonction
+- [ ] changer la version de Python installée sur la cible
+- [ ] ajouter un en-tête `#!/usr/bin/env python3` et relancer
+- [ ] chercher un autre exploit, celui-là est brisé
+
+> Les exploits publics fonctionnent rarement sans retouche, et c'est exactement ce que le cours va te demander de faire.
+
+Tu obtiens `root` sur une machine d'examen à 3 h du matin, tu récupères le drapeau et tu vas te coucher. Tes notes contiennent le drapeau, mais pas la commande qui t'y a mené. Qu'est-ce qui arrive?
+
+- [ ] rien, le drapeau est la preuve
+- [x] tu perds les points : une trouvaille doit être reproductible à partir du rapport
+- [ ] tu obtiens des points partiels pour le drapeau
+- [ ] tu peux envoyer les étapes à OffSec après coup
+- [ ] les journaux du laboratoire servent à reconstituer tes étapes
+
+> Le rapport est le livrable, pas le shell : sans étapes reproductibles, la compromission n'existe pas.
+
+{{< /quiz >}}
 
 #### Ton résultat
 

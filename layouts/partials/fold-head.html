@@ -1,0 +1,37 @@
+{{- /*
+  Shared header for the foldable cards (checklist / quiz shortcodes).
+
+  Params: `title` (string), `icon` (Font Awesome class), `reset` and
+  `reveal` (button labels -- they differ per component, since clearing a
+  checklist and clearing a quiz are not the same action to a reader).
+
+  Laid out like the code-block chrome: macOS window buttons on the left, the
+  label centred, a state chevron on the right. The buttons are real <button>
+  elements rather than the theme's box-shadow dots because they are
+  actionable -- clear, fold, fill in (see fold-card.js).
+*/ -}}
+<summary class="fold-head">
+  <span class="fold-lights">
+    <button type="button" class="fold-light fold-light-close"
+            aria-label="{{ .reset }}" title="{{ .reset }}">
+      <i class="fas fa-xmark" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="fold-light fold-light-toggle"
+            aria-label="{{ T "fold.toggle" }}" title="{{ T "fold.toggle" }}">
+      <i class="fas fa-minus" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="fold-light fold-light-open"
+            aria-label="{{ .reveal }}" title="{{ .reveal }}">
+      <i class="fas fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+    </button>
+  </span>
+
+  <span class="fold-label">
+    <i class="{{ .icon }} fa-fw" aria-hidden="true"></i>
+    <span class="fold-title">{{ .title }}</span>
+    <span class="fold-meta"></span>
+  </span>
+
+  <i class="fold-chevron fas fa-chevron-right fa-fw" aria-hidden="true"></i>
+  <span class="fold-bar"><span class="fold-fill"></span></span>
+</summary>

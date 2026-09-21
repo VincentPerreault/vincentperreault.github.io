@@ -1,0 +1,29 @@
+{{- /*
+  Collapsible single-choice quiz.
+
+      {{< quiz title="Mini-quiz" >}}
+      What does the `s` in `-rwsr-xr-x` mean?
+
+      - [ ] the file is a symlink
+      - [x] the file runs with its owner's privileges
+
+      > SUID is the most common Linux priv-esc vector.
+      {{< /quiz >}}
+
+  The format is deliberately flat, with no indentation rules: a paragraph
+  starts a question, the task list under it holds the options with `[x]` on
+  the correct one, and an optional blockquote is the explanation revealed
+  once the reader answers. Questions are numbered automatically.
+
+  quiz.js reads that rendered markdown out of `.quiz-source` and replaces it
+  with the interactive version, so the source block is hidden in CSS.
+*/ -}}
+{{- $title := .Get "title" | default "Quiz" -}}
+<details class="fold-card quiz-card"{{ if eq (.Get "open") "true" }} open{{ end }}>
+  {{ partial "fold-head.html" (dict "title" $title "icon" "fas fa-circle-question" "reset" (T "fold.quiz_reset") "reveal" (T "fold.quiz_reveal")) }}
+  <div class="fold-body">
+    <div class="quiz-source">
+      {{- .Inner | .Page.RenderString (dict "display" "block") -}}
+    </div>
+  </div>
+</details>

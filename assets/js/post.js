@@ -9,7 +9,9 @@ import {
   loadMermaid,
   initSpoilers,
   initTextFx,
+  initFoldCards,
   initChecklists,
+  initQuizzes,
   initGrooveRadar
 } from './modules/components';
 
@@ -23,6 +25,8 @@ initTopbar();
 loadMermaid();
 initSpoilers();
 initTextFx();
+initFoldCards();
 initChecklists();
+initQuizzes();
 initGrooveRadar();
 basic();

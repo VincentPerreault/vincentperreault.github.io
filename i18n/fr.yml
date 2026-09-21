@@ -102,3 +102,12 @@ theme:
   light: Clair
   dark: Sombre
   system: Système
+
+# ----- Foldable cards (checklist / quiz shortcodes) -----
+
+fold:
+  toggle: Replier ou déplier
+  checklist_reset: Tout décocher
+  checklist_reveal: Tout cocher
+  quiz_reset: Effacer mes réponses
+  quiz_reveal: Afficher les réponses

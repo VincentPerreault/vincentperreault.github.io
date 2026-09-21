@@ -6,7 +6,9 @@ import {
   loadMermaid,
   initSpoilers,
   initTextFx,
+  initFoldCards,
   initChecklists,
+  initQuizzes,
   initGrooveRadarPlayground
 } from './modules/components';
 
@@ -18,6 +20,8 @@ initClipboard();
 loadMermaid();
 initSpoilers();
 initTextFx();
+initFoldCards();
 initChecklists();
+initQuizzes();
 initGrooveRadarPlayground();
 basic();

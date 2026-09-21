@@ -59,6 +59,166 @@ Before you start, you should already be comfortable with the fundamentals around
 
 These skills develop with experience, and there's no shortcut: it's by working regularly with vulnerabilities that you'll build them. The time required varies a lot from one person to the next depending on your professional and personal background.
 
+### Self-assessment on the fundamentals
+
+Assessing your own skills is never easy, and even less so through a simple blog post. The checklist below is not an absolute measure of whether you have the fundamentals to follow the PEN-200 material, nor is it here to check for the thousandth time that you can define the CIA triad... Think of it instead as a guide to take with a grain of salt, and as a way to point you toward what to go read up on if you find gaps.
+
+The checklist below isn't meant to test your knowledge of tools or attack techniques: it tests the baseline reflexes that everything else in PEN-200 builds on, which is why some of the wording is loose enough to allow for flexible answers. If several boxes stay empty, that's not a failure — it just means your time and your money are better spent elsewhere for now, and that you can come back to this later.
+
+{{< checklist title="Self-assessment on the fundamentals" >}}
+- [ ] I'm comfortable moving around a Linux or Windows filesystem from the command line, without looking up the syntax every time
+- [ ] I understand what a private IP address, a port and a firewall are, and how the three interact
+- [ ] I can read a Python, Bash, Batch or PowerShell script someone else wrote and roughly explain what it does
+- [ ] I can interpret the output of a port scan and decide what to look at first
+- [ ] I can tell the difference between an ordinary session and a privileged one (root, NT Authority/SYSTEM, domain admin)
+- [ ] I've already built, configured and "broken" a virtual machine without panicking
+- [ ] I look for an answer in the documentation or in the code before asking for help
+- [ ] I try to understand how a vulnerability actually works
+- [ ] I know how to recognize my limits when I'm facing a subject I don't master
+- [ ] I have solid professional ethics
+- [ ] I take notes that someone else could follow without me
+- [ ] I can stay stuck on a problem for a few hours without giving up
+{{< /checklist >}}
+
+If you already play CTFs, you should have most — if not all — of these boxes checked, which means you already have the knowledge and the reflexes to take on intensive offensive security training. If a few boxes are left unchecked, don't worry: these are all things you'll pick up along the way during PEN-200. Just keep in mind that every point you haven't mastered is some catching up and some extra effort to absorb while you learn.
+
+### Mini-quiz
+
+Now for something a little tougher: here are twelve questions to test the technical expertise tied to material you'll run into over the course of PEN-200. While they do cover PEN-200 content in a sense, the questions are really about what the course takes for granted from the very first modules. They're deliberately harder than they strictly need to be for baseline technical expertise, but every one of them is something you'll meet in the training. Try to answer without looking anything up, just to keep yourself honest (it tests your ethics at the same time, *wink wink*).
+
+{{< quiz title="Mini-quiz: twelve questions" >}}
+
+You find `-rwsr-xr-x 1 root root /usr/local/bin/backup`. What does the `s` tell you?
+
+- [ ] the file is a symbolic link
+- [x] the file runs with the privileges of its owner
+- [ ] the file is written to disk on every change
+- [ ] only root can read the file
+- [ ] the file cannot be deleted by another user
+
+> The SUID bit is the most common privilege escalation vector on Linux.
+
+On a modern Linux distribution, which command lists listening TCP ports **along with** the process that owns them?
+
+- [ ] `ifconfig -a`
+- [ ] `route -n`
+- [x] `ss -tlnp`
+- [ ] `top -p tcp`
+- [ ] `ls -la /proc/net`
+
+> `netstat` is gone from modern distributions, and local enumeration is something you'll do on every single machine.
+
+`sudo -l` answers `(ALL) NOPASSWD: /usr/bin/find`. Why is it game over?
+
+- [ ] because `find` can read `/etc/shadow` directly
+- [x] because `find` can spawn a command with `-exec`, which gives you a root shell
+- [ ] because it proves the sudoers file is world-writable
+- [ ] because it lets you replace `/usr/bin/find` with your own binary
+- [ ] it isn't: `find` only reads files
+
+> GTFOBins reflexes are taken for granted from day one.
+
+A *reverse shell* works because:
+
+- [ ] you connect to a port the target opened for you
+- [x] the target connects out to a listener you control
+- [ ] the target and your machine negotiate a shared session over UDP
+- [ ] the shell transits through the target's default gateway
+- [ ] the target's firewall is disabled
+
+> Misunderstanding this makes every firewall problem you'll hit unsolvable.
+
+You scan a Windows host and port `5985/tcp` is open. What does that give you?
+
+- [ ] an SMB share to enumerate
+- [ ] an LDAP directory you can query anonymously
+- [x] a WinRM endpoint, so a remote shell if you have valid credentials
+- [ ] an RDP session
+- [ ] an MSSQL instance
+
+> Windows access after recovering credentials is at the heart of the Active Directory portion.
+
+Starting from `https://target/view?file=FinancialReportQ2.pdf`, you try `file=../../../../etc/passwd` and the file is displayed. What is it?
+
+- [ ] an SQLi
+- [ ] an XSS
+- [x] a *path traversal*, or LFI
+- [ ] an SSRF
+- [ ] a CSRF
+
+> It's the most frequent web foothold on Proving Grounds boxes.
+
+What is *Kerberoasting*, in one sentence?
+
+- [ ] brute-forcing the domain controller over the network
+- [x] requesting a service ticket for an account with an SPN, then cracking it offline
+- [ ] extracting credentials from the memory of the LSASS process
+- [ ] relaying NTLM authentication to LDAP
+- [ ] forging a TGT from the krbtgt account's secret
+
+> Active Directory is now mandatory on the exam, it's no longer a portion you can avoid.
+
+You have a user's NTLM hash, but not their password. What's realistic?
+
+- [ ] nothing: the hash is useless until it's cracked
+- [x] authenticating straight to SMB with the hash (*pass-the-hash*)
+- [ ] decrypting the hash with the domain's public key
+- [ ] typing it as-is into a standard RDP login prompt
+- [ ] sending it to the KDC as a Kerberos pre-authentication timestamp
+
+> A hash is a credential in its own right; ignoring that means losing hours trying to crack it.
+
+You compromise a host with a second network card on `172.16.50.0/24`, unreachable from your machine. What's next?
+
+- [ ] rerunning the scan from your machine with `--source-port 445`
+- [x] setting up a SOCKS proxy or a port forward through the compromised host
+- [ ] adding `172.16.50.0/24` to your local routing table
+- [ ] spoofing the MAC address of the second interface
+- [ ] asking for VPN access to that segment
+
+> Pivoting is where most first attempts stall.
+
+A default `nmap` scan turns up nothing interesting. What do you do?
+
+- [ ] you conclude the host is out of scope
+- [ ] you rerun the exact same scan to be sure
+- [x] you scan all 65535 ports, add version detection and check UDP
+- [ ] you move to the next machine and come back later
+- [ ] you launch a vulnerability scanner and wait for the report
+
+> "I didn't find anything" almost always means "I didn't enumerate enough".
+
+A public exploit fails with `SyntaxError` on the line `print "shell"`. The minimal fix is:
+
+- [ ] recompiling the exploit with `gcc`
+- [x] running it with Python 2, or converting the `print` statements into function calls
+- [ ] changing the Python version installed on the target
+- [ ] adding a `#!/usr/bin/env python3` header and rerunning
+- [ ] finding another exploit, this one is broken
+
+> Public exploits rarely run without a touch-up, and that's exactly what the course will ask you to do.
+
+You get `root` on an exam machine at 3 a.m., grab the flag and go to bed. Your notes contain the flag, but not the command that got you there. What happens?
+
+- [ ] nothing, the flag is the proof
+- [x] you lose the points: a finding has to be reproducible from the report
+- [ ] you get partial credit for the flag
+- [ ] you can send the steps to OffSec afterwards
+- [ ] the lab logs are used to reconstruct your steps
+
+> The report is the deliverable, not the shell: without reproducible steps, the compromise doesn't exist.
+
+{{< /quiz >}}
+
+#### Your result
+
+| Score | What it means |
+|:---|:---|
+| **11 to 12** | Your foundations are there. What you're missing is volume: go rack up boxes on Proving Grounds and work through TJ Null's list. |
+| **8 to 10** | You'd survive PEN-200, but you'd be learning the basics on the most expensive platform on the market. Two or three months on HackTheBox first will save you a lot of time and money. |
+| **5 to 7** | Not yet. eJPT or CPTS will close that gap far more effectively, and for a fraction of the price. |
+| **0 to 4** | Much too early. Build yourself a lab, learn Linux and networking properly, and come back in a year. There's no shame in it: everyone started there. |
+
 ### Technical experience: the real barrier
 
 Once the baseline skills are covered, you hit the most demanding prerequisite and the biggest barrier to entry: technical experience.

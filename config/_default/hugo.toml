@@ -44,3 +44,15 @@ hasCJKLanguage = true
 [module]
   [[module.imports]]
     path = "github.com/geekifan/hugo-theme-chirpy"
+
+# Dev server only (ignored by `hugo` builds and by production).
+#
+# Hugo serves /js/*.js unfingerprinted and sends no Cache-Control or ETag,
+# only Last-Modified, so browsers fall back to heuristic caching and keep
+# running a stale bundle after an edit. The CSS is fingerprinted and updates
+# fine, which is the worst case: new CSS against old JS, so components render
+# half-rebuilt instead of visibly breaking. Force revalidation instead.
+[[server.headers]]
+  for = "/**.js"
+  [server.headers.values]
+    Cache-Control = "no-store"

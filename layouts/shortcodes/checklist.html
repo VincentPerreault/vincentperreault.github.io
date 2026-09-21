@@ -1,0 +1,21 @@
+{{- /*
+  Collapsible, tickable checklist.
+
+      {{< checklist title="Les fondamentaux" >}}
+      - [ ] first item
+      - [ ] second item
+      {{< /checklist >}}
+
+  `title` is the label on the fold header (required in practice: it is what
+  the reader clicks). `open="true"` renders it expanded instead of folded.
+
+  The markup is a native <details>, so folding works with the keyboard and
+  without JS; checklist.js only adds the ticking and the counter.
+*/ -}}
+{{- $title := .Get "title" | default "Checklist" -}}
+<details class="fold-card checklist-card"{{ if eq (.Get "open") "true" }} open{{ end }}>
+  {{ partial "fold-head.html" (dict "title" $title "icon" "fas fa-list-check" "reset" (T "fold.checklist_reset") "reveal" (T "fold.checklist_reveal")) }}
+  <div class="fold-body">
+    {{- .Inner | .Page.RenderString (dict "display" "block") -}}
+  </div>
+</details>
