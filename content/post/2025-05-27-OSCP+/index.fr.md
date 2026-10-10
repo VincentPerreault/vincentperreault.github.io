@@ -79,7 +79,7 @@ Si tu fais déjà des CTF, tu devrais avoir plusieurs, voir toutes ces cases coc
 
 ### Mini-quiz
 
-Maintenant, laisson place à quelque chose d'un peu plus ardu : voici douze questions pour tester ton expertise technique en lien avec de la matière que tu vas voir au courant de ton parcours PEN-200. Quoiqu'elles couvrent d'une certaine manière la matière du PEN-200, les questions couvrent ce que le cours tient pour acquis dès les premiers modules. Les questions sont volontairement plus difficile que nécessaire pour tester l'expertise technique de base requis pour le cours, mais ce sont tous des choses que tu vas retrouver dans la formation PEN-200. Essaie quand même de répondre sans rien chercher sur Internet, afin de rester intègre (ça va tester ton éthique en même temps, _clin d'oeil clin d'oeil_).
+Maintenant, laisson place à quelque chose d'un peu plus ardu : voici douze questions pour tester ton expertise technique en lien avec de la matière que tu vas voir au courant de ton parcours PEN-200. Quoiqu'elles couvrent d'une certaine manière la matière du PEN-200, les questions couvrent ce que le cours tient pour acquis dès les premiers modules. Les questions sont volontairement plus difficile que nécessaire pour tester l'expertise technique de base requis pour le cours, mais ce sont tous des choses que tu vas retrouver dans la formation PEN-200 et que tu vas éventuellement devoir maitriser. Essaie quand même de répondre sans rien chercher sur Internet, afin de rester intègre (ça va tester ton éthique en même temps, _clin d'oeil clin d'oeil_).
 
 {{< quiz title="Mini-quiz : douze questions" >}}
 
@@ -173,7 +173,7 @@ Tu compromets un hôte qui possède une seconde carte réseau sur `172.16.50.0/2
 
 > Le pivot est l'endroit où la majorité des premières tentatives calent.
 
-Un balayage `nmap` par défaut ne donne rien d'intéressant. Que fais-tu?
+Un scan `nmap` par défaut ne donne rien d'intéressant. Que fais-tu?
 
 - [ ] tu conclus que l'hôte est hors périmètre
 - [ ] tu relances exactement le même balayage pour en être certain

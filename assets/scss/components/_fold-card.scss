@@ -254,7 +254,13 @@ details[open] > .fold-head {
 html #topbar-wrapper {
   position: sticky;
   top: 0;
-  z-index: 2;
+
+  /* Above the TOC panel's `.toc-border-cover`, which Bootstrap's `z-3` puts
+     at 3. That cover is a `linear-gradient(--main-bg 50%, transparent)` fade
+     pinned at `top: 0`; with the topbar scrolling away it never met anything,
+     but a sticky topbar sits right under it and the fade painted over the bar
+     and its search box. */
+  z-index: 4;
 
   /* `--topbar-bg` is only 64% opaque in dark and 70% in light. That never
      showed while the bar scrolled away, but a sticky bar has the article
@@ -265,6 +271,18 @@ html #topbar-wrapper {
      compiles AFTER project components and would otherwise win. */
   background-color: var(--main-bg);
   background-image: linear-gradient(var(--topbar-bg), var(--topbar-bg));
+}
+
+/* Anchor targets have to clear the now-sticky topbar. The theme sets
+   `scroll-margin-top: 2rem` on headings at `xl`, sized for a bar that
+   scrolled away; at 3rem tall and pinned, it parks a heading half under the
+   bar every time a TOC link is followed. */
+html .content {
+  h2,
+  h3,
+  h4 {
+    scroll-margin-top: calc(#{v.$topbar-height} + 1rem);
+  }
 }
 
 details[open] > .fold-head .fold-chevron {

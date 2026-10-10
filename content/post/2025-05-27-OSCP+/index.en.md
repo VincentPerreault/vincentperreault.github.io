@@ -336,13 +336,87 @@ Here's what I'd advise: block off **24 hours** to try to complete all the machin
 
 Once the three are done, you'll have good indicators to assess your performance across different aspects of the exam. Then keep completing PG boxes to stay "in the flow" and well prepared.
 
-## A few days before the exam ⏳
-
+## Don't schedule your exam last minute ⏰
+ 
+If your employer pays for your certification (let's say you got the LearnOne package), your subscription will most likely start somewhere between November and the end of the year. If you can delay your start date, that's actually a smart move — keep reading and you'll see why. Because OffSec's annual discount begins in November, most candidates start within the same few weeks, which means a large number of them end up trying to book their exam in the exact same window at the end of the year.
+ 
+Here's the constraint that catches people off-guard: there is a **4-week cooldown** between exam attempts. If you wait until the final month to take your first attempt and come up short, you won't have time to re-sit before your subscription expires. And if your voucher isn't used by the end of your subscription (December 31st, for example), you lose the attempt entirely — no refund and no extension. Since the 2024 exam overhaul, additional attempts are also significantly more expensive, which makes losing one even more costly.
+ 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-> Book your **first** exam at least **6 to 8 weeks** before your LearnOne subscription expires. If you fail your first attempt, you'll have a 4-week cooldown before you can rebook. And if your subscription ends during a busy period (the holidays, for example), good luck finding a slot. OffSec shows no mercy: if the next available date falls after your subscription expires, you lose an attempt. And since the 2024 overhaul, exam attempts have become very expensive.
-{.prompt-warning }
+> **Plan ahead.** Book your first attempt **6 to 8 weeks before your subscription expires** — roughly the 10th month if you take the full year — and keep the 11th or 12th month as a buffer. That buffer is the entire point: it gives you room to fail once, serve the 4-week cooldown, and still rebook before the deadline. Bear in mind that if your subscription ends during a busy period such as the holidays, the next available slot may fall *after* your expiry date, which costs you an attempt.
+{.prompt-tip }
 <!-- markdownlint-restore -->
+ 
+I learned this the hard way. On my second attempt, I needed a slot before the holidays and there was no availability for the entire month of December. So I wrote a small script to watch the scheduling page and alert me the moment a date opened up. It polls the page every 30 seconds, and it took **134 hours** — roughly 5.5 days of continuous polling, about 16,000 checks — before a single slot appeared. As the screenshot below shows, the opening lasted only about three minutes, so I was fortunate to catch it at all. Had I waited until the last minute, I would have lost the attempt.
+ 
+![134h later...](134h_later_OSCP.png)
+{ width="490" height="478" caption="You can see exactly when I scheduled my exam"}
+
+### How the script works
+ 
+OffSec's scheduling page is public — no authentication is required to view availability. When nothing is open, the page contains a specific sentence (`Sorry, no available dates`). The logic is straightforward:
+ 
+- **keyword present** → no availability → log the time and retry in ~30 seconds
+- **keyword absent** → a slot has opened → fire an alert
+
+For the alert, I used a [Canarytoken](https://canarytokens.org/). When availability is found, the script sends a GET request to the token URL, which triggers an email notification straight to my inbox. It's a lightweight, free way to get a reliable ping without standing up an SMTP server or embedding any credentials in the script.
+
+```python
+import requests
+import time
+from datetime import datetime
+
+# Constants
+CHECK_URL = "https://www.offsec.com/exam/exam.php?md=<YOUR_EXAM_ID_HERE>"
+NOT_AVAILABLE_TEXT = "Sorry, no available dates"
+CANARYTOKEN_URL = "http://canarytokens.com/static/<YOUR_TOKEN_HERE>/post.jsp"
+CHECK_INTERVAL = 30  # Time in seconds between checks
+DEBUG = False  # Set to True to enable debug output
+
+def check_availability():
+    try:
+        # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] Checking availability...")
+
+        # Send HTTP GET request
+        response = requests.get(CHECK_URL, timeout=10)
+        response.raise_for_status()  # Raise error for HTTP codes 4xx or 5xx
+
+        if DEBUG:
+            # Print debug information if DEBUG is enabled
+            print(f"[{timestamp}] DEBUG: Full response content:")
+            print(response.text)
+
+        # Check if the specified text is in the response
+        if NOT_AVAILABLE_TEXT not in response.text:
+            print(f"[{timestamp}] Availability found! Triggering Canarytoken...")
+            # Trigger the Canarytoken
+            requests.get(CANARYTOKEN_URL, timeout=10)
+        else:
+            print(f"[{timestamp}] No availability found. Retrying in {CHECK_INTERVAL} seconds.")
+
+    except requests.RequestException as e:
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Error checking availability: {e}")
+
+def main():
+    try:
+        while True:
+            check_availability()
+            time.sleep(CHECK_INTERVAL)
+    except KeyboardInterrupt:
+        print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Script interrupted by user. Exiting...")
+
+if __name__ == "__main__":
+    main()
+```
+
+Drop in your own exam URL and Canarytoken, run it on a machine that stays on (a VPS, a Raspberry Pi, or just a VM on a laptop like a did), and let it do the waiting for you.
+ 
+In short: prepare early, build yourself a buffer, and don't count on a slot being available when you need it. Scheduling is a shared resource, and at year-end everyone is competing for it.
+
+## A few days before the exam ⏳
 
 The week before the exam, the recipe is simple: keep completing boxes on Proving Grounds (or redo some you've already done), **without external help**, and finish the Challenge Labs if you have any left. Then prepare:
 
