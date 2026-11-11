@@ -1,0 +1,31 @@
+/*
+ * Reading-progress ring on the back-to-top button.
+ *
+ * The button itself is still styled by the theme (`buttons`); this only adds
+ * the SVG ring drawn over its 1px border, which keeps acting as the ring's
+ * track. The ring is filled by modules/components/back-to-top.js, which sets
+ * `stroke-dashoffset` from 100 (empty) down to 0 (article fully read).
+ *
+ * It uses the link teal (`--link-color`, see link-accent), so it follows the
+ * light / dark palette like every other accent on the site.
+ */
+
+#back-to-top {
+  .progress-ring {
+    position: absolute;
+    inset: -1px; /* out over the button's border */
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    transform: rotate(-90deg); /* start at 12 o'clock instead of 3 */
+    pointer-events: none;
+  }
+
+  .progress-ring__value {
+    fill: none;
+    stroke: var(--link-color);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+  }
+}

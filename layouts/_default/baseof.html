@@ -5,7 +5,8 @@
      - `data-bs-theme` is stamped on <html> when the site pins a mode, which
        is what tells modules/theme.js that switching is disabled
        (upstream Chirpy 7.6.0, PR #2756);
-     - the PWA "new version available" toast is included (upstream 7.6.0). */}}
+     - the PWA "new version available" toast is included (upstream 7.6.0);
+     - the back-to-top button carries an SVG reading-progress ring. */}}
 <!doctype html>
 <html
   lang="{{ .Site.LanguageCode }}"
@@ -46,6 +47,10 @@
       <aside aria-label="Scroll to Top">
         <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow">
           <i class="fas fa-angle-up"></i>
+          {{/* reading-progress ring, filled by modules/components/back-to-top.js */}}
+          <svg class="progress-ring" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+            <circle class="progress-ring__value" cx="22" cy="22" r="20.75" pathLength="100" />
+          </svg>
         </button>
       </aside>
     </div>
