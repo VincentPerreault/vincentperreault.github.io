@@ -162,3 +162,86 @@ html[data-bs-theme='dark'] {
     transition: none;
   }
 }
+
+/*
+ * Code box for the code-review questions: a fixed, non-selectable line-number
+ * gutter beside a horizontally scrolling code column. It borrows the theme's
+ * own code tones (--highlight-bg-color, --code-color, --highlight-lineno-color)
+ * so it matches every other code snippet on the site, and it breaks out to the
+ * full question width so the gutter has room and the code lines up with the
+ * answer rows underneath it.
+ */
+
+/* let the code box drop onto its own full-width row below the question text */
+.quiz-prompt {
+  flex-wrap: wrap;
+}
+
+.quiz-prompt > .quiz-code {
+  display: contents;
+}
+
+/* The question text stays one item on the number's row. A zero basis keeps it
+   there now that the prompt wraps (its natural width would push it to a row
+   of its own), and the span keeps the text and its inline code together: with
+   `display: contents` above, loose text would split into one item per run. */
+.quiz-prompt > p,
+.quiz-code__text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.code-card {
+  display: flex;
+  flex: 1 0 100%;
+  margin: 0.15rem 0 0.1rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: v.$radius-sm;
+  overflow: hidden;
+  background: var(--highlight-bg-color);
+  color: var(--code-color);
+  font-size: 0.8rem;
+  line-height: 1.5;
+
+  pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    white-space: pre;
+    tab-size: 4;
+    font-family: ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  }
+}
+
+/* Beat the theme's `code:not([class]):not([id])` rule (specificity 0,0,2,1):
+   without this the code column inherits the inline-code size and 3px padding,
+   so its lines grow taller than the number gutter and the two drift apart. */
+.code-card pre.code-card__code code {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border-radius: 0;
+}
+
+.code-card__nums {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  min-width: 2.3rem;
+  padding: 0.6rem 0.6rem;
+  text-align: right;
+  color: var(--highlight-lineno-color);
+  border-right: 1px solid var(--main-border-color);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.code-card__code {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.6rem 0.9rem 0.6rem 0.55rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}

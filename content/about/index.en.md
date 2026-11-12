@@ -23,50 +23,62 @@ Follow the posts in the demo site to quickly set up a free personal blog!
 
 ## Groove Radar 🕺
 
-Every post on this blog ends with a DDR-style *groove radar* that sums up its shape at a glance. Play with the sliders below to see how each stat translates into an actual blog post.
+Every post on this blog ends with a *groove radar*, the five-sided chart from Dance Dance Revolution. It tells you what kind of read you are in for. Move the sliders below to see what each value means for an actual post.
 
 {{< groove-radar-playground >}}
 
 ### From the arcade to the blog 🕹️
 
-The [Groove Radar](https://remywiki.com/GROOVE_RADAR) first appeared in *DanceDanceRevolution 4thMIX* to describe the character of a song's chart beyond its difficulty rating. Each axis carries an original Japanese label, and this blog reuses the same logic — just applied to reading instead of dancing.
+The [Groove Radar](https://dancedancerevolution.fandom.com/wiki/Groove_Radar) (グルーヴレーダー) was introduced in *DDRMAX -Dance Dance Revolution 6thMIX-*. It is a pentagon that shows the difficulty of a song through five values: Stream, Voltage, Air, Freeze and Chaos. I kept the five axes and what each one stands for, and applied them to reading instead of dancing.
 
-Two quantities are shared by all the formulas below: \(w\), the word count of the post (the same number as the read-time indicator), and the size factor \(s\), which stops short posts from maxing out an axis with just a handful of elements:
+Two numbers come back in the formulas below. The first is \(w\), the word count of the post, which is the same count the read-time indicator uses. The second is the size factor \(s\). In the game, most values are measured against the length of the song. Here, every axis except READING TIME is multiplied by \(s\), so the radar grows with the post: a five-minute read can't fill it with two images and one long paragraph. A post gets its full weight from 3,000 words, which is about a 17-minute read:
 
-$$ s = \min\left( \sqrt{\frac{w}{1500}},\ 1 \right) $$
+$$ s = \min\left( \sqrt{\frac{w}{3000}},\ 1 \right) $$
 
-Every axis reads 100% at the outer ring and caps at 150%; the *blog radar value* is simply the sum of the five displayed percentages.
+Each axis reads 100% at the outer ring and stops at 150%. The *blog radar value* is the sum of the five percentages.
 
 #### READING TIME
 
-In the game, **STREAM** (全体密度, "overall density") measures the overall step density of the chart. Here it measures the overall size of the post, noted \(T\): reading time at 180 words per minute, where a 20-minute read hits 100% and anything past 30 minutes pegs the axis:
+**STREAM** (全体密度, "overall density") is the overall density of the steps in a chart. On the blog it is the overall size of the post, noted \(T\): the reading time at 180 words per minute. A 40-minute read reaches 100%, and anything past 60 minutes maxes out the axis.
 
-$$ T = \frac{w / 180}{20} $$
+$$ T = \frac{w / 180}{40} $$
 
 #### HEAVINESS
 
-In the game, **VOLTAGE** (最大密度, "maximum density") measures the peak density — the busiest moment of the chart. Here it measures the heaviest stretch of text, noted \(\rho\) — the physicist's letter for density (and DDR loves its Greek letters) — blending the longest paragraph \(p_{\max}\), the average words per paragraph \(\bar{p}\) and the paragraph count \(n\):
+**VOLTAGE** (最大密度, "maximum density") is the [peak density](https://dancedancerevolution.fandom.com/wiki/Voltage_%28Groove_Radar%29) of a chart: the most arrows packed on screen in one measure, multiplied by the average BPM of the song. A chart scores high when it has a packed section and a fast pace overall.
 
-$$ \rho = 0.5\,\frac{p_{\max}}{160} + 0.3\,\frac{\bar{p}}{60} + 0.2\,\frac{n}{80} $$
+On the blog it is the weight of the text, noted \(\rho\). That is the letter physicists use for density, and DDR likes its Greek letters. The packed section is the longest paragraph \(p_{\max}\). The overall pace is the average number of words per paragraph \(\bar{p}\) and the amount of prose \(W\), in words: a long text is a dense one. Code, quizzes and checklists are left out, so a long post that is mostly code stays light.
+
+$$ \rho = \left( 0.3\,\frac{p_{\max}}{300} + 0.25\,\frac{\bar{p}}{120} + 0.45\,\frac{W}{4000} \right) s $$
 
 #### BREATHER
 
-In the game, **AIR** (ジャンプ度, "jump degree") counts the jumps. Here it counts how often the text jumps out and lets you breathe, noted \(B\). Visual elements are weighted — with \(i\) images, \(p\) prompt boxes, \(z\) spoilers, \(h\) section breaks, and \(b\)/\(e\) bold and italic runs (capped, so an all-bold post gains nothing):
+**AIR** (ジャンプ度, "jump degree") counts the jumps in a chart. On the blog it counts what makes the text jump out and lets you breathe, noted \(B\). Each kind of visual is worth a number of points: \(i\) images, \(p\) prompt boxes, \(z\) spoilers, \(h\) section breaks, and \(b\) and \(e\) for the bold and italic runs. Those last two are capped, so a post written entirely in bold gains nothing. A block of code is not a breather. It counts toward TECHNICAL.
 
 $$ E = 5\,i + 2\,p + 2\,z + h + \tfrac{1}{4}\min(b,\,30) + \tfrac{1}{4}\min(e,\,30) $$
 
-The axis then blends their density, their absolute amount, and the variety \(v\) of what's used (up to 7 kinds):
+The axis then mixes how dense those points are, how many there are in total, and the variety \(v\) of what is used (up to 7 kinds):
 
-$$ B = 0.5\,\frac{E / (w/1000)}{30}\,s + 0.3\,\frac{E}{40} + 0.2\,\frac{v}{7} $$
+$$ B = \left( 0.6\,\frac{E / (w/1000)}{30} + 0.3\,\frac{E}{80} + 0.1\,\frac{v}{7} \right) s $$
 
 #### TECHNICAL
 
-In the game, **FREEZE** (踏みっぱ度, "hold degree", from 踏みっぱなし — *keep stepping on it*) measures how long you hold freeze arrows. Here it measures how long you stay frozen on screen reading code and equations, noted \(C\): \(k\) is the characters of code, \(N\) all characters, and each of the \(m\) math equations weighs 200 characters of technical mass:
+**FREEZE** (踏みっぱ度, "hold degree", from 踏みっぱなし, *keep stepping on it*) is how long you hold the freeze arrows. On the blog it is how long you stay frozen in front of code and equations, noted \(C\). \(k\) is the number of characters of code, \(N\) the total number of characters, and each of the \(m\) math equations counts as 200 characters of code.
 
-$$ C = 0.6\,\frac{k/N}{0.35}\,s + 0.4\,\frac{k + 200\,m}{5000} $$
+$$ C = \left( 0.6\,\frac{k/N}{0.35} + 0.4\,\frac{k + 200\,m}{5000} \right) s $$
 
 #### COMPLEXITY
 
-In the game, **CHAOS** (変則度, "irregularity degree") measures off-beat and irregular steps. Here it measures how irregular the reading is, noted \(X\), on the prose only (code excluded): \(L\) is the share of long words (9+ characters), \(A\) the share of acronyms and jargon, and \(S\) the average sentence length:
+**CHAOS** (変則度, "irregularity degree") counts the steps that fall off the beat, and the game [multiplies them by the BPM changes and the stops](https://dancedancerevolution.fandom.com/wiki/Chaos_%28Groove_Radar%29) in the song. That is why even a Beginner chart can have some chaos. Every text has a touch of it too.
 
-$$ X = \left( 0.55\,\frac{L}{0.25} + 0.25\,\frac{A}{0.05} + 0.2\,\min\left(\frac{S}{30},\ 1.5\right) \right) s $$
+On the blog the axis is noted \(X\). The off-beat steps are the irregular parts of the wording: \(L\) is the share of long words (9+ characters), \(A\) the share of acronyms and jargon, and \(S\) the average sentence length. They are measured on the prose only.
+
+The stops are the places where you have to stop reading and do something. The \(q\) quiz questions, the \(c\) answer choices across them and the \(t\) checklist items add up to interactive points:
+
+$$ I = q + \frac{c}{5} + \frac{t}{4} $$
+
+Like in the game, the stops multiply the rest. A 12-question quiz with five choices per question doubles the value:
+
+$$ X = \left( 0.55\,\frac{L}{0.5} + 0.25\,\frac{A}{0.1} + 0.2\,\min\left(\frac{S}{50},\ 1.5\right) \right) \left( 1 + \frac{I}{24} \right) s $$
+
+The marks for the wording are set far out on purpose. Reaching 100% without a quiz would take a text where half the words are long, one word in ten is an acronym and the sentences average 50 words. Ordinary prose only gets a touch of chaos, so the axis usually stays under HEAVINESS. It takes a quiz or a wall of jargon to push it past.

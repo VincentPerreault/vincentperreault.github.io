@@ -10,6 +10,7 @@
 import {
   WPM,
   CAPS,
+  INTERACT,
   OVERFLOW,
   LONG_WORD,
   AXES,
@@ -44,24 +45,24 @@ const LOCALES = { en: 'en-CA', fr: 'fr-CA' };
 const MEANINGS = {
   en: {
     stream: (minutes, words) => `≈ ${minutes} min of reading (~${words} words)`,
-    voltage: (peak, avg, count) =>
-      `longest paragraph ≈ ${peak} words · ~${avg} words/paragraph · ~${count} paragraphs`,
+    voltage: (peak, avg, prose) =>
+      `longest paragraph ≈ ${peak} words · ~${avg} words/paragraph · ~${prose} words of prose`,
     freeze: (share, chars) => `≈ ${share}% of the text is code (~${chars} chars of code)`,
     air: (density) =>
       `≈ ${density} visual pts / 1,000 words (media, prompts, spoilers, bold/italic) and their variety`,
-    chaos: (longWords, acronyms) =>
-      `≈ ${longWords}% ${LONG_WORD}+ char words · ≈ ${acronyms}% acronyms · long sentences`
+    chaos: (longWords, acronyms, sentence, questions) =>
+      `≈ ${longWords}% ${LONG_WORD}+ char words · ≈ ${acronyms}% acronyms · ~${sentence} words/sentence (a ${questions}-question quiz doubles it)`
   },
   fr: {
     stream: (minutes, words) => `≈ ${minutes} min de lecture (~${words} mots)`,
-    voltage: (peak, avg, count) =>
-      `paragraphe le plus long ≈ ${peak} mots · ~${avg} mots/paragraphe · ~${count} paragraphes`,
+    voltage: (peak, avg, prose) =>
+      `paragraphe le plus long ≈ ${peak} mots · ~${avg} mots/paragraphe · ~${prose} mots de prose`,
     freeze: (share, chars) =>
       `≈ ${share}${NBSP}% du texte est du code (~${chars} caractères de code)`,
     air: (density) =>
       `≈ ${density} pts visuels / 1${NBSP}000 mots (médias, encadrés, spoilers, gras/italique) et leur variété`,
-    chaos: (longWords, acronyms) =>
-      `≈ ${longWords}${NBSP}% de mots de ${LONG_WORD}+ caractères · ≈ ${acronyms}${NBSP}% d'acronymes · phrases longues`
+    chaos: (longWords, acronyms, sentence, questions) =>
+      `≈ ${longWords}${NBSP}% de mots de ${LONG_WORD}+ caractères · ≈ ${acronyms}${NBSP}% d'acronymes · ~${sentence} mots/phrase (un quiz de ${questions} questions double la valeur)`
   }
 };
 
@@ -85,16 +86,20 @@ function meaningFor(key, percent) {
       return text.voltage(
         int(frac * CAPS.voltage.peak),
         int(frac * CAPS.voltage.avg),
-        int(frac * CAPS.voltage.count)
+        (Math.round((frac * CAPS.voltage.prose) / 50) * 50).toLocaleString(locale)
       );
     case 'freeze':
       return text.freeze(int(frac * CAPS.freeze.ratio * 100), int(frac * CAPS.freeze.chars));
     case 'air':
       return text.air(int(frac * CAPS.air.density));
     case 'chaos':
+      /* The wording alone, for a post with no quiz. The quiz size quoted is
+         the one worth CAPS.chaos.interactive points, five choices a question. */
       return text.chaos(
         int(frac * CAPS.chaos.longWords * 100),
-        tenth(frac * CAPS.chaos.acronyms * 100)
+        tenth(frac * CAPS.chaos.acronyms * 100),
+        int(Math.min(frac, OVERFLOW) * CAPS.chaos.sentence),
+        int(CAPS.chaos.interactive / (INTERACT.question + 5 * INTERACT.choice))
       );
     default:
       return '';

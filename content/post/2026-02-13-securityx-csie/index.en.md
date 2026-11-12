@@ -71,6 +71,252 @@ Not even five minutes later, the receptionist had already printed a document con
 ![CSIE Score Report](CSIE_score_report_censored.png)
 { width="490" height="478" caption="The SecurityX score report"}
 
+## Think you could pass SecurityX? 🧠
+
+Enough storytelling. Here are twenty scenario questions in the spirit of the real exam: long stems, close distractors, and a bias toward the hard end. The hat changes from one question to the next (CISO, help desk, OT engineer, auditor), the way the exam keeps you honest. One answer each, no lookups (it tests your ethics too, *wink wink*). Land 90% or more and you are good to go.
+
+{{< quiz title="SecurityX simulation: twenty questions" >}}
+
+<div class="quiz-code"><span class="quiz-code__text">You are an AppSec engineer reviewing this C handler. <code>recv</code> can return up to <code>sizeof(input) - 1</code> bytes of attacker input. Which single line is the buffer overflow?</span><div class="code-card"><pre class="code-card__nums" aria-hidden="true">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre><pre class="code-card__code"><code>void handle_request(int sock) {
+    char banner[64];
+    char input[128];
+    int  len;
+    strncpy(banner, "WELCOME", sizeof(banner));      // (A)
+    len = recv(sock, input, sizeof(input) - 1, 0);   // (B)
+    if (len &lt; 0) return;
+    input[len] = '\0';                               // (C)
+    syslog(LOG_INFO, "req len=%d", strlen(input));   // (D)
+    strcpy(banner, input);                           // (E)
+    send(sock, banner, strlen(banner), 0);           // (F)
+}</code></pre></div></div>
+
+- [ ] (A) `strncpy` of the `"WELCOME"` banner
+- [ ] (B) `recv` into `input`
+- [ ] (C) the NUL terminator on `input`
+- [ ] (D) `strlen(input)` passed to `syslog`
+- [x] (E) `strcpy(banner, input)`
+- [ ] (F) `send` of `banner`
+
+> `input` holds up to 127 bytes, `banner` only 64. The `strcpy` at (E) copies with no bounds check and overruns the smaller buffer. (B) is capped by `sizeof(input) - 1` and (C) stays in range.
+
+A Linux host runs a fileless backdoor listening on a high TCP port. As the IR analyst you must identify and kill it without wrecking volatile evidence. Given these steps, (A) `kill -9 <pid>`, (B) `ss -tnp` to map the port to its PID, (C) confirm intent via `/proc/<pid>/exe` and cmdline, (D) re-check the port with `ss -tnp`, which order is correct?
+
+- [ ] A, B, C, D
+- [x] B, C, A, D
+- [ ] B, A, D, C
+- [ ] C, B, A, D
+- [ ] B, A, C, D
+
+> Map the port to a PID (B), confirm the process is hostile before killing it (C), kill to contain (A), then verify (D). Killing first risks the wrong PID, and a reboot would wipe the in-memory implant you still need.
+
+<div class="quiz-code"><span class="quiz-code__text">As the on-call admin you pull this Apache access log after the WordPress site began serving spam. One source IP, about three minutes. What most likely happened?</span><div class="code-card"><pre class="code-card__nums" aria-hidden="true">1
+2
+3</pre><pre class="code-card__code"><code>45.9.x.x "POST /wp-admin/admin-ajax.php?action=duplicator_download&amp;file=../../wp-config.php" 200 1870
+45.9.x.x "POST /wp-content/uploads/2026/11/wp-conf.php" 200 24
+45.9.x.x "GET /wp-content/uploads/2026/11/wp-conf.php?0=id" 200 41</code></pre></div></div>
+
+- [ ] Credential stuffing against `wp-login.php`
+- [ ] An uptime monitor polling the admin API
+- [ ] A crawler indexing the uploads folder
+- [x] File read of `wp-config.php`, then webshell RCE
+- [ ] Cache warmup after a plugin update
+
+> The first request abuses a vulnerable plugin action to traverse out and read `wp-config.php`; the next two drop a PHP file under `uploads` and run it with a command parameter. That is file disclosure followed by webshell RCE, not login abuse or benign traffic.
+
+As a compliance auditor you cite an IaaS tenant for unpatched guest OSes on its ERP VMs. Under shared responsibility, who owns the fix?
+
+- [ ] The CSP, which runs the hypervisor
+- [ ] Shared evenly between CSP and tenant
+- [x] The tenant, who owns the guest OS
+- [ ] The regulator that set the baseline
+- [ ] The MDR vendor watching the tenant
+
+> In IaaS the CSP secures the hypervisor and below; the tenant owns the guest OS, its patching and the app. Higher up the stack (PaaS, SaaS) the CSP absorbs more.
+
+You are CIO of two merged firms, each with its own IdP and overlapping IP space, and leadership wants SSO fast. Before integrating the IdPs, what comes first?
+
+- [x] Inventory identities, entitlements and trusts
+- [ ] Federate both IdPs right away
+- [ ] Migrate all accounts into the larger IdP
+- [ ] Stand up a new IdP and rebuild accounts
+- [ ] Force a password reset across both firms
+
+> You cannot securely merge what you have not mapped. Discovery of identities, entitlements and trusts precedes any federation or migration, which would otherwise propagate duplicate and over-privileged accounts.
+
+PHI sits on managed cloud volumes. At end of retention it must be unrecoverable, and the CSP grants no physical disk access. As the cloud architect, best approach?
+
+- [ ] Seven-pass random overwrite of the volume
+- [ ] Degauss the backing physical disks
+- [ ] Delete the volume and empty the bin
+- [ ] Trust the CSP data-deletion SLA
+- [x] Destroy the CMK, then delete the volume
+
+> No physical access rules out overwrite and degauss. Encrypt with a CMK and destroy the key: the ciphertext is instantly unrecoverable, even to the CSP.
+
+A legacy app stores salted SHA-256 passwords, and GPUs test billions of guesses per second. Without swapping the auth framework, what best slows offline cracking?
+
+- [ ] Move from SHA-256 to SHA-3
+- [x] Use a slow KDF with a tunable work factor
+- [ ] Add a second unique salt per password
+- [ ] Encrypt the hash table with AES-256
+- [ ] Hash each password twice over
+
+> A tunable KDF (bcrypt, scrypt, Argon2) makes every guess expensive, so billions-per-second collapses. A faster hash, extra salts or at-rest encryption do not raise the per-guess cost.
+
+Adversaries are archiving your encrypted VPN traffic they cannot read today. As CISO, what best justifies prioritising PQC key exchange?
+
+- [ ] Quantum will brute-force AES-256 in seconds
+- [ ] PQC is faster and will cut VPN latency
+- [ ] TLS 1.3 is being retired for a quantum protocol
+- [x] Harvest-now, decrypt-later on today's capture
+- [ ] SHA-256 integrity is already quantum-broken
+
+> Shor threatens asymmetric key exchange (RSA/ECC), not symmetric ciphers or hashes (Grover only weakens those). For long-lived secrets, captured traffic can be read once a CRQC exists.
+
+An intruder moved laterally for weeks using creds pulled from a file share, undetected. You want a high-fidelity alert the next time someone trawls the shares for creds. As threat hunter, best control?
+
+- [ ] NGAV on every endpoint
+- [ ] 30-day password rotation
+- [x] Honeytokens and decoy files on the share
+- [ ] Full-disk encryption on the server
+- [ ] One-year log retention on the share
+
+> Canary files and honeytokens fire only when touched, giving a low-noise, high-confidence signal of credential theft and lateral movement; real users never touch the bait.
+
+Analysts burn hours on identical phishing triage (headers, URL detonation, reputation, quarantine) and MTTR is climbing with volume. As SOC manager, best investment?
+
+- [ ] Hire more tier-1 analysts
+- [ ] Add a second SIEM for correlation
+- [ ] Extend the phishing report deadline
+- [ ] Move to a lower-click ticketing tool
+- [x] Automate the triage with SOAR playbooks
+
+> SOAR playbooks automate the repeatable enrichment and containment and escalate only exceptions, cutting MTTR without scaling headcount linearly.
+
+A fleet rebuilt from a golden image keeps drifting because admins hot-patch live hosts, causing failed deploys and uneven baselines. As platform engineer, best fix?
+
+- [x] Go immutable: new image, redeploy via IaC
+- [ ] Share one manual patch runbook for all hosts
+- [ ] Back up each server config nightly
+- [ ] Scan the fleet for vulns more often
+- [ ] Route all admin SSH through one bastion
+
+> Hot-patching is the drift. Immutable infrastructure (bake a new versioned image, redeploy with IaC, never touch a running host) keeps the fleet identical and auditable.
+
+Moving a monolith to containers, you find DB passwords and API keys baked into Dockerfiles and committed to image layers. As architect, best remediation going forward?
+
+- [ ] GPG-encrypt the Dockerfiles before commit
+- [ ] Set the image registry to private
+- [ ] Move the secrets into `ENV` directives
+- [x] Externalise secrets to a vault, inject at runtime
+- [ ] Add the Dockerfiles to `.gitignore`
+
+> Secrets in image layers persist in history and leak on every pull, and `ENV` bakes them in too. A secrets manager with runtime injection keeps them out of the artifact and out of VCS.
+
+A researcher reported a crash in a custom binary parser. You want to surface other untriggered memory-safety bugs across its input paths before attackers do. As security engineer, best technique?
+
+- [ ] One-off manual pentest of the endpoint
+- [x] Coverage-guided fuzzing of the parser
+- [ ] Signature AV scan of the binary
+- [ ] Verbose application logging in prod
+- [ ] Phishing simulation against the devs
+
+> Fuzzing mutates malformed inputs to drive many code paths and trip crashes, which is purpose-built for memory-safety defects in parsers.
+
+A user can send S/MIME-encrypted mail to every external partner but one, where encryption throws a cert error; plain mail works and that partner can encrypt to the user. As help desk, most likely cause?
+
+- [ ] The user's mail client needs updating
+- [ ] The gateway is blocking that domain
+- [ ] The partner's mailbox is over quota
+- [ ] Opportunistic TLS is off between servers
+- [x] The partner's cert address does not match
+
+> One partner, encryption only, one direction points to that partner's certificate: the address bound to their public key does not match the address in use. Client version, quotas or transport TLS would not single out one recipient's encrypted mail.
+
+As an OT engineer you find an attacker sent crafted commands that forced the plant's SIS controllers into a fault state, defeating the safety shutdown logic. Which MITRE ATT&CK for ICS tactic fits?
+
+- [ ] Impair Process Control
+- [ ] Persistence
+- [ ] Initial Access
+- [x] Inhibit Response Function
+- [ ] Discovery
+- [ ] Collection
+
+> Attacking the SIS, the layer that would respond to an unsafe condition, is Inhibit Response Function (see TRITON). Impair Process Control is the trap: it covers manipulating the process itself, not disabling its safety system.
+
+You reach a live host running in-memory malware with an open C2 session, and policy says pull the plug to contain. As DFIR, what preserves the most critical evidence first?
+
+- [ ] Power off now to cut the C2 channel
+- [ ] Image the disk, then reboot to a forensic OS
+- [x] Capture RAM and network state, then power off
+- [ ] Run AV to quarantine before it spreads
+- [ ] Kill the process, record the hash, shut down
+
+> Fileless malware vanishes on power-off. Order of volatility says capture RAM and live network state first; disk imaging comes after.
+
+After a breach, attackers roamed east-west across a flat data-center LAN once they popped one web server. As architect you must cap blast radius without re-addressing the network. Best approach?
+
+- [ ] A bigger perimeter firewall with DPI
+- [x] Microsegment with default-deny east-west
+- [ ] Consolidate servers onto one VLAN
+- [ ] Require a VPN for inbound internet traffic
+- [ ] Full-disk encryption on all servers
+
+> Lateral movement across a flat segment is a segmentation problem. Identity-aware microsegmentation with default-deny between workloads is the zero-trust answer; perimeter controls guard north-south only.
+
+As risk manager you weigh a control. SLE is \$500K. Without it you expect two breaches a year; a \$250K/year control cuts that to one every two years. Net annual benefit or cost?
+
+- [ ] Net cost of \$250K; it over-spends
+- [ ] Net benefit of \$750K, the full reduction
+- [ ] Net benefit of \$250K
+- [ ] Break-even overall
+- [x] Net benefit of about \$500K
+- [ ] Indeterminate without the EF
+
+> ALE = SLE x ARO. Before: 500K x 2 = 1M per year. After: 500K x 0.5 = 250K. Risk drops 750K; minus the 250K control cost, net benefit is about 500K.
+
+Corporate laptops must auto-start an always-on VPN at boot, and only company-owned compliant devices may connect, even if a user types valid creds on a personal laptop. As network engineer, best way to enforce the device check?
+
+- [x] Issue device certs from the enterprise PKI
+- [ ] Require a longer VPN password
+- [ ] Publish the client only on the intranet
+- [ ] Add SMS MFA to the VPN login
+- [ ] Allowlist users' home IP addresses
+
+> A machine certificate from the PKI binds the tunnel to approved hardware. Passwords and MFA authenticate the person, not the device.
+
+An auditor asks your vendor to prove that, when a new critical CVE drops in a third-party library, they can list every product and release shipping it. Which artifact enables that?
+
+- [ ] Last quarter's pentest report
+- [ ] The CI/CD build logs
+- [ ] A signed developer code of conduct
+- [x] A per-release SBOM
+- [ ] The product EULA
+
+> An SBOM enumerates every component and version per release, so you can answer "where am I exposed?" in minutes when the next Log4Shell-class CVE lands.
+
+{{< /quiz >}}
+
+### Your result
+
+| Score | What it means |
+|:---|:---|
+| **90% or more** | Breadth and instincts are there. Book it, and bring a water bottle. |
+| **75 to 89%** | You would be in the fight, but the real bar is unforgiving: one slip every few questions is all it takes. Patch the domains you missed first. |
+| **60 to 74%** | Not yet. More scenario practice and hands-on time; the wording trips people more than the concepts do. |
+| **Under 60%** | Fundamentals first. Work back through the acronyms and lower-tier certs, then try again. |
+
 ## Back at work: what's the payoff? 📊
 
 The first thing my boss asked me about this certification after I passed it was: "How would it positively affect your current role?" and to be honest, passing it humbled me more than I imagined. It felt like I was practising to be a team lead, where you need to answer every question thrown at you by anyone, and have almost all the answers right away. While you have multiple choices of answers during the exam, you don't have that IRL: you need to find it for yourself and it was a realization for me that I might not be ready _yet_ to move on to a leadership position. However, it did make me realize that almost all businesses try to solve the same complicated problems as you do, which is quite eye-opening if you take a step back. Now, with the exam behind me, I feel like I know where the industry is headed, where my employer stands, and what I need to do to make good decisions to ultimately make progress and positive changes.

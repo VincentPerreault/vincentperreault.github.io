@@ -32,6 +32,15 @@ jobs:
       - name: Tidy go.mod, go.sum
         run: hugo mod tidy
 
+      # `hugo mod tidy` prunes a go.sum line that every normal Hugo run writes
+      # back. Left alone, the file flips between two states forever: this job
+      # removes the line, the next local build re-adds it, and each push ends
+      # with a "CI: Update theme" commit that only deletes it again. Loading
+      # the modules once after the tidy leaves go.sum exactly the way a local
+      # build does, so the job only commits when the theme really changed.
+      - name: Let Hugo restore the go.sum lines it needs
+        run: hugo mod graph
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:

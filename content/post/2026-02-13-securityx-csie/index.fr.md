@@ -71,6 +71,252 @@ Même pas 5 minutes plus tard, la réceptionniste avait déjà imprimé un docum
 ![CSIE Score Report](CSIE_score_report_censored.png)
 { width="490" height="478" caption="Le relevé de notes SecurityX"}
 
+## Penses-tu pouvoir réussir SecurityX? 🧠
+
+Assez d'anecdotes. Voici vingt questions à scénario dans l'esprit du vrai examen: de longs énoncés, des choix de réponses qui se ressemblent et un penchant pour le côté difficile. Le chapeau change d'une question à l'autre (CISO, soutien technique, ingénieur OT, auditeur), exactement comme l'examen le fait pour te garder sur le qui-vive. Une seule réponse par question, et aucune recherche sur Internet (ça va tester ton éthique en même temps, _clin d'oeil clin d'oeil_). Si tu obtiens 90% ou plus, tu es prêt.
+
+{{< quiz title="Simulation SecurityX: vingt questions" >}}
+
+<div class="quiz-code"><span class="quiz-code__text">Tu es ingénieur AppSec et tu révises ce gestionnaire en C. <code>recv</code> peut retourner jusqu'à <code>sizeof(input) - 1</code> octets contrôlés par l'attaquant. Quelle ligne cause le débordement de tampon?</span><div class="code-card"><pre class="code-card__nums" aria-hidden="true">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre><pre class="code-card__code"><code>void handle_request(int sock) {
+    char banner[64];
+    char input[128];
+    int  len;
+    strncpy(banner, "WELCOME", sizeof(banner));      // (A)
+    len = recv(sock, input, sizeof(input) - 1, 0);   // (B)
+    if (len &lt; 0) return;
+    input[len] = '\0';                               // (C)
+    syslog(LOG_INFO, "req len=%d", strlen(input));   // (D)
+    strcpy(banner, input);                           // (E)
+    send(sock, banner, strlen(banner), 0);           // (F)
+}</code></pre></div></div>
+
+- [ ] (A) `strncpy` de la bannière `"WELCOME"`
+- [ ] (B) `recv` vers `input`
+- [ ] (C) le terminateur NUL de `input`
+- [ ] (D) `strlen(input)` passé à `syslog`
+- [x] (E) `strcpy(banner, input)`
+- [ ] (F) `send` de `banner`
+
+> `input` peut contenir jusqu'à 127 octets, `banner` seulement 64. Le `strcpy` en (E) copie sans vérifier les bornes et déborde du plus petit tampon. (B) est limité par `sizeof(input) - 1` et (C) reste dans les bornes.
+
+Un hôte Linux exécute une porte dérobée sans fichier (_fileless_) qui écoute sur un port TCP élevé. Comme analyste IR, tu dois l'identifier et la tuer sans détruire les preuves volatiles. Avec ces étapes, (A) `kill -9 <pid>`, (B) `ss -tnp` pour associer le port à son PID, (C) confirmer l'intention avec `/proc/<pid>/exe` et la ligne de commande, (D) revérifier le port avec `ss -tnp`, quel ordre est le bon?
+
+- [ ] A, B, C, D
+- [x] B, C, A, D
+- [ ] B, A, D, C
+- [ ] C, B, A, D
+- [ ] B, A, C, D
+
+> Associe le port à un PID (B), confirme que le processus est hostile avant de le tuer (C), tue-le pour contenir la menace (A), puis vérifie (D). Tuer en premier, c'est risquer de viser le mauvais PID, et un redémarrage effacerait l'implant en mémoire dont tu as encore besoin.
+
+<div class="quiz-code"><span class="quiz-code__text">Tu es l'admin de garde et tu sors ce journal d'accès Apache après que le site WordPress s'est mis à servir du pourriel. Une seule adresse IP source, environ trois minutes. Que s'est-il fort probablement passé?</span><div class="code-card"><pre class="code-card__nums" aria-hidden="true">1
+2
+3</pre><pre class="code-card__code"><code>45.9.x.x "POST /wp-admin/admin-ajax.php?action=duplicator_download&amp;file=../../wp-config.php" 200 1870
+45.9.x.x "POST /wp-content/uploads/2026/11/wp-conf.php" 200 24
+45.9.x.x "GET /wp-content/uploads/2026/11/wp-conf.php?0=id" 200 41</code></pre></div></div>
+
+- [ ] Du bourrage d'identifiants contre `wp-login.php`
+- [ ] Un moniteur de disponibilité qui sonde l'API d'admin
+- [ ] Un robot qui indexe le dossier `uploads`
+- [x] Lecture de `wp-config.php`, puis RCE par _webshell_
+- [ ] Un réchauffement de cache après une mise à jour
+
+> La première requête abuse d'une action vulnérable d'une extension pour remonter l'arborescence et lire `wp-config.php`; les deux suivantes déposent un fichier PHP dans `uploads` et l'exécutent avec un paramètre de commande. C'est une divulgation de fichier suivie d'une RCE par _webshell_, pas un abus d'authentification ni du trafic légitime.
+
+Comme auditeur de conformité, tu signales qu'un locataire IaaS a des OS invités sans correctifs sur ses VM d'ERP. Selon la responsabilité partagée, à qui revient la correction?
+
+- [ ] Au CSP, qui opère l'hyperviseur
+- [ ] À parts égales entre le CSP et le locataire
+- [x] Au locataire, qui possède l'OS invité
+- [ ] Au régulateur qui a fixé la norme
+- [ ] Au fournisseur MDR qui surveille le locataire
+
+> En IaaS, le CSP sécurise l'hyperviseur et tout ce qui est en dessous; le locataire possède l'OS invité, ses correctifs et l'application. Plus on monte dans la pile (PaaS, SaaS), plus le CSP en prend à sa charge.
+
+Tu es CIO de deux entreprises fusionnées, chacune avec son propre IdP et des plages IP qui se chevauchent, et la direction veut du SSO rapidement. Avant d'intégrer les IdP, que fais-tu en premier?
+
+- [x] Inventorier identités, droits et relations de confiance
+- [ ] Fédérer les deux IdP immédiatement
+- [ ] Migrer tous les comptes vers le plus gros IdP
+- [ ] Monter un nouvel IdP et recréer les comptes
+- [ ] Forcer une réinitialisation des mots de passe partout
+
+> On ne peut pas fusionner de façon sécuritaire ce qu'on n'a pas cartographié. La découverte des identités, des droits et des relations de confiance précède toute fédération ou migration, qui autrement propagerait des comptes en double et surprivilégiés.
+
+Des PHI se trouvent sur des volumes infonuagiques gérés. À la fin de la période de rétention, elles doivent être irrécupérables, et le CSP ne donne aucun accès physique aux disques. Comme architecte infonuagique, quelle est la meilleure approche?
+
+- [ ] Écraser le volume avec sept passes aléatoires
+- [ ] Démagnétiser les disques physiques sous-jacents
+- [ ] Supprimer le volume et vider la corbeille
+- [ ] Se fier au SLA de suppression du CSP
+- [x] Détruire la CMK, puis supprimer le volume
+
+> Sans accès physique, l'écrasement et la démagnétisation sont exclus. Chiffre avec une CMK et détruis la clé: le texte chiffré devient instantanément irrécupérable, même pour le CSP.
+
+Une vieille application stocke des mots de passe en SHA-256 salé, et les GPU testent des milliards de tentatives par seconde. Sans remplacer le cadre d'authentification, qu'est-ce qui ralentit le mieux le cassage hors ligne?
+
+- [ ] Passer de SHA-256 à SHA-3
+- [x] Utiliser une KDF lente à facteur de travail ajustable
+- [ ] Ajouter un second sel unique par mot de passe
+- [ ] Chiffrer la table d'empreintes en AES-256
+- [ ] Hacher chaque mot de passe deux fois
+
+> Une KDF ajustable (bcrypt, scrypt, Argon2) rend chaque tentative coûteuse, et les milliards par seconde s'effondrent. Un hachage plus rapide, des sels supplémentaires ou le chiffrement au repos n'augmentent pas le coût par tentative.
+
+Des adversaires archivent ton trafic VPN chiffré, qu'ils ne peuvent pas lire aujourd'hui. Comme CISO, qu'est-ce qui justifie le mieux de prioriser un échange de clés PQC?
+
+- [ ] Le quantique cassera AES-256 en quelques secondes
+- [ ] La PQC est plus rapide et réduira la latence du VPN
+- [ ] TLS 1.3 sera retiré au profit d'un protocole quantique
+- [x] Le _harvest-now, decrypt-later_ sur le trafic capturé
+- [ ] L'intégrité SHA-256 est déjà cassée par le quantique
+
+> L'algorithme de Shor menace l'échange de clés asymétrique (RSA/ECC), pas les chiffrements symétriques ni les fonctions de hachage (Grover ne fait que les affaiblir). Pour les secrets à longue durée de vie, le trafic capturé pourra être lu dès qu'un CRQC existera.
+
+Un intrus s'est déplacé latéralement pendant des semaines avec des identifiants récupérés sur un partage de fichiers, sans être détecté. Tu veux une alerte fiable la prochaine fois que quelqu'un fouille les partages à la recherche d'identifiants. Comme _threat hunter_, quel est le meilleur contrôle?
+
+- [ ] Un NGAV sur chaque poste de travail
+- [ ] Une rotation des mots de passe aux 30 jours
+- [x] Des _honeytokens_ et des fichiers leurres sur le partage
+- [ ] Le chiffrement intégral du disque du serveur
+- [ ] Une rétention d'un an des journaux du partage
+
+> Les fichiers canaris et les _honeytokens_ ne se déclenchent que lorsqu'on y touche, ce qui donne un signal fiable et peu bruyant de vol d'identifiants et de mouvement latéral; les vrais utilisateurs ne touchent jamais à l'appât.
+
+Les analystes perdent des heures sur un triage d'hameçonnage toujours identique (en-têtes, détonation d'URL, réputation, quarantaine) et le MTTR grimpe avec le volume. Comme gestionnaire du SOC, quel est le meilleur investissement?
+
+- [ ] Embaucher plus d'analystes de niveau 1
+- [ ] Ajouter un second SIEM pour la corrélation
+- [ ] Prolonger le délai de signalement d'hameçonnage
+- [ ] Passer à un outil de billets avec moins de clics
+- [x] Automatiser le triage avec des _playbooks_ SOAR
+
+> Les _playbooks_ SOAR automatisent l'enrichissement et le confinement répétitifs et n'escaladent que les exceptions, ce qui réduit le MTTR sans devoir embaucher au rythme du volume.
+
+Un parc reconstruit à partir d'une _golden image_ dérive constamment parce que les admins appliquent des correctifs à chaud sur les hôtes en production, ce qui cause des déploiements ratés et des configurations inégales. Comme ingénieur de plateforme, quelle est la meilleure solution?
+
+- [x] Passer à l'immuable: nouvelle image, redéploiement par IaC
+- [ ] Partager une procédure manuelle de correctifs pour tous
+- [ ] Sauvegarder la configuration des serveurs chaque nuit
+- [ ] Balayer le parc pour des vulnérabilités plus souvent
+- [ ] Faire passer tout le SSH d'admin par un seul bastion
+
+> Les correctifs à chaud sont la dérive. Une infrastructure immuable (construire une nouvelle image versionnée, redéployer par IaC, ne jamais toucher à un hôte en marche) garde le parc identique et auditable.
+
+En migrant un monolithe vers des conteneurs, tu trouves des mots de passe de BD et des clés d'API codés en dur dans des Dockerfiles et intégrés aux couches d'image. Comme architecte, quelle est la meilleure correction pour la suite?
+
+- [ ] Chiffrer les Dockerfiles avec GPG avant le commit
+- [ ] Rendre le registre d'images privé
+- [ ] Déplacer les secrets dans des directives `ENV`
+- [x] Externaliser les secrets dans un coffre, injectés à l'exécution
+- [ ] Ajouter les Dockerfiles au `.gitignore`
+
+> Les secrets dans les couches d'image persistent dans l'historique et fuient à chaque _pull_, et `ENV` les y inscrit tout autant. Un gestionnaire de secrets avec injection à l'exécution les garde hors de l'artéfact et hors du VCS.
+
+Un chercheur a signalé un plantage dans un analyseur (_parser_) binaire maison. Tu veux faire ressortir les autres bogues de sécurité mémoire encore cachés dans ses chemins d'entrée avant que des attaquants les trouvent. Comme ingénieur en sécurité, quelle est la meilleure technique?
+
+- [ ] Un test d'intrusion manuel ponctuel du point d'accès
+- [x] Du _fuzzing_ guidé par la couverture sur l'analyseur
+- [ ] Un balayage antivirus par signatures du binaire
+- [ ] Une journalisation verbeuse en production
+- [ ] Une simulation d'hameçonnage visant les développeurs
+
+> Le _fuzzing_ mute des entrées malformées pour exercer un maximum de chemins de code et provoquer des plantages; c'est conçu exactement pour trouver les défauts de sécurité mémoire dans les analyseurs.
+
+Un utilisateur peut envoyer des courriels chiffrés en S/MIME à tous ses partenaires externes sauf un, pour qui le chiffrement lève une erreur de certificat; les courriels non chiffrés passent, et ce partenaire peut envoyer des courriels chiffrés à l'utilisateur. Au soutien technique, quelle est la cause la plus probable?
+
+- [ ] Le client de courriel de l'utilisateur doit être mis à jour
+- [ ] La passerelle de courriel bloque ce domaine
+- [ ] La boîte du partenaire a dépassé son quota
+- [ ] Le TLS opportuniste est désactivé entre les serveurs
+- [x] L'adresse du certificat du partenaire ne concorde pas
+
+> Un seul partenaire, seulement le chiffrement, dans un seul sens: tout pointe vers le certificat de ce partenaire. L'adresse liée à sa clé publique ne concorde pas avec l'adresse utilisée. La version du client, les quotas ou le TLS de transport ne cibleraient pas les courriels chiffrés d'un seul destinataire.
+
+Comme ingénieur OT, tu constates qu'un attaquant a envoyé des commandes forgées qui ont forcé les contrôleurs du SIS de l'usine en état de faute, neutralisant la logique d'arrêt sécuritaire. Quelle tactique de MITRE ATT&CK pour ICS correspond?
+
+- [ ] Impair Process Control
+- [ ] Persistence
+- [ ] Initial Access
+- [x] Inhibit Response Function
+- [ ] Discovery
+- [ ] Collection
+
+> S'attaquer au SIS, la couche qui devrait réagir à une condition dangereuse, relève d'Inhibit Response Function (voir TRITON). Impair Process Control est le piège: cette tactique couvre la manipulation du procédé lui-même, pas la neutralisation de son système de sécurité.
+
+Tu arrives sur un hôte en marche qui exécute un maliciel en mémoire avec une session C2 ouverte, et la politique dit de débrancher la machine pour la contenir. Comme analyste DFIR, qu'est-ce qui préserve en premier les preuves les plus critiques?
+
+- [ ] Éteindre tout de suite pour couper le canal C2
+- [ ] Imager le disque, puis redémarrer sur un OS forensique
+- [x] Capturer la RAM et l'état réseau, puis éteindre
+- [ ] Lancer l'antivirus pour isoler le maliciel avant qu'il se propage
+- [ ] Tuer le processus, noter l'empreinte, puis éteindre
+
+> Un maliciel sans fichier disparaît à l'extinction. L'ordre de volatilité dit de capturer d'abord la RAM et l'état réseau actif; l'image du disque vient après.
+
+Après une brèche, les attaquants ont circulé d'est en ouest dans un LAN de centre de données à plat après avoir compromis un seul serveur Web. Comme architecte, tu dois limiter le rayon d'impact sans refaire l'adressage du réseau. Quelle est la meilleure approche?
+
+- [ ] Un plus gros pare-feu périmétrique avec DPI
+- [x] Microsegmenter avec refus par défaut est-ouest
+- [ ] Regrouper les serveurs sur un seul VLAN
+- [ ] Exiger un VPN pour le trafic entrant d'Internet
+- [ ] Chiffrer intégralement les disques des serveurs
+
+> Le mouvement latéral dans un segment à plat est un problème de segmentation. La microsegmentation basée sur l'identité, avec refus par défaut entre les charges de travail, est la réponse _zero trust_; les contrôles périmétriques ne protègent que le trafic nord-sud.
+
+Comme gestionnaire de risques, tu évalues un contrôle. La SLE est de 500 k\$. Sans lui, tu prévois deux brèches par année; un contrôle à 250 k\$ par année ramène ça à une brèche aux deux ans. Quel est le bénéfice ou le coût annuel net?
+
+- [ ] Coût net de 250 k\$; il coûte plus qu'il ne rapporte
+- [ ] Bénéfice net de 750 k\$, soit toute la réduction
+- [ ] Bénéfice net de 250 k\$
+- [ ] Seuil de rentabilité, sans gain ni perte
+- [x] Bénéfice net d'environ 500 k\$
+- [ ] Indéterminé sans l'EF
+
+> ALE = SLE x ARO. Avant: 500 k x 2 = 1 M par année. Après: 500 k x 0,5 = 250 k. Le risque baisse de 750 k; moins les 250 k du contrôle, le bénéfice net est d'environ 500 k.
+
+Les portables de l'entreprise doivent démarrer automatiquement un VPN _always-on_ à l'allumage, et seuls les appareils conformes appartenant à l'entreprise peuvent se connecter, même si un utilisateur entre des identifiants valides sur un portable personnel. Comme ingénieur réseau, quelle est la meilleure façon d'imposer la vérification de l'appareil?
+
+- [x] Émettre des certificats d'appareil depuis la PKI d'entreprise
+- [ ] Exiger un mot de passe VPN plus long
+- [ ] Publier le client VPN uniquement sur l'intranet
+- [ ] Ajouter une MFA par SMS à la connexion VPN
+- [ ] Autoriser seulement les adresses IP résidentielles
+
+> Un certificat machine émis par la PKI lie le tunnel à du matériel approuvé. Les mots de passe et la MFA authentifient la personne, pas l'appareil.
+
+Un auditeur demande à ton fournisseur de prouver que, lorsqu'une nouvelle CVE critique touche une bibliothèque tierce, il peut lister chaque produit et chaque version qui l'embarque. Quel artéfact le permet?
+
+- [ ] Le rapport de pentest du dernier trimestre
+- [ ] Les journaux de compilation du CI/CD
+- [ ] Un code de conduite signé par les développeurs
+- [x] Un SBOM par version
+- [ ] L'EULA du produit
+
+> Un SBOM énumère chaque composant et sa version pour chaque _release_, ce qui permet de répondre à « où suis-je exposé? » en quelques minutes quand la prochaine CVE du calibre de Log4Shell arrive.
+
+{{< /quiz >}}
+
+### Ton résultat
+
+| Score | Ce que ça veut dire |
+|:---|:---|
+| **90% ou plus** | L'étendue des connaissances et les réflexes sont là. Réserve ton examen, et apporte une bouteille d'eau. |
+| **75 à 89%** | Tu serais dans la course, mais la vraie barre ne pardonne pas: une erreur à toutes les quelques questions suffit pour échouer. Renforce d'abord les domaines que tu as manqués. |
+| **60 à 74%** | Pas encore. Fais plus d'examens pratiques à scénarios et accumule de l'expérience pratique; la formulation des questions piège plus de gens que les concepts eux-mêmes. |
+| **Moins de 60%** | Les bases d'abord. Repasse à travers les acronymes et les certifications de niveau inférieur, puis réessaie. |
+
 ## De retour au travail: quelle est la plus-value? 📊
 
 La première chose que mon patron m'a dite à propos de cette certification après ma réussite a été: « En quoi cela affecterait-il positivement ton rôle actuel? » et pour être honnête, la réussir m'a rendu plus humble que je ne l'imaginais. J'avais l'impression de me pratiquer à devenir un chef d'équipe, où tu dois répondre à toutes les questions qui te sont posées par n'importe qui et où tu dois avoir *presque* toutes les réponses sur-le-champ. Bien que tu aies plusieurs choix de réponses pendant l'examen, tu n'as pas ça dans la vraie vie: tu dois les trouver par toi-même et j'ai réalisé que je n'étais peut-être pas encore prêt à passer à un poste de leadership. Cependant, ça m'a fait réaliser que presque toutes les entreprises tentent de résoudre les mêmes problèmes compliqués que toi, ce qui est assez révélateur quand on prend du recul. Maintenant, avec l'examen derrière moi, j'ai l'impression de savoir où en est notre industrie, où se situe mon employeur et ce que je dois faire pour prendre de bonnes décisions afin d'ultimement progresser et d'apporter des changements positifs.

@@ -2,12 +2,22 @@
  * DDR-style "Blog Radar" post statistics.
  * Analyzes the rendered post content and draws a five-axis radar:
  *   STREAM  (top)          - total reading time
- *   CHAOS   (top right)    - depth: long words, acronyms/jargon, long sentences
+ *   CHAOS   (top right)    - complexity: irregular wording (long words,
+ *                            acronyms, long sentences), multiplied by the
+ *                            interactive stops (quizzes, checklists)
  *   FREEZE  (bottom right) - code: share of the text + absolute amount
  *   AIR     (bottom left)  - visuals: media, prompts, styling, and their variety
- *   VOLTAGE (top left)     - text density: longest/average/count of paragraphs
- * Short posts are damped on the ratio-based axes by a size factor, so a
- * stub can't max an axis with a handful of elements.
+ *   VOLTAGE (top left)     - text density: longest and average paragraph,
+ *                            and how much prose there is
+ * CHAOS mirrors the game's own formula, where the off-beat steps are
+ * multiplied by the BPM changes and stops:
+ * https://dancedancerevolution.fandom.com/wiki/Chaos_(Groove_Radar)
+ * Every axis but STREAM is scaled by a size factor, so the radar grows with
+ * the length of the post: a short one can't fill it with a handful of
+ * elements, though a long one can still be an outlier on any axis.
+ * Interactive cards (quizzes, checklists) only count toward CHAOS: their
+ * text is left out of the prose and styling measurements. Code is never a
+ * visual.
  * The drawing helpers are shared with the interactive playground
  * (groove-radar-playground.js) and the home-page radar (home-radar.js).
  * The home radar uses the "bare" variant: circle, dots and axis
@@ -24,13 +34,24 @@ const LONG_WORD_RE = new RegExp(`[\\p{L}\\p{N}'’-]{${LONG_WORD},}`, 'gu');
 /* Acronyms / jargon: OSCP, AD, SLA, OSCP+, PEN-200... */
 const ACRONYM_RE = /\b[A-Z][A-Z0-9]{1,5}\+?\b/g;
 
+/* Where one sentence ends and the next begins inside a paragraph */
+const SENTENCE_BREAK_RE = /[.!?…]+\s+/;
+
+/* Interactive cards only count toward CHAOS; nothing inside them is prose
+   or styling */
+const INTERACTIVE = '.quiz-card, .checklist-card';
+
 /* Value needed on each axis to reach 100% (the outer ring) */
 export const CAPS = {
-  stream: 20, // minutes of reading (150% overshoot = a 30-min read)
-  voltage: { peak: 160, avg: 60, count: 80 }, // longest ¶ words / avg words per ¶ / ¶ count
+  stream: 40, // minutes of reading (150% overshoot = a 60-min read)
+  voltage: { peak: 300, avg: 120, prose: 4000 }, // longest ¶ words / avg words per ¶ / words of prose
   freeze: { ratio: 0.35, chars: 5000 }, // share of chars in code / absolute technical mass
-  air: { density: 30, count: 40, types: 7 }, // visual pts per 1000 words / absolute pts / kinds
-  chaos: { longWords: 0.25, acronyms: 0.05, sentence: 30 } // ratios and avg words per sentence
+  air: { density: 30, count: 80, types: 7 }, // visual pts per 1000 words / absolute pts / kinds
+  // long-word and acronym ratios / avg words per sentence / interactive
+  // points that double the value. The wording marks are set far out on
+  // purpose: ordinary prose should only carry a touch of chaos, well under
+  // its VOLTAGE, the way most charts do in the game.
+  chaos: { longWords: 0.5, acronyms: 0.1, sentence: 50, interactive: 24 }
 };
 
 /* A rendered math equation weighs this many "technical" characters */
@@ -38,15 +59,21 @@ const MATH_CHARS = 200;
 
 /* Blend weights for the axes built from several measurements */
 export const MIX = {
-  voltage: { peak: 0.5, avg: 0.3, count: 0.2 },
+  voltage: { peak: 0.3, avg: 0.25, prose: 0.45 },
   freeze: { ratio: 0.6, chars: 0.4 },
-  air: { density: 0.5, count: 0.3, variety: 0.2 },
+  air: { density: 0.6, count: 0.3, variety: 0.1 },
   chaos: { longWords: 0.55, acronyms: 0.25, sentence: 0.2 }
 };
 
-/* Ratio-based axes are scaled by sqrt(words / REF_WORDS), capped at 1,
-   so short posts can't max an axis with a couple of elements. */
-const REF_WORDS = 1500;
+/* Interactive points: what each stop in the reading is worth. A quiz
+   question with five answer choices is 2 points, so 12 of them reach
+   CAPS.chaos.interactive and double the CHAOS value. */
+export const INTERACT = { question: 1, choice: 0.2, tick: 0.25 };
+
+/* Every axis but STREAM is scaled by sqrt(words / REF_WORDS), capped at 1.
+   3000 words is about a 17-minute read: below that the radar shrinks with
+   the post, above it the axes read at full weight. */
+const REF_WORDS = 3000;
 
 /* Values may spill past the ring, up to 150% (DDR-style overshoot) */
 export const OVERFLOW = 1.5;
@@ -67,9 +94,9 @@ const GEOM = {
    for the playground, currently not rendered. */
 export const AXES = [
   { key: 'stream', name: 'READING TIME', sub: 'TIME', jp: '全体密度', angle: -90 },
-  { key: 'chaos', name: 'COMPLEXITY', sub: 'DEPTH', jp: '変則度', angle: -18 },
+  { key: 'chaos', name: 'COMPLEXITY', sub: 'CHAOS', jp: '変則度', angle: -18 },
   { key: 'freeze', name: 'TECHNICAL', sub: 'CODE', jp: '踏みっぱ度', angle: 54 },
-  { key: 'air', name: 'BREATHER', sub: 'VISUAL', jp: 'ジャンプ度', angle: 126 },
+  { key: 'air', name: 'BREATHER', sub: 'VISUALS', jp: 'ジャンプ度', angle: 126 },
   { key: 'voltage', name: 'HEAVINESS', sub: 'DENSITY', jp: '最大密度', angle: 198 }
 ];
 
@@ -170,8 +197,9 @@ function bareLabelFor(geom, axis) {
     const anchor = cos > 0 ? 'start' : 'end';
     return `<text class="gr-sub" x="${x}" y="${y}" text-anchor="${anchor}">${axis.sub}</text>`;
   }
-  // bottom: centered below the ring
-  return `<text class="gr-sub" x="${dx}" y="${dy + 21}" text-anchor="middle">${axis.sub}</text>`;
+  // bottom: centered below the ring, low enough that the corner of a
+  // seven-letter label (VISUALS) still clears the ring's curve
+  return `<text class="gr-sub" x="${dx}" y="${dy + 24}" text-anchor="middle">${axis.sub}</text>`;
 }
 
 /**
@@ -262,11 +290,43 @@ function themeWordCount(root) {
   return match ? Number(match[0]) : null;
 }
 
-/* Ignore icon fonts and code chrome when counting styled text runs */
-function styledRuns(content, selector) {
+/* Font Awesome icons are <i> elements, not italic text */
+const ICON_RE = /(^|\s)(fa[srlbd]?|fa-[\w-]+)(\s|$)/;
+
+/* Elements that count as visuals: never code, code chrome or icon fonts, and
+   never anything inside an interactive card (those count toward CHAOS) */
+function visuals(content, selector) {
   return [...content.querySelectorAll(selector)].filter(
-    (el) => !/(^|\s)fa/.test(el.className) && !el.closest('pre, button')
-  ).length;
+    (el) =>
+      !ICON_RE.test(el.getAttribute('class') || '') &&
+      !el.closest(`pre, code, button, ${INTERACTIVE}`)
+  );
+}
+
+/* Quiz questions and their answer choices. On a live page quiz.js has
+   already rebuilt each card; a fetched document still carries the authored
+   markdown, grouped here the way quiz.js groups it: a prompt, then the first
+   task list under it. */
+function quizStats(content) {
+  let questions = content.querySelectorAll('.quiz-q').length;
+  let choices = content.querySelectorAll('.quiz-option').length;
+
+  content.querySelectorAll('.quiz-source').forEach((source) => {
+    let waiting = false; // a prompt still waiting for its options
+    [...source.children].forEach((node) => {
+      if (node.matches('ul.task-list')) {
+        if (waiting) {
+          questions += 1;
+          choices += node.children.length;
+          waiting = false;
+        }
+      } else if (node.tagName !== 'BLOCKQUOTE') {
+        waiting = true;
+      }
+    });
+  });
+
+  return { questions, choices };
 }
 
 export function analyzeContent(content, root = document) {
@@ -277,33 +337,61 @@ export function analyzeContent(content, root = document) {
   // STREAM: total reading time
   const minutes = totalWords / WPM;
 
-  // Short posts are damped on the ratio-based axes
+  // The radar grows with the post: every axis below is scaled by this
   const sizeFactor = Math.min(Math.sqrt(totalWords / REF_WORDS), 1);
 
-  // VOLTAGE: paragraph density - longest one, average size, and how many
+  // The prose, one paragraph at a time. It feeds two axes: the size of the
+  // paragraphs goes to VOLTAGE, the wording and the sentences go to CHAOS.
+  // Only leaf blocks are measured, so a list item wrapping paragraphs or a
+  // sub-list isn't counted twice; the wording ignores inline code.
   let peakWords = 0;
-  let paraWords = 0;
+  let proseWords = 0;
   let paraCount = 0;
+  let sentences = 0;
+  let wordingWords = 0;
+  let longWords = 0;
+  let acronyms = 0;
   content.querySelectorAll('p, li').forEach((block) => {
-    const words = countWords(block.textContent);
+    if (block.closest(INTERACTIVE) || block.querySelector('p, li')) {
+      return;
+    }
+    const blockText = block.textContent.trim();
+    const words = countWords(blockText);
     if (words === 0) {
       return;
     }
     peakWords = Math.max(peakWords, words);
-    paraWords += words;
+    proseWords += words;
     paraCount += 1;
+    sentences += Math.max(blockText.split(SENTENCE_BREAK_RE).filter(Boolean).length, 1);
+
+    let inlineCode = '';
+    block.querySelectorAll('code').forEach((code) => {
+      inlineCode += ` ${code.textContent}`;
+    });
+    wordingWords += Math.max(words - countWords(inlineCode), 0);
+    longWords += Math.max(countLongWords(blockText) - countLongWords(inlineCode), 0);
+    acronyms += Math.max(countAcronyms(blockText) - countAcronyms(inlineCode), 0);
   });
-  const avgWords = paraCount > 0 ? paraWords / paraCount : 0;
+  const avgWords = paraCount > 0 ? proseWords / paraCount : 0;
+  const avgSentence = sentences > 0 ? proseWords / sentences : 0;
+  const longRatio = wordingWords > 0 ? longWords / wordingWords : 0;
+  const acronymRatio = wordingWords > 0 ? acronyms / wordingWords : 0;
+
+  // VOLTAGE / DENSITY: in the game, the most notes packed on screen at once
+  // times the average BPM, so it rises with the overall pace of the chart
+  // (https://dancedancerevolution.fandom.com/wiki/Voltage_(Groove_Radar)).
+  // Here the packed section is the longest paragraph, and the overall pace
+  // is the average paragraph plus how much prose there is to get through:
+  // a long text is a dense one, unless most of it is code or quizzes.
   const voltage =
-    MIX.voltage.peak * (peakWords / CAPS.voltage.peak) +
-    MIX.voltage.avg * (avgWords / CAPS.voltage.avg) +
-    MIX.voltage.count * (paraCount / CAPS.voltage.count);
+    (MIX.voltage.peak * (peakWords / CAPS.voltage.peak) +
+      MIX.voltage.avg * (avgWords / CAPS.voltage.avg) +
+      MIX.voltage.prose * (proseWords / CAPS.voltage.prose)) *
+    sizeFactor;
 
   // FREEZE: share of the text that is code, plus its absolute amount
   let codeChars = 0;
-  let codeWords = 0;
-  let codeLongWords = 0;
-  let codeAcronyms = 0;
   const codeBlocks = [...content.querySelectorAll('pre')];
   content.querySelectorAll('code').forEach((code) => {
     if (!code.closest('pre')) {
@@ -311,11 +399,7 @@ export function analyzeContent(content, root = document) {
     }
   });
   codeBlocks.forEach((el) => {
-    const codeText = el.textContent;
-    codeChars += codeText.length;
-    codeWords += countWords(codeText);
-    codeLongWords += countLongWords(codeText);
-    codeAcronyms += countAcronyms(codeText);
+    codeChars += el.textContent.length;
   });
   const codeRatio = totalChars > 0 ? codeChars / totalChars : 0;
   // Math equations count toward the technical mass (rendered MathJax
@@ -325,25 +409,26 @@ export function analyzeContent(content, root = document) {
     Math.floor((text.match(/\$\$/g) || []).length / 2);
   const techChars = codeChars + math * MATH_CHARS;
   const freeze =
-    MIX.freeze.ratio * (codeRatio / CAPS.freeze.ratio) * sizeFactor +
-    MIX.freeze.chars * (techChars / CAPS.freeze.chars);
+    (MIX.freeze.ratio * (codeRatio / CAPS.freeze.ratio) +
+      MIX.freeze.chars * (techChars / CAPS.freeze.chars)) *
+    sizeFactor;
 
-  // AIR / VISUAL: media, prompts, spoilers, breaks and text styling,
+  // AIR / VISUALS: media, prompts, spoilers, breaks and text styling,
   // blending density, absolute amount, and the variety of what's used.
-  // Images weigh the most. Spoilers are built by JS on live pages, so
-  // also count their ||...|| source pattern for fetched documents.
-  const media = content.querySelectorAll('img, video, iframe').length;
-  const promptEls = [...content.querySelectorAll('blockquote[class*="prompt-"]')];
+  // Images weigh the most; a code block is technical, never a visual.
+  // Spoilers are built by JS on live pages, so also count their ||...||
+  // source pattern for fetched documents.
+  const media = visuals(content, 'img, video, iframe').length;
+  const promptEls = visuals(content, 'blockquote[class*="prompt-"]');
   const prompts = promptEls.length;
   const promptKinds = new Set(
     promptEls.map((b) => [...b.classList].find((c) => c.startsWith('prompt-')))
   ).size;
   const spoilers =
-    content.querySelectorAll('.spoiler').length +
-    (text.match(/\|\|[^|\n]+\|\|/g) || []).length;
-  const breaks = content.querySelectorAll('h2, h3, h4, hr').length;
-  const bold = styledRuns(content, 'strong, b');
-  const italic = styledRuns(content, 'em, i');
+    visuals(content, '.spoiler').length + (text.match(/\|\|[^|\n]+\|\|/g) || []).length;
+  const breaks = visuals(content, 'h2, h3, h4, hr').length;
+  const bold = visuals(content, 'strong, b').length;
+  const italic = visuals(content, 'em, i').length;
   // Styling runs are capped: an entirely bold post isn't "more visual"
   const elements =
     media * 5 +
@@ -364,24 +449,26 @@ export function analyzeContent(content, root = document) {
     breaks > 0
   ].filter(Boolean).length;
   const air =
-    MIX.air.density * (airDensity / CAPS.air.density) * sizeFactor +
-    MIX.air.count * (elements / CAPS.air.count) +
-    MIX.air.variety * (variety / CAPS.air.types);
-
-  // CHAOS / DEPTH: long words, acronyms/jargon and long sentences,
-  // measured on the prose only (code excluded)
-  const proseWords = Math.max(totalWords - codeWords, 1);
-  const longWords = Math.max(countLongWords(text) - codeLongWords, 0);
-  const longRatio = longWords / proseWords;
-  const acronyms = Math.max(countAcronyms(text) - codeAcronyms, 0);
-  const acronymRatio = acronyms / proseWords;
-  const sentences = text.split(/[.!?…]+\s/).filter((s) => s.trim() !== '').length;
-  const avgSentence = proseWords / Math.max(sentences, 1);
-  const chaos =
-    (MIX.chaos.longWords * (longRatio / CAPS.chaos.longWords) +
-      MIX.chaos.acronyms * (acronymRatio / CAPS.chaos.acronyms) +
-      MIX.chaos.sentence * Math.min(avgSentence / CAPS.chaos.sentence, 1.5)) *
+    (MIX.air.density * (airDensity / CAPS.air.density) +
+      MIX.air.count * (elements / CAPS.air.count) +
+      MIX.air.variety * (variety / CAPS.air.types)) *
     sizeFactor;
+
+  // CHAOS / COMPLEXITY: built like the game's formula, where the off-beat
+  // steps are multiplied by the BPM changes and stops. The off-beat steps
+  // are the irregular wording of the prose (long words, acronyms, long
+  // sentences), which every text has a touch of. The stops are the places
+  // where the reader has to stop and do something: quiz questions, weighed
+  // by their answer choices, and checklist items.
+  const wording =
+    MIX.chaos.longWords * (longRatio / CAPS.chaos.longWords) +
+    MIX.chaos.acronyms * (acronymRatio / CAPS.chaos.acronyms) +
+    MIX.chaos.sentence * Math.min(avgSentence / CAPS.chaos.sentence, OVERFLOW);
+  const quiz = quizStats(content);
+  const ticks = content.querySelectorAll('.checklist-card li.task-list-item').length;
+  const interactive =
+    quiz.questions * INTERACT.question + quiz.choices * INTERACT.choice + ticks * INTERACT.tick;
+  const chaos = wording * (1 + interactive / CAPS.chaos.interactive) * sizeFactor;
 
   return {
     values: {
@@ -398,6 +485,7 @@ export function analyzeContent(content, root = document) {
       peakWords,
       avgWords: Math.round(avgWords),
       paragraphs: paraCount,
+      proseWords,
       codeRatio: Math.round(codeRatio * 100),
       codeChars,
       math,
@@ -410,9 +498,14 @@ export function analyzeContent(content, root = document) {
       italic,
       variety,
       elements: Math.round(elements),
-      longRatio: Math.round(longRatio * 100),
+      visualDensity: Math.round(airDensity * 10) / 10,
+      longRatio: Math.round(longRatio * 1000) / 10,
       acronymRatio: Math.round(acronymRatio * 1000) / 10,
-      avgSentence: Math.round(avgSentence)
+      avgSentence: Math.round(avgSentence),
+      questions: quiz.questions,
+      choices: quiz.choices,
+      ticks,
+      interactive: Math.round(interactive * 10) / 10
     }
   };
 }
@@ -422,15 +515,25 @@ function tooltipFor(key, raw) {
     case 'stream':
       return `~${raw.minutes} min read (${raw.words} words)`;
     case 'voltage':
-      return `Longest paragraph: ${raw.peakWords} words · avg ${raw.avgWords} over ${raw.paragraphs} blocks`;
+      return `Longest paragraph: ${raw.peakWords} words · avg ${raw.avgWords} words over ${raw.paragraphs} paragraphs · ${raw.proseWords} words of prose`;
     case 'freeze':
       return `${raw.codeRatio}% of the text is code (~${raw.codeChars} chars${
         raw.math > 0 ? ` · ${raw.math} equations` : ''
       })`;
     case 'air':
       return `${raw.media} media, ${raw.prompts} prompts (${raw.promptKinds} kinds), ${raw.spoilers} spoilers, ${raw.bold}/${raw.italic} bold/italic, ${raw.breaks} breaks · variety ${raw.variety}/7`;
-    case 'chaos':
-      return `${raw.longRatio}% long words (${LONG_WORD}+ chars) · ${raw.acronymRatio}% acronyms · ~${raw.avgSentence} words/sentence`;
+    case 'chaos': {
+      const stops = [];
+      if (raw.questions > 0) {
+        stops.push(`${raw.questions} quiz questions (${raw.choices} choices)`);
+      }
+      if (raw.ticks > 0) {
+        stops.push(`${raw.ticks} checklist items`);
+      }
+      return `${raw.longRatio}% long words (${LONG_WORD}+ chars) · ${raw.acronymRatio}% acronyms · ~${raw.avgSentence} words/sentence${
+        stops.length > 0 ? ` · ${stops.join(', ')}` : ''
+      }`;
+    }
     default:
       return '';
   }

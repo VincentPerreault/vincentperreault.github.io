@@ -70,6 +70,15 @@ export function back2top() {
 
   window.addEventListener('scroll', requestUpdate, { passive: true });
   window.addEventListener('resize', requestUpdate, { passive: true });
+
+  /* The page can change height without scrolling: a quiz or checklist card
+     folding open or shut, a lazy image arriving. The scroll position stays
+     put, but it is now a different share of the article, so the ring has to
+     be redrawn. Watching the height covers every such cause at once. */
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(requestUpdate).observe(content || document.body);
+  }
+
   update(); // a reload can restore a scrolled position
 
   btn.addEventListener('click', () => {
