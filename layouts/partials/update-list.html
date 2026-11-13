@@ -30,7 +30,7 @@
           <h2 class="panel-heading mb-0">{{ i18n "panel.lastmod" }}</h2>
           <i class="fa-solid fa-angle-right fa-fw"></i>
         </summary>
-        <ul class="content list-unstyled ps-0 pb-1 ms-1 pt-2 mb-0">
+        <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-0 pt-2 mb-0">
           {{ range $updated }}
             <li class="text-truncate lh-lg">
               <a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
@@ -45,7 +45,7 @@
         <h2 class="panel-heading mb-0">{{ i18n "panel.recently_added" }}</h2>
         <i class="fa-solid fa-angle-right fa-fw"></i>
       </summary>
-      <ul class="content list-unstyled ps-0 pb-1 ms-1 pt-2 mb-0">
+      <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-0 pt-2 mb-0">
         {{ range $added }}
           <li class="text-truncate lh-lg">
             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
