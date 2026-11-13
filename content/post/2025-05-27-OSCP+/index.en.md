@@ -1,7 +1,7 @@
 ---
 title: An overview of OSCP+ and PEN-200
 date: 2025-05-27 01:31:22 -0500
-date_updated: 2026-11-12 15:18:43 -0400
+lastmod: 2026-11-12 15:18:43 -0400
 draft: false
 categories:
   - Blogging
