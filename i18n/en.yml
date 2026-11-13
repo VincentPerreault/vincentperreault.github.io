@@ -9,11 +9,6 @@
 # ----- Posts related labels -----
 
 post:
-  # Rendered as one sentence by layouts/post/single.html:
-  # "Posted on <date>, updated on <date_updated>"
-  posted_on: Posted on
-  updated_on: updated on
-
   # Link to the source file of the post on GitHub (params.actions.edit_post).
   edit: Edit this post
 
@@ -23,3 +18,17 @@ theme:
   light: Light
   dark: Dark
   system: System
+
+# ----- Side panel -----
+
+panel:
+  # The latest posts, folded under "Recently Updated"
+  # (layouts/partials/update-list.html)
+  recently_added: Recently Added
+
+# ----- Home page sort switch -----
+
+sort:
+  label: Sort by
+  added: Date posted
+  updated: Last updated

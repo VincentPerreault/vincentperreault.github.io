@@ -16,3 +16,4 @@ export { initQuizzes } from './components/quiz';
 export { initGrooveRadar } from './components/groove-radar';
 export { initGrooveRadarPlayground } from './components/groove-radar-playground';
 export { initHomeRadar } from './components/home-radar';
+export { initHomeSort } from './components/home-sort';

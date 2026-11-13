@@ -44,8 +44,41 @@
 }
 
 #toc-popup {
-  $slide-in: slide-in 0.3s ease-out;
-  $slide-out: slide-out 0.3s ease-out;
+  /* Quicker and shorter than the theme's 0.3s slide over a full topbar
+     height. The blurred backdrop now fades with the popup too: it used to
+     appear and vanish in a single frame around a slow slide, which is what
+     made the whole thing feel abrupt and heavy at once.
+     `forwards` on the way out holds the last frame until toc-mobile.js
+     closes the dialog, so the popup cannot flash back for a frame. */
+  $pop-time: 0.15s;
+  $slide-in: toc-pop-in $pop-time cubic-bezier(0.22, 1, 0.36, 1);
+  $slide-out: toc-pop-out $pop-time ease-in forwards;
+
+  @keyframes toc-pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.75rem);
+    }
+  }
+
+  @keyframes toc-pop-out {
+    to {
+      opacity: 0;
+      transform: translateY(-0.75rem);
+    }
+  }
+
+  @keyframes toc-backdrop-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes toc-backdrop-out {
+    to {
+      opacity: 0;
+    }
+  }
   $curtain-height: 2rem;
   $backdrop: blur(5px);
 
@@ -140,6 +173,14 @@
   &::backdrop {
     -webkit-backdrop-filter: $backdrop;
     backdrop-filter: $backdrop;
+  }
+
+  &[open]::backdrop {
+    animation: toc-backdrop-in $pop-time ease-out;
+  }
+
+  &[closing]::backdrop {
+    animation: toc-backdrop-out $pop-time ease-in forwards;
   }
 
   &::after {

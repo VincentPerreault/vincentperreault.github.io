@@ -24,9 +24,10 @@ search:
   no_results: Oups ! Aucun résultat trouvé.
 
 panel:
-  # deliberately "ajouté" rather than the theme's "mis à jour": the panel
-  # lists the latest posts, not modified ones
-  lastmod: Récemment ajouté
+  # Posts revised after publication (layouts/partials/update-list.html)
+  lastmod: Récemment mis à jour
+  # The latest posts, folded under the list above
+  recently_added: Récemment ajouté
   trending_tags: Tags tendance
   toc: Contenu
 
@@ -58,13 +59,6 @@ post:
   written_by: Par
   posted: Posté
   updated: Mis à jour
-  # Rendered as one sentence by layouts/post/single.html:
-  # "Publié le <date>, mis à jour le <date_updated>".
-  # Deliberately NOT reusing `posted`/`updated` above: for any key the theme
-  # module already defines, the module's own i18n wins over the project's, so
-  # overriding those two has no effect. Names the theme does not define do work.
-  posted_on: Publié le
-  updated_on: mis à jour le
   words: mots
   pageview_measure: vues
   read_time:
@@ -111,3 +105,10 @@ fold:
   checklist_reveal: Tout cocher
   quiz_reset: Effacer mes réponses
   quiz_reveal: Afficher les réponses
+
+# ----- Home page sort switch -----
+
+sort:
+  label: Trier par
+  added: Date de publication
+  updated: Mise à jour

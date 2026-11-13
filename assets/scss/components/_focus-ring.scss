@@ -1,0 +1,54 @@
+/*
+ * One keyboard focus ring for the whole site.
+ *
+ * Tabbing through a page used to show three different rings: the browser's
+ * default (which renders near-black on the dark cards), Bootstrap's blue glow
+ * and blue fill on anything carrying a `.btn`/`.nav-link`/form class, and the
+ * accent colour on the few components that set their own. They now all use
+ * `--focus-ring`, which follows the link accent in both light and dark mode.
+ *
+ * `:focus-visible` only: the ring shows for keyboard navigation, not for
+ * mouse clicks.
+ *
+ * The colour is `!important` on purpose. Bootstrap's rules (`outline: 0` on
+ * `.btn:focus-visible` and friends) and several component rules are more
+ * specific than anything reasonable to write here, and a focus ring is
+ * exactly the kind of thing that should not be quietly overridden again.
+ * `outline-offset` is left overridable, so components that need a tighter or
+ * roomier ring keep theirs.
+ */
+
+html {
+  --focus-ring: var(--link-color);
+}
+
+html :focus-visible {
+  outline: 2px solid var(--focus-ring) !important;
+  outline-offset: 2px;
+}
+
+/* The search box is a text field, which matches :focus-visible on a plain
+   mouse click too. It already marks focus by lighting up its border (see
+   `.input-focus`), so it keeps that instead of gaining a ring on every click. */
+html #search-input:focus-visible {
+  outline: 0 !important;
+}
+
+/* Bootstrap draws its own focus indicator as a translucent blue box-shadow.
+   Drop it wherever the ring above now does the job. The post navigation
+   buttons are left out: their shadow is part of the hover-accent contour. */
+html {
+  .btn:not(.post-navigation .btn),
+  .btn-close,
+  .nav-link,
+  .page-link,
+  .dropdown-item,
+  .form-control,
+  .form-select,
+  .form-range,
+  .form-check-input {
+    &:focus-visible {
+      box-shadow: none !important;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{{/* Returns the date a post was last updated, or nothing when it never was.
+
+     This is the single definition of "updated" for the whole site: the post
+     header, the home cards, the home sort switch and the "Recently Updated"
+     panel all call it, so they can never disagree.
+
+     `.Lastmod` is the date of the last commit that touched the post's own
+     markdown file (see enableGitInfo / [frontmatter] in config), or an
+     explicit `lastmod:` in its front matter.
+
+     It only counts once it lands on a later *day* than the publish date: the
+     commit that first publishes a post is normally same-day, and "Posted
+     Feb 13 • Updated Feb 13" says nothing. Upstream Chirpy gets the same
+     effect by requiring more than one commit on the file. */}}
+{{ $updated := false }}
+{{ if and .Lastmod (gt (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) }}
+  {{ $updated = .Lastmod }}
+{{ end }}
+{{ return $updated }}

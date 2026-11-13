@@ -59,7 +59,10 @@ html[data-bs-theme='dark'] {
     z-index: 1;
   }
 
-  &:hover::before {
+  /* keyboard focus lights the card up the same way (plus the site-wide
+     focus ring, see _focus-ring.scss) */
+  &:hover::before,
+  &:focus-visible::before {
     opacity: 1;
   }
 }
@@ -80,7 +83,17 @@ html .content a.tag,
     border-color 0.1s ease-out,
     color 0.1s ease-out;
 
-  &:hover {
+  /* :focus-visible too, or Bootstrap's `.btn-outline-primary` fills the
+     focused pill solid blue */
+  /* The pill's own teal border is already its contour, so the focus ring is
+     pulled in to sit exactly on top of it. At the default offset the two
+     drew as a doubled outline with a gap between them. */
+  &:focus-visible {
+    outline-offset: -1px;
+  }
+
+  &:hover,
+  &:focus-visible {
     color: var(--hv-text) !important;
     background: var(--hv-fill) !important;
     border-color: var(--hv-edge) !important;

@@ -11,6 +11,9 @@
  */
 
 #back-to-top {
+  /* dark mode drops the blurred part of the card shadow, see themes/_dark */
+  box-shadow: var(--btn-backtotop-shadow, var(--card-shadow));
+
   .progress-ring {
     position: absolute;
     inset: -1px; /* out over the button's border */

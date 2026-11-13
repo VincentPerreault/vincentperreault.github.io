@@ -76,10 +76,17 @@ export function initHomeRadar() {
     }, RESET_DELAY);
   }
 
-  const links = [...list.querySelectorAll('a.post-preview')];
-  links.forEach((link) => {
-    statsFor(link.href); // warm the cache so the first hover animates instantly
+  // The sort switch (home-sort.js) reorders the cards and hides the ones on
+  // other pages, so "the list" is whatever is visible, in DOM order, right now.
+  const visibleLinks = () => [
+    ...list.querySelectorAll('.card-wrapper:not([hidden]) a.post-preview')
+  ];
+
+  list.querySelectorAll('a.post-preview').forEach((link) => {
     const card = link.closest('.card-wrapper') || link;
+    if (!card.hidden) {
+      statsFor(link.href); // warm the cache so the first hover animates instantly
+    }
     card.addEventListener('mouseenter', () => select(link.href));
     card.addEventListener('mouseleave', scheduleReset);
     link.addEventListener('focus', () => select(link.href));
@@ -91,6 +98,7 @@ export function initHomeRadar() {
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
       return;
     }
+    const links = visibleLinks();
     const index = links.indexOf(document.activeElement);
     if (index === -1) {
       return;

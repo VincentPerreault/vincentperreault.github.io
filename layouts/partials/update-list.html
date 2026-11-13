@@ -1,0 +1,58 @@
+{{/* Overrides the theme's panel list.
+
+     "Recently Updated" now means what it says, as in upstream Chirpy: only
+     posts that were actually revised after publication (see
+     post-updated.html), newest revision first. The theme's version fell back
+     to the publish date, so with no revisions it was just the home page again.
+
+     The latest *posted* entries are still available, folded away below the
+     list. Both lists (and the trending tags, see trending-tags.html) are
+     native <details>: no script, keyboard accessible. "Recently Updated"
+     starts open and "Recently Added" closed, unless it is the only list.
+     The open/close animation is pure CSS, in _panel-lastmod.scss. */}}
+{{ $MAX_SIZE := 5 }}
+{{ $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
+
+{{ $updated := slice }}
+{{ range $post := $posts }}
+  {{ with partial "post-updated.html" $post }}
+    {{ $updated = $updated | append (dict "page" $post "key" .Unix) }}
+  {{ end }}
+{{ end }}
+{{ $updated = first $MAX_SIZE (sort $updated "key" "desc") }}
+{{ $added := first $MAX_SIZE $posts.ByDate.Reverse }}
+
+{{ if $posts }}
+  <section id="access-lastmod">
+    {{ if $updated }}
+      <details class="panel-fold" open>
+        <summary>
+          <h2 class="panel-heading mb-0">{{ i18n "panel.lastmod" }}</h2>
+          <i class="fa-solid fa-angle-right fa-fw"></i>
+        </summary>
+        <ul class="content list-unstyled ps-0 pb-1 ms-1 pt-2 mb-0">
+          {{ range $updated }}
+            <li class="text-truncate lh-lg">
+              <a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      </details>
+    {{ end }}
+
+    <details class="panel-fold"{{ if not $updated }} open{{ end }}>
+      <summary>
+        <h2 class="panel-heading mb-0">{{ i18n "panel.recently_added" }}</h2>
+        <i class="fa-solid fa-angle-right fa-fw"></i>
+      </summary>
+      <ul class="content list-unstyled ps-0 pb-1 ms-1 pt-2 mb-0">
+        {{ range $added }}
+          <li class="text-truncate lh-lg">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </li>
+        {{ end }}
+      </ul>
+    </details>
+  </section>
+  <!-- #access-lastmod -->
+{{ end }}

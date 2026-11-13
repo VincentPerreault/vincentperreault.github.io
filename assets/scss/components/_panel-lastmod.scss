@@ -35,3 +35,101 @@ html #access-lastmod {
     outline-offset: 3px;
   }
 }
+
+/*
+ * Foldable panel sections: "Recently Updated", "Recently Added" and
+ * "Trending Tags" (update-list.html, trending-tags.html).
+ *
+ * Each is a native <details> whose <summary> holds the panel heading and the
+ * same chevron the "Contents" button uses on narrow screens.
+ *
+ * The open/close animation is CSS only. `::details-content` is the box the
+ * browser wraps around everything but the summary, and `interpolate-size`
+ * lets its height transition to and from `auto`. `content-visibility` rides
+ * along as a discrete transition so the content stays rendered until the
+ * closing animation has finished. Browsers without these simply snap open
+ * and shut, as a plain <details> does.
+ */
+$fold-time: 0.15s;
+
+html #panel-wrapper .panel-fold {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    height: 0;
+    opacity: 0;
+
+    /* vertical only: the list entries reach left of the box on purpose (see
+       the focus-ring note above) and must not be cut off sideways.
+       Note for the markup: the content's top spacing has to be padding
+       (`pt-*`), not margin. A top margin collapses straight through this
+       box, which leaves the first row flush against the clip edge and
+       shaves the top off its focus ring. */
+    overflow-y: clip;
+
+    transition:
+      height $fold-time ease-out,
+      opacity $fold-time ease-out,
+      content-visibility $fold-time allow-discrete;
+  }
+
+  &[open]::details-content {
+    height: auto;
+    opacity: 1;
+  }
+
+  > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+
+    /* drop the native triangle; the chevron replaces it */
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    > .panel-heading {
+      transition: color 0.1s ease-out;
+    }
+
+    > i {
+      font-size: 0.8rem;
+      transition:
+        transform $fold-time ease-out,
+        color 0.1s ease-out;
+    }
+
+    &:hover {
+      > .panel-heading,
+      > i {
+        color: var(--link-color);
+      }
+    }
+
+    /* slightly rounded so the focus ring is too */
+    border-radius: 0.25rem;
+
+    &:focus-visible {
+      outline-offset: 3px;
+    }
+  }
+
+  &[open] > summary > i {
+    transform: rotate(90deg);
+  }
+
+  /* a second list in the same section: set apart from the one above, and a
+     little quieter than the section's main heading */
+  & + .panel-fold {
+    margin-top: 0.75rem;
+
+    > summary > .panel-heading {
+      font-size: 0.9rem;
+    }
+  }
+}

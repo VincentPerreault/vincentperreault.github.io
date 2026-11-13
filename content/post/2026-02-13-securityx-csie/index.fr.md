@@ -1,7 +1,7 @@
 ---
 title: J'ai passé SecurityX pour obtenir CSIE. Maintenant quoi?
 date: 2026-02-13 01:31:22 -0500
-date_updated: 2026-08-16 17:10:26 -0400
+date_updated: 2026-11-12 23:30:15 -0400
 draft: false
 categories:
   - Blogging

@@ -1,0 +1,156 @@
+{{/* Overrides the theme's home page to add the sort switch: the list can be
+     ordered by publish date (the default, as before) or by last update.
+
+     How it works. Every post gets two ranks, one per order, and EVERY post is
+     rendered here, with the ones that do not belong to this page in the
+     default order marked `hidden`. modules/components/home-sort.js then only
+     has to reorder the cards and flip `hidden` for the chosen order. That is
+     what keeps pagination correct in both orders: page 2 by update date is a
+     different set of posts than page 2 by publish date, and a script that
+     merely re-sorted the five cards on screen would get it wrong.
+
+     Without JavaScript the switch stays hidden and the page is exactly the
+     theme's: publish order, server-side pagination.
+
+     Pinned posts lead in both orders. "Updated" comes from post-updated.html,
+     and a post that was never revised sorts by its publish date. */}}
+{{ define "main" }}
+  {{ $all := where .Site.RegularPages "Type" "post" }}
+  {{ $pinned := where $all "Params.pin" true }}
+  {{ $normal := where $all "Params.pin" "!=" true }}
+  {{ $added := union $pinned $normal }}
+
+  <!-- rank of each post in the "updated" order -->
+  {{ $keyed := slice }}
+  {{ range $post := $normal }}
+    {{ $date := partial "post-updated.html" $post | default $post.Date }}
+    {{ $keyed = $keyed | append (dict "page" $post "key" $date.Unix) }}
+  {{ end }}
+
+  {{ $updated_rank := dict }}
+  {{ $rank := 0 }}
+  {{ range $pinned }}
+    {{ $updated_rank = merge $updated_rank (dict .Path $rank) }}
+    {{ $rank = add $rank 1 }}
+  {{ end }}
+  {{ range sort $keyed "key" "desc" }}
+    {{ $updated_rank = merge $updated_rank (dict .page.Path $rank) }}
+    {{ $rank = add $rank 1 }}
+  {{ end }}
+
+  <!-- the slice of ranks shown on this page -->
+  {{ $paginator := .Paginate $all }}
+  {{ $visible_start := sub $paginator.PageNumber 1 | mul $paginator.PagerSize }}
+  {{ $visible_end := add $visible_start $paginator.PagerSize }}
+
+  <!-- sort switch, revealed by home-sort.js -->
+  <div id="post-sort" hidden>
+    <span id="post-sort-label" class="post-sort-label">{{ i18n "sort.label" }}</span>
+    <div class="post-sort-switch" role="group" aria-labelledby="post-sort-label">
+      <button type="button" data-sort="added" aria-pressed="true">
+        <i class="far fa-calendar fa-fw"></i>
+        {{- i18n "sort.added" -}}
+      </button>
+      <button type="button" data-sort="updated" aria-pressed="false">
+        <i class="fas fa-clock-rotate-left fa-fw"></i>
+        {{- i18n "sort.updated" -}}
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="post-list"
+    class="flex-grow-1 px-xl-1"
+    data-sort="added"
+    data-page-start="{{ $visible_start }}"
+    data-page-size="{{ $paginator.PagerSize }}"
+  >
+    {{ range $added_rank, $post := $added }}
+      {{ $on_page := and (ge $added_rank $visible_start) (lt $added_rank $visible_end) }}
+      {{ $updated := partial "post-updated.html" $post }}
+
+      <article
+        class="card-wrapper card{{ if $updated }} has-update{{ end }}"
+        data-added="{{ $added_rank }}"
+        data-updated="{{ index $updated_rank $post.Path }}"
+        {{ if not $on_page }}hidden{{ end }}
+      >
+        <a href="{{ .RelPermalink }}" class="post-preview row g-0 flex-md-row-reverse">
+          {{ $card_body_col := "12" }}
+
+          {{ if .Params.image }}
+            {{ $src := .Params.image.path | default .Params.image }}
+            {{ if not (findRE "//" $src) }}
+              {{ $src = .Resources.GetMatch ( .Params.image.path | default .Params.image ) }}
+              {{ $src = $src.RelPermalink }}
+            {{ end }}
+
+            {{ $alt := .Params.image.alt | default "Preview Image" | htmlEscape }}
+            {{ $lqip := "" }}
+            {{ if .Params.image.lqip }}
+              {{ $lqip = printf `lqip="%s"` .Params.image.lqip }}
+            {{ end }}
+
+            <div class="col-md-5">
+              {{/* off-page cards only download their image once shown */}}
+              <img src="{{ $src }}" alt="{{ $alt }}" {{ $lqip | safeHTMLAttr }}{{ if not $on_page }} loading="lazy"{{ end }}>
+            </div>
+
+            {{ $card_body_col = "7" }}
+          {{ end }}
+
+          <div class="col-md-{{ $card_body_col }}">
+            <div class="card-body d-flex flex-column">
+              <h1 class="card-title my-2 mt-md-0">{{ .Title }}</h1>
+
+              <div class="card-text content mt-0 mb-3">
+                <p>{{ .Description | default .Summary | plainify }}</p>
+              </div>
+
+              <div class="post-meta flex-grow-1 d-flex align-items-end">
+                <div class="me-auto">
+                  <!-- posted date -->
+                  <span class="meta-posted">
+                    <i class="far fa-calendar fa-fw me-1"></i>
+                    {{ partial "datetime.html" (dict "date" .Date) }}
+                  </span>
+
+                  <!-- updated date: takes the posted date's place while the
+                       list is sorted by update (see _home-sort.scss) -->
+                  {{ with $updated }}
+                    <span class="meta-updated" title="{{ i18n "post.updated" }}">
+                      <i class="fas fa-clock-rotate-left fa-fw me-1"></i>
+                      {{ partial "datetime.html" (dict "date" .) }}
+                    </span>
+                  {{ end }}
+
+                  <!-- categories -->
+                  {{ if .Params.categories }}
+                    <i class="far fa-folder-open fa-fw me-1"></i>
+                    <span class="categories">
+                      {{ delimit .Params.categories ", " }}
+                    </span>
+                  {{ end }}
+                </div>
+
+                {{ if .Params.pin }}
+                  <div class="pin ms-1">
+                    <i class="fas fa-thumbtack fa-fw"></i>
+                    <span>{{ i18n "post.pin_prompt" }}</span>
+                  </div>
+                {{ end }}
+              </div>
+              <!-- .post-meta -->
+            </div>
+            <!-- .card-body -->
+          </div>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+  <!-- #post-list -->
+
+  {{ if gt $paginator.TotalPages 1 }}
+    {{ partial "post-paginator.html" . }}
+  {{ end }}
+{{ end }}

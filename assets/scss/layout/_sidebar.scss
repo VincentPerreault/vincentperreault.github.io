@@ -264,7 +264,7 @@ $sidebar-display: 'sidebar-display'; /* the attribute for sidebar display */
       @keyframes menu-pop {
         from {
           opacity: 0;
-          translate: 0 0.5rem;
+          translate: 0 0.3rem;
         }
 
         to {
@@ -284,7 +284,10 @@ $sidebar-display: 'sidebar-display'; /* the attribute for sidebar display */
           flex-direction: column;
           gap: 0.25rem;
           left: -0.25rem !important;
-          animation: menu-pop 0.2s ease-out;
+          /* Short travel, and a curve that does most of its move in the
+             first frames: the menu is there almost at once and settles,
+             rather than visibly sliding in. */
+          animation: menu-pop 0.1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .dropdown-item {

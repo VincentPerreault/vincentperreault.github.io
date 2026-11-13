@@ -1,0 +1,93 @@
+/*
+ * Home page sort switch (layouts/index.html, modules/components/home-sort.js).
+ *
+ * A two-way segmented switch above the post list: by publish date or by last
+ * update. The pressed side borrows the post cards' hover accent, so it reads
+ * as part of the same set. The swap animation itself lives in the script.
+ *
+ * Note: `html`-prefixed to outrank the theme's own rules, which compile after
+ * these components (see the theme's main.scss).
+ */
+
+@use '../abstracts/variables' as v;
+
+/* `:not([hidden])` so the attribute keeps the bar out of the page until the
+   script has taken over; without JavaScript there is nothing to switch. */
+#post-sort:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+
+  font-size: 0.8rem;
+  color: var(--text-muted-color);
+}
+
+.post-sort-switch {
+  display: flex;
+  padding: 2px;
+  border: 1px solid var(--btn-border-color);
+  border-radius: v.$radius-lg;
+
+  > button {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.65rem;
+    border: 0;
+    border-radius: calc(#{v.$radius-lg} - 3px);
+    background: none;
+    color: inherit;
+    line-height: 1.4;
+    transition:
+      background-color 0.1s ease-out,
+      color 0.1s ease-out;
+
+    &:hover {
+      color: var(--hv-text);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--link-color);
+      outline-offset: 1px;
+    }
+
+    &[aria-pressed='true'] {
+      background-color: var(--hv-fill);
+      box-shadow: inset 0 0 0 1px var(--hv-edge);
+      color: var(--hv-text);
+    }
+  }
+}
+
+/* The switch takes over most of the gap the list used to leave on its own. */
+html #post-sort:not([hidden]) + #post-list {
+  margin-top: 0.75rem;
+}
+
+html #post-list {
+  /* Posts that belong to another page of the current order. Bootstrap's
+     `.card { display: flex }` would otherwise override the attribute. */
+  .card-wrapper[hidden] {
+    display: none;
+  }
+
+  /* The theme spaces cards with a bottom margin on all but the last child,
+     which breaks as soon as hidden cards sit among them. Space each visible
+     card from the visible one before it instead. */
+  .card-wrapper:not(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .card-wrapper:not([hidden]) ~ .card-wrapper:not([hidden]) {
+    margin-top: 1.25rem;
+  }
+
+  /* One date per card: the publish date, or the update date while the list
+     is sorted by update and the post has one. */
+  &:not([data-sort='updated']) .meta-updated,
+  &[data-sort='updated'] .has-update .meta-posted {
+    display: none;
+  }
+}

@@ -23,10 +23,9 @@ search:
   no_results: Oops! No results found.
 
 panel:
-  # deliberately "Added" rather than "Updated": the panel lists the latest
-  # posts, not modified ones. Edited here rather than in the project's
-  # i18n/ because this file outranks a project-level en.yml.
-  lastmod: Recently Added
+  # Posts revised after publication; the latest posts sit under
+  # `panel.recently_added` (project i18n/, layouts/partials/update-list.html).
+  lastmod: Recently Updated
   trending_tags: Trending Tags
   toc: Contents
 
